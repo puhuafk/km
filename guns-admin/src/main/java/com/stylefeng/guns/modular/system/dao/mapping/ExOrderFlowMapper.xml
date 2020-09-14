@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stylefeng.guns.modular.system.dao.ExOrderFlowMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.stylefeng.guns.modular.system.model.ExOrderFlow">
+        <id column="id" property="id" />
+        <result column="ex_order_id" property="exOrderId" />
+        <result column="flow_type" property="flowType" />
+        <result column="sys_dept_id1" property="sysDeptId1" />
+        <result column="sys_dept_id2" property="sysDeptId2" />
+        <result column="sys_dept_id3" property="sysDeptId3" />
+        <result column="sys_dept_id4" property="sysDeptId4" />
+        <result column="sys_dept_id5" property="sysDeptId5" />
+        <result column="createtime" property="createtime" />
+        <result column="operator" property="operator" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, ex_order_id, flow_type, sys_dept_id1, sys_dept_id2, sys_dept_id3, sys_dept_id4, sys_dept_id5, createtime, operator
+    </sql>
+
+</mapper>

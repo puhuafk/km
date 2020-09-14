@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stylefeng.guns.modular.system.dao.ErpSaleOrderMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.stylefeng.guns.modular.system.model.ErpSaleOrder">
+        <result column="id" property="id" />
+        <result column="sn" property="sn" />
+        <result column="zqp_sn" property="zqpSn" />
+        <result column="sale_date" property="saleDate" />
+        <result column="total_price" property="totalPrice" />
+        <result column="order_status" property="orderStatus" />
+        <result column="verify_status" property="verifyStatus" />
+        <result column="stock_status" property="stockStatus" />
+        <result column="c_name" property="cName" />
+        <result column="discount_p" property="discountP" />
+        <result column="source" property="source" />
+        <result column="operator" property="operator" />
+        <result column="library" property="library" />
+        <result column="p_method" property="pMethod" />
+        <result column="r_address" property="rAddress" />
+        <result column="t_man" property="tMan" />
+        <result column="t_no" property="tNo" />
+        <result column="t_cost" property="tCost" />
+        <result column="t_price" property="tPrice" />
+        <result column="d_price" property="dPrice" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, sn, zqp_sn, sale_date, total_price, order_status, verify_status, stock_status, c_name, discount_p, source, operator, library, p_method, r_address, t_man, t_no, t_cost, t_price, d_price
+    </sql>
+
+</mapper>

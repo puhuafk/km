@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stylefeng.guns.modular.system.dao.ShopInfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.stylefeng.guns.modular.system.model.ShopInfo">
+        <id column="id" property="id" />
+        <result column="shop_name" property="shopName" />
+        <result column="shop_address" property="shopAddress" />
+        <result column="phone" property="phone" />
+        <result column="business_license" property="businessLicense" />
+        <result column="shop_type" property="shopType" />
+        <result column="around_info" property="aroundInfo" />
+        <result column="around_flow" property="aroundFlow" />
+        <result column="shop_area" property="shopArea" />
+        <result column="shop_life" property="shopLife" />
+        <result column="shop_staff_num" property="shopStaffNum" />
+        <result column="owner_name" property="ownerName" />
+        <result column="owner_sex" property="ownerSex" />
+        <result column="owner_age" property="ownerAge" />
+        <result column="owner_place" property="ownerPlace" />
+        <result column="owner_character" property="ownerCharacter" />
+        <result column="owner_type" property="ownerType" />
+        <result column="owner_culture" property="ownerCulture" />
+        <result column="business_hours" property="businessHours" />
+        <result column="business_scope" property="businessScope" />
+        <result column="community_service" property="communityService" />
+        <result column="if_registes" property="ifRegistes" />
+        <result column="if_place_order" property="ifPlaceOrder" />
+        <result column="if_independent_order" property="ifIndependentOrder" />
+        <result column="common_platform" property="commonPlatform" />
+        <result column="platform_order_ratio" property="platformOrderRatio" />
+        <result column="mobile_platform" property="mobilePlatform" />
+        <result column="daily_turnover" property="dailyTurnover" />
+        <result column="nearby_shop" property="nearbyShop" />
+        <result column="potential_prediction" property="potentialPrediction" />
+        <result column="lat" property="lat" />
+        <result column="lng" property="lng" />
+        <result column="user_activity" property="userActivity" />
+        <result column="memo" property="memo" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, shop_name, shop_address, phone, business_license, shop_type, around_info, around_flow, shop_area, shop_life, shop_staff_num, owner_name, owner_sex, owner_age, owner_place, owner_character, owner_type, owner_culture, business_hours, business_scope, community_service, if_registes, if_place_order, if_independent_order, common_platform, platform_order_ratio, mobile_platform, daily_turnover, nearby_shop, potential_prediction, lat, lng, user_activity, memo
+    </sql>
+
+</mapper>

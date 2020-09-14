@@ -1,0 +1,41 @@
+@layout("/common/_container.html"){
+<div class="ibox float-e-margins">
+    <div class="ibox-content">
+        <div class="form-horizontal">
+
+            <div class="row">
+                <div class="col-sm-6 b-r">
+                            <#input id="sel" name="序号" underline="true"/>
+                            <#input id="look" name="查看" underline="true"/>
+                            <#input id="productName" name="商品名称" underline="true"/>
+                            <#input id="pn" name="条形码" underline="true"/>
+                            <#input id="spec" name="规格/型号" underline="true"/>
+                            <#input id="unit" name="单位" underline="true"/>
+                            <#input id="unitThat" name="单位说明" underline="true"/>
+                            <#input id="brands" name="品牌"/>
+                </div>
+
+                <div class="col-sm-6">
+                            <#input id="salesCount" name="销售数量" underline="true"/>
+                            <#input id="totalPrice" name="销售金额" underline="true"/>
+                            <#input id="returnCount" name="退货数量" underline="true"/>
+                            <#input id="sellingPrice" name="销售单价" underline="true"/>
+                            <#input id="returnTotalPrice" name="退货金额" underline="true"/>
+                            <#input id="returnRate" name="销售退货率" underline="true"/>
+                            <#input id="startDate" name="开始日期" underline="true"/>
+                            <#input id="endDate" name="结束日期" underline="true"/>
+                </div>
+            </div>
+
+            <div class="row btn-group-m-t">
+                <div class="col-sm-10">
+                    <#button btnCss="info" name="提交" id="ensure" icon="fa-check" clickFun="ReportFormsInfoDlg.addSubmit()"/>
+                    <#button btnCss="danger" name="取消" id="cancel" icon="fa-eraser" clickFun="ReportFormsInfoDlg.close()"/>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script src="${ctxPath}/static/modular/reportFroms/reportForms/reportForms_info.js"></script>
+@}

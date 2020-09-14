@@ -1,0 +1,65 @@
+@layout("/common/_container.html"){
+<div class="row" >
+    <div class="col-sm-12" >
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>市场部训店记录管理管理</h5>
+            </div>
+            <div class="ibox-content">
+                <div class="row row-lg">
+                    <div class="col-sm-12">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <#NameCon id="condition" name="名称" />
+                            </div>
+                            <div class="col-sm-3">
+                                <#button name="搜索" icon="fa-search" clickFun="ShopInfo.search()"/>
+                                <div class="btn btn-primary" onclick="baidumap()">百度地图统计</div>
+                            </div>
+                        </div>
+                        <div class="hidden-xs" id="ShopInfoTableToolbar" role="group">
+                            @if(shiro.hasPermission("/shopInfo/update")){
+                                <#button style="display:none" name="修改" icon="fa-edit" clickFun="ShopInfo.openShopInfoDetail()" space="true"/>
+                            @}
+                            @if(shiro.hasPermission("/shopInfo/delete")){
+                                <#button name="删除" icon="fa-remove" clickFun="ShopInfo.delete()" space="true"/>
+                            @}
+                        </div>
+                        <#table id="ShopInfoTable"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="${ctxPath}/static/modular/shopInfo/shopInfo/shopInfo.js"></script>
+<script>
+    function  baidumap() {
+        var url = "shopInfo/baidu";
+        var flag = true;
+        // 选项卡菜单已存在
+        $('.J_menuTab', parent.document).each(function () {
+            if ($(this).data('id') == url) {
+                if (!$(this).hasClass('active')) {
+                    $(this).addClass('active').siblings('.J_menuTab').removeClass('active');
+                    // 显示tab对应的内容区
+                    $('.J_mainContent .J_iframe', parent.document).each(function () {
+                        if ($(this).data('id') == url) {
+                            $(this).show().siblings('.J_iframe').hide();
+                            return false;
+                        }
+                    });
+                }
+                flag = false;
+                return false;
+            }
+        });
+        if (flag) {
+            $('.J_menuTab', parent.document).removeClass('active');
+            $('.J_menuTabs .page-tabs-content ', parent.document).append(' <a href="javascript:;" class="J_menuTab active" data-id="' + url + '">地图统计列表<i class="fa fa-times-circle"></i></a>');
+            var str1 = '<iframe class="J_iframe" name="iframe23" width="100%" height="100%" src="' + url + '" frameborder="0" data-id="' + url + '" seamless style="display:inline"></iframe>';
+            $('.J_mainContent', parent.document).find('iframe.J_iframe').hide().parents('.J_mainContent').append(str1);
+        }
+    }
+</script>
+@}

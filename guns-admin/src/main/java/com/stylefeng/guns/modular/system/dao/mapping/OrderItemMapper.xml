@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stylefeng.guns.modular.system.dao.OrderItemMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.stylefeng.guns.modular.system.model.OrderItem">
+        <id column="id" property="id" />
+        <result column="product_name" property="productName" />
+        <result column="sn" property="sn" />
+        <result column="unit" property="unit" />
+        <result column="unit_state" property="unitState" />
+        <result column="amount" property="amount" />
+        <result column="no_valency" property="noValency" />
+        <result column="sales_price" property="salesPrice" />
+        <result column="dis_price" property="disPrice" />
+        <result column="money" property="money" />
+        <result column="model" property="model" />
+        <result column="brand" property="brand" />
+        <result column="re_area" property="reArea" />
+        <result column="ec_erp_order_id" property="exErpOrderId" />
+        <result column="lib" property="lib" />
+        <result column="if_return" property="ifReturn" />
+        <result column="remark" property="remark" />
+        <result column="unit_e" property="unitE" />
+        <result column="return_num" property="returnNum" />
+
+    </resultMap>
+
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, product_name, sn, unit, unit_state, amount, no_valency, sales_price, dis_price, money, model, brand, re_area, ec_erp_order_id, lib, if_return, remark, unit_e
+    </sql>
+
+    <select id="selectReportFormList" resultType="com.stylefeng.guns.modular.vo.OrderItemVo" >
+        select sn,product_name,unit,brand,
+        sum(money) as moneyTotal,
+        sum(amount) as amountTotal,
+        sum(return_num) as returnNumTotal,
+        sum(return_num*sales_price) as returnMoneyTotal,
+        (sum(money)/sum(amount)) as avgSalePrice
+        from order_item  where ec_erp_order_id in
+        <foreach collection="list" item="id" index="index" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+        GROUP BY sn,product_name,unit,brand
+    </select>
+
+
+    <select id="selectReportForm" resultType="com.stylefeng.guns.modular.vo.OrderItemSumVo" >
+        select
+        sum(money) as moneyTotal,
+        sum(amount) as amountTotal,
+        sum(return_num) as returnNumTotal,
+        sum(return_num*sales_price) as returnMoneyTotal,
+        (sum(money)/sum(amount)) as avgSalePrice,
+        sum(return_num)/sum(amount) as returnGoodsRate
+        from order_item  where ec_erp_order_id in
+        <foreach collection="list" item="id" index="index" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </select>
+
+    <select id="selectCheckMoney" resultType="BigDecimal" >
+        select
+        sum(check_money)
+        from ec_erp_order  where id in
+        <foreach collection="list" item="id" index="index" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </select>
+
+    <select id="selectBySn" resultMap="BaseResultMap" parameterType="long">
+   SELECT
+	 id, product_name, sn, unit, unit_state, amount, no_valency, sales_price, dis_price, money, model, brand, re_area, ec_erp_order_id, lib, if_return, remark, unit_e
+FROM
+	order_item where ec_erp_order_id = #{ec_erp_order_id}
+</select>
+    <insert id="insertOrderItem" parameterType="com.stylefeng.guns.modular.system.model.OrderItem">
+    INSERT INTO order_item (
+    id,
+    product_name,
+    sn,
+    unit,
+    amount,
+    no_valency,
+    sales_price,
+    dis_price,
+    money,
+    model,
+    brand,
+    re_area,
+    ec_erp_order_id,
+    lib,
+    remark,
+    unit_e
+    )
+    VALUES
+    (default ,#{product_name},#{sn},#{unit},#{amount},#{no_valency},#{sales_price},#{dis_price},#{money},#{model},#{brand},#{re_area},#{ec_erp_order_id},#{lib},#{remark},#{unit_e})
+    </insert>
+
+</mapper>

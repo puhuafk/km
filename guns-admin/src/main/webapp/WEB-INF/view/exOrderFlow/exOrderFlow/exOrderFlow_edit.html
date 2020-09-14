@@ -1,0 +1,35 @@
+@layout("/common/_container.html"){
+<div class="ibox float-e-margins">
+    <div class="ibox-content">
+        <div class="form-horizontal">
+
+            <div class="row">
+                <div class="col-sm-6 b-r">
+                            <#input id="id" name="id" value="${item.id}" underline="true"/>
+                            <#input id="exOrderId" name="异常订单id" value="${item.exOrderId}" underline="true"/>
+                            <#input id="flowType" name="流程类型（1减红包、2退单品、3已出库退单）" value="${item.flowType}" underline="true"/>
+                            <#input id="sysDeptId1" name="流程1（部门id）" value="${item.sysDeptId1}" underline="true"/>
+                            <#input id="sysDeptId2" name="流程2（部门id）" value="${item.sysDeptId2}" />
+                </div>
+
+                <div class="col-sm-6">
+                            <#input id="sysDeptId3" name="流程3（部门id）" value="${item.sysDeptId3}" underline="true"/>
+                            <#input id="sysDeptId4" name="流程4（部门id）、以0结尾、查询到0本流程结束" value="${item.sysDeptId4}" underline="true"/>
+                            <#input id="sysDeptId5" name="流程5（部门id）" value="${item.sysDeptId5}" underline="true"/>
+                            <#input id="createtime" name="创建时间" value="${item.createtime}" underline="true"/>
+                            <#input id="operator" name="创建人" value="${item.operator}" />
+                </div>
+            </div>
+
+            <div class="row btn-group-m-t">
+                <div class="col-sm-10">
+                    <#button btnCss="info" name="提交" id="ensure" icon="fa-check" clickFun="ExOrderFlowInfoDlg.editSubmit()"/>
+                    <#button btnCss="danger" name="取消" id="cancel" icon="fa-eraser" clickFun="ExOrderFlowInfoDlg.close()"/>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script src="${ctxPath}/static/modular/exOrderFlow/exOrderFlow/exOrderFlow_info.js"></script>
+@}

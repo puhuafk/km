@@ -1,0 +1,41 @@
+@layout("/common/_container.html"){
+<div class="ibox float-e-margins">
+    <div class="ibox-content">
+        <div class="form-horizontal">
+
+            <div class="row">
+                <div class="col-sm-6 b-r">
+                            <#input id="id" name="id" underline="true"/>
+                            <#input id="name" name="姓名" underline="true"/>
+                            <#input id="sex" name="性别" underline="true"/>
+                            <#input id="age" name="年龄" underline="true"/>
+                            <#input id="nation" name="民族" underline="true"/>
+                            <#input id="nativePlace" name="籍贯" underline="true"/>
+                            <#input id="education" name="学历" underline="true"/>
+                            <#input id="maStatus" name="婚姻情况"/>
+                </div>
+
+                <div class="col-sm-6">
+                            <#input id="feStatus" name="生育状况" underline="true"/>
+                            <#input id="workStatus" name="工作情况" underline="true"/>
+                            <#input id="poStatus" name="政治面貌" underline="true"/>
+                            <#input id="position" name="应聘岗位" underline="true"/>
+                            <#input id="pay" name="薪资要求" underline="true"/>
+                            <#input id="phone" name="联系电话" underline="true"/>
+                            <#input id="buHistory" name="工作经历" underline="true"/>
+                            <#input id="selfEvaluation" name="自我评价" underline="true"/>
+                </div>
+            </div>
+
+            <div class="row btn-group-m-t">
+                <div class="col-sm-10">
+                    <#button btnCss="info" name="提交" id="ensure" icon="fa-check" clickFun="StaffInfoInfoDlg.addSubmit()"/>
+                    <#button btnCss="danger" name="取消" id="cancel" icon="fa-eraser" clickFun="StaffInfoInfoDlg.close()"/>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script src="${ctxPath}/static/modular/staffInfo/staffInfo/staffInfo_info.js"></script>
+@}

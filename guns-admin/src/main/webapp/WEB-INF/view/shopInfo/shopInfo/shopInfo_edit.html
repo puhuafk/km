@@ -1,0 +1,635 @@
+@layout("/common/_container.html"){
+<div class="row">
+    <div class="col-sm-10">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>市场调研表</h5>
+            </div>
+            <div class="ibox-content">
+                <form class="form-horizontal m-t" id="signupForm" action="/shopInfo/update" onsubmit="return check()">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">店铺名称：</label>
+                        <div class="col-sm-8">
+                            <input id="shopName" name="shopName" class="form-control" type="text">
+                        </div>
+                    </div>
+                    <div class="form-group" style="position:relative">
+                        <label class="col-sm-3 control-label">店铺地址：</label>
+                        <div class="col-sm-8">
+                            <input id="shopAddress" name="shopAddress" class="form-control" type="text" aria-required="true" aria-invalid="false" class="valid">
+                            <input type="hidden" name="lat" id="lat">
+                            <input type="hidden" name="lng" id="lng">
+                        </div>
+                        <div style="width:500px;height:500px;left:30%;top:20px;margin-bottom:20px" id="allmap">
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">联系方式：</label>
+                        <div class="col-sm-8">
+                            <input id="phone" name="phone" class="form-control" type="text" aria-required="true" aria-invalid="false" class="valid">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">营业执照：</label>
+                        <div class="col-sm-8">
+                            <input type="file" accept="image/*" id="file" style="background:none;margin-bottom:0;">
+                            <div style="height:auto;width:20%;margin-top:1%;padding:0;" id="license"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">店铺类型：</label>
+                        <div class="col-sm-8">
+                            <select id="shopType" name="shopType" class="form-control">
+                                <option value="综合超市">综合超市</option>
+                                <option value="烟酒店">烟酒店</option>
+                                <option value="零食店">零食店</option>
+                                <option value="小卖部">小卖部</option>
+                                <option value="副食店">副食店</option>
+                                <option value="文具店">文具店</option>
+                                <option value="快餐店">快餐店</option>
+                                <option value="其他">其他</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">店铺位置信息：</label>
+                        <div class="col-sm-8">
+                            <select id="aroundInfo" name="aroundInfo" class="form-control">
+                                <option value="商业CBD底商">商业CBD底商</option>
+                                <option value="小区外围底商">小区外围底商</option>
+                                <option value="小区内部底商">小区内部底商</option>
+                                <option value="小区居民房">小区居民房</option>
+                                <option value="写字楼">写字楼</option>
+                                <option value="工业园区">工业园区</option>
+                                <option value="其他">其他</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">店铺周边流量：</label>
+                        <div class="col-sm-8">
+                            <select id="aroundFlow" name="aroundFlow" class="form-control">
+                                <option value="稀少">稀少</option>
+                                <option value="正常">正常</option>
+                                <option value="较密集">较密集</option>
+                                <option value="非常密集">非常密集</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">店铺面积：</label>
+                        <div class="col-sm-8">
+                            <select id="shopArea" name="shopArea" class="form-control">
+                                <option value="20平米以下">20平米以下</option>
+                                <option value="20-30">20-30</option>
+                                <option value="30-50">30-50</option>
+                                <option value="50-80">50-80</option>
+                                <option value="80-120">80-120</option>
+                                <option value="120以上">120以上</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">店主姓名：</label>
+                        <div class="col-sm-8">
+                            <input id="ownerName" name="ownerName" class="form-control" type="text" aria-required="true" aria-invalid="false" class="valid">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">店主性别：</label>
+                        <div class="col-sm-8">
+                            <select id="ownerSex" name="ownerSex" class="form-control">
+                                <option value="男">男</option>
+                                <option value="女">女</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">店主年龄：</label>
+                        <div class="col-sm-8">
+                            <select id="ownerAge" name="ownerAge" class="form-control">
+                                <option value="20-30">20-30</option>
+                                <option value="30-40">30-40</option>
+                                <option value="40-50">40-50</option>
+                                <option value="50-60">50-60</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">店主籍贯：</label>
+                        <div class="col-sm-8">
+                            <select id="ownerPlace" name="ownerPlace" class="form-control">
+                                <option value="北京市">北京市</option>
+                                <option value="天津市">天津市</option>
+                                <option value="上海">上海</option>
+                                <option value="河北">河北</option>
+                                <option value="河南">河南</option>
+                                <option value="山东">山东</option>
+                                <option value="山西">山西</option>
+                                <option value="江苏">江苏</option>
+                                <option value="浙江">浙江</option>
+                                <option value="陕西">陕西</option>
+                                <option value="云南">云南</option>
+                                <option value="贵州">贵州</option>
+                                <option value="四川">四川</option>
+                                <option value="广东">广东</option>
+                                <option value="广西">广西</option>
+                                <option value="福建">福建</option>
+                                <option value="江西">江西</option>
+                                <option value="湖南">湖南</option>
+                                <option value="湖北">湖北</option>
+                                <option value="辽宁">辽宁</option>
+                                <option value="吉林">吉林</option>
+                                <option value="黑龙江">黑龙江</option>
+                                <option value="陕西">陕西</option>
+                                <option value="甘肃">甘肃</option>
+                                <option value="宁夏">宁夏</option>
+                                <option value="内蒙古">内蒙古</option>
+                                <option value="青海">青海</option>
+                                <option value="新疆">新疆</option>
+                                <option value="重庆">重庆</option>
+                                <option value="西藏">西藏</option>
+                                <option value="海南">海南</option>
+                                <option value="香港">香港</option>
+                                <option value="澳门">澳门</option>
+                                <option value="台湾">台湾</option>
+                                <option value="安徽">安徽</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">店主性格：</label>
+                        <div class="col-sm-8">
+                            <select id="ownerCharacter" name="ownerCharacter" class="form-control">
+                                <option value="外向">外向</option>
+                                <option value="内向">内向</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">店主类型：</label>
+                        <div class="col-sm-8">
+                            <select id="ownerType" name="ownerType" class="form-control">
+                                <option value="平易近人">平易近人</option>
+                                <option value="沟通困难">沟通困难</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">店主文化：</label>
+                        <div class="col-sm-8">
+                            <select id="ownerCulture" name="ownerCulture" class="form-control">
+                                <option value="高知">高知</option>
+                                <option value="书生气">书生气</option>
+                                <option value="一般">一般</option>
+                                <option value="粗鲁">粗鲁</option>
+                                <option value="低俗">低俗</option>
+                                <option value="社会人">社会人</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">店员数量：</label>
+                        <div class="col-sm-8">
+                            <select id="shopStaffNum" name="shopStaffNum" class="form-control">
+                                <option value="无">无</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="5">5个以上</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">营业时间：</label>
+                        <div class="col-sm-8">
+                            <select id="businessHours" name="businessHours" class="form-control">
+                                <option value="普通">普通</option>
+                                <option value="24小时">24小时</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">经营品种</label>
+                        <div class="col-sm-8">
+                            <label class="checkbox-inline i-checks">
+                                <input name="businessScope" type="checkbox" value="烟草">烟草</label>
+                            <label class="checkbox-inline i-checks">
+                                <input name="businessScope" type="checkbox" value="酒水饮料">酒水饮料</label>
+                            <label class="checkbox-inline i-checks">
+                                <input name="businessScope" type="checkbox" value="休闲零食">休闲零食</label>
+                            <label class="checkbox-inline i-checks">
+                                <input name="businessScope" type="checkbox" value="粮油副食">粮油副食</label>
+                            <label class="checkbox-inline i-checks">
+                                <input name="businessScope" type="checkbox" value="方便冲调">方便冲调</label>
+                            <label class="checkbox-inline i-checks">
+                                <input name="businessScope" type="checkbox" value="洗化清洁">洗化清洁</label>
+                            <label class="checkbox-inline i-checks">
+                                <input name="businessScope" type="checkbox" value="日用百货">日用百货</label>
+                            <label class="checkbox-inline i-checks">
+                                <input name="businessScope" type="checkbox" value="生鲜蔬菜">生鲜蔬菜</label>
+                            <label class="checkbox-inline i-checks">
+                                <input name="businessScope" type="checkbox" value="冷冻食品">冷冻食品</label>
+                            <label class="checkbox-inline i-checks">
+                                <input name="businessScope" type="checkbox" value="其他">其他</label>
+                        </div>
+                    </div>
+                    <!--<div class="form-group">-->
+                        <!--<label class="col-sm-3 control-label">社区服务：</label>-->
+                        <!--<div class="col-sm-8">-->
+                            <!--<select name="communityService" class="form-control">-->
+                                <!--<option value="普通">普通</option>-->
+                                <!--<option value="24小时">24小时</option>-->
+                            <!--</select>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">社区服务：</label>
+                        <div class="col-sm-8">
+                            <select id="communityService" name="communityService" class="form-control">
+                                <option value="快递">快递</option>
+                                <option value="代收代缴">代收代缴</option>
+                                <option value="其他">其他</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">是否注册津小超：</label>
+                        <div class="col-sm-8">
+                            <select id="ifRegistes" name="ifRegistes" class="form-control">
+                                <option value="是">是</option>
+                                <option value="否">否</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">是否下单：</label>
+                        <div class="col-sm-8">
+                            <select id="ifPlaceOrder" name="ifPlaceOrder" class="form-control">
+                                <option value="活跃客户">活跃客户</option>
+                                <option value="偶尔下单">偶尔下单</option>
+                                <option value="3个月未下单">3个月未下单</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">常用平台：</label>
+                        <div class="col-sm-8">
+                            <select id="commonPlatform" name="commonPlatform" class="form-control">
+                                <option value="京东">京东</option>
+                                <option value="阿里">阿里</option>
+                                <option value="易酒批">易酒批</option>
+                                <option value="中商惠民">中商惠民</option>
+                                <option value="百世店家">百世店家</option>
+                                <option value="链商优供">链商优供</option>
+                                <option value="快驴">快驴</option>
+                                <option value="菜易得">菜易得</option>
+                                <option value="美菜网">美菜网</option>
+                                <option value="周边二批">周边二批</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">平台订货比例：</label>
+                        <div class="col-sm-8">
+                            <select id="platformOrderRatio" name="platformOrderRatio" class="form-control">
+                                <option value="10%以下">10%以下</option>
+                                <option value="10-30%">10-30%</option>
+                                <option value="30-50%">30-50%</option>
+                                <option value="50-80%">50-80%</option>
+                                <option value="80-100%">80-100%</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">手机平台：</label>
+                        <div class="col-sm-8">
+                            <select id="mobilePlatform" name="mobilePlatform" class="form-control">
+                                <option value="安卓">安卓</option>
+                                <option value="苹果">苹果</option>
+                                <option value="其他">其他</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">是否习惯独立下单：</label>
+                        <div class="col-sm-8">
+                            <select id="ifIndependentOrder" name="ifIndependentOrder" class="form-control">
+                                <option value="是">是</option>
+                                <option value="否">否</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">每日营业额：</label>
+                        <div class="col-sm-8">
+                            <select id="dailyTurnover" name="dailyTurnover" class="form-control">
+                                <option value="1000元以下">1000元以下</option>
+                                <option value="1000-2000">1000-2000</option>
+                                <option value="2000-3000">2000-3000</option>
+                                <option value="3000-5000">3000-5000</option>
+                                <option value="5000-8000">5000-8000</option>
+                                <option value="8000以上">8000以上</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">店铺经营年限：</label>
+                        <div class="col-sm-8">
+                            <select id="shopLife" name="shopLife" class="form-control">
+                                <option value="1年以下">1年以下</option>
+                                <option value="1-2年">1-2年</option>
+                                <option value="2-3年">2-3年</option>
+                                <option value="3-5年">3-5年</option>
+                                <option value="5年以上">5年以上</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">周边便利店(200米)</label>
+                        <div class="col-sm-8">
+                            <label class="checkbox-inline i-checks">
+                                <input name="nearbyShop" type="checkbox" value="7-11">7-11</label>
+                            <label class="checkbox-inline i-checks">
+                                <input name="nearbyShop" type="checkbox" value="全时">全时</label>
+                            <label class="checkbox-inline i-checks">
+                                <input name="nearbyShop" type="checkbox" value="便利蜂">便利蜂</label>
+                            <label class="checkbox-inline i-checks">
+                                <input name="nearbyShop" type="checkbox" value="苏宁小店">苏宁小店</label>
+                            <label class="checkbox-inline i-checks">
+                                <input name="nearbyShop" type="checkbox" value="百世邻里">百世邻里</label>
+                            <label class="checkbox-inline i-checks">
+                                <input name="nearbyShop" type="checkbox" value="京东">京东</label>
+                            <label class="checkbox-inline i-checks">
+                                <input name="nearbyShop" type="checkbox" value="天猫小店">天猫小店</label>
+                            <label class="checkbox-inline i-checks">
+                                <input name="nearbyShop" type="checkbox" value="津工超市">津工超市</label>
+                            <label class="checkbox-inline i-checks">
+                                <input name="nearbyShop"type="checkbox" value="大鹏便利">大鹏便利</label>
+                            <label class="checkbox-inline i-checks">
+                                <input name="nearbyShop" type="checkbox" value="物美">物美</label>
+                            <label class="checkbox-inline i-checks">
+                                <input name="nearbyShop" type="checkbox" value="华润万家">华润万家</label>
+                            <label class="checkbox-inline i-checks">
+                                <input name="nearbyShop" type="checkbox" value="其他">其他</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">億米潜力预估：</label>
+                        <div class="col-sm-8">
+                            <select id="potentialPrediction" name="potentialPrediction" class="form-control">
+                                <option value="立即进驻">立即进驻</option>
+                                <option value="建议考虑">建议考虑</option>
+                                <option value="价值一般">价值一般</option>
+                                <option value="不能干">不能干</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">其他描述：</label>
+                        <div class="col-sm-8">
+                            <textarea id="memo" class="form-control" name="memo" rows="" cols="" style="resize:none;"></textarea>
+                        </div>
+                    </div>
+                    <input style="display:none" type="text" name="businessLicense" id="img_src">
+                    <input style="display:none" type="text" name="id" id="order_id">
+                    <div class="form-group">
+                        <div class="col-sm-8 col-sm-offset-3">
+                            <button class="btn btn-primary" type="submit" id="tip_up">提交</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=3.0&ak=u45nFCgs5dNCnKaUPqgiqZqtn3kyq0yR"></script>
+<script>
+    // -------------百度地图开始-----------------
+    // 百度地图API功能
+    function baidu(lng,lat,x){
+        var map = new BMap.Map("allmap");
+        var geoc = new BMap.Geocoder();
+        // 创建Map实例
+        map.enableScrollWheelZoom();
+        //启用滚轮放大缩小
+        var point = new BMap.Point(lng,lat);
+        var marker = new BMap.Marker(point);
+        if(x){
+            geoc.getLocation(point, function(rs){
+                //addressComponents对象可以获取到详细的地址信息
+                var addComp = rs.addressComponents;
+                var site = addComp.province + ", " + addComp.city + ", " + addComp.district + ", " + addComp.street + ", " + addComp.streetNumber;
+                //将对应的HTML元素设置值
+                $('#shopAddress').val(site)
+            });
+        }
+        map.addOverlay(marker);
+        marker.enableDragging(); //启用标注拖动
+        marker.addEventListener('dragend', function(e){//拖动标注结束
+            var pointNew = e.point;
+            console.log(pointNew);
+            $('#lat').val(e.point.lat)
+            $('#lng').val(e.point.lng)
+            if(x){
+                geoc.getLocation(pointNew, function(rs){
+                    //addressComponents对象可以获取到详细的地址信息
+                    var addComp = rs.addressComponents;
+                    var site = addComp.province + ", " + addComp.city + ", " + addComp.district + ", " + addComp.street + ", " + addComp.streetNumber;
+                    //将对应的HTML元素设置值
+                    $('#shopAddress').val(site)
+                });
+            }
+        });
+        map.centerAndZoom(point, 15);
+        map.addEventListener("click", function(e){
+            //通过点击百度地图，可以获取到对应的point, 由point的lng、lat属性就可以获取对应的经度纬度
+            console.log(e.point)
+            map.removeOverlay(marker);
+            marker = new BMap.Marker(e.point);
+            map.addOverlay(marker);
+            map.panTo(e.point);
+            $('#lat').val(e.point.lat)
+            $('#lng').val(e.point.lng)
+            var pointNew = e.point;
+            if(x){
+                geoc.getLocation(pointNew, function(rs){
+                    //addressComponents对象可以获取到详细的地址信息
+                    var addComp = rs.addressComponents;
+                    var site = addComp.province + ", " + addComp.city + ", " + addComp.district + ", " + addComp.street + ", " + addComp.streetNumber;
+                    //将对应的HTML元素设置值
+                    $('#shopAddress').val(site)
+                });
+            }
+            marker.enableDragging(); //启用标注拖动
+            marker.addEventListener('dragend', function(e){//拖动标注结束
+                var pointNew = e.point;
+                console.log(e)
+                $('#lat').val(e.point.lat)
+                $('#lng').val(e.point.lng)
+                if(x){
+                    geoc.getLocation(pointNew, function(rs){
+                        //addressComponents对象可以获取到详细的地址信息
+                        var addComp = rs.addressComponents;
+                        var site = addComp.province + ", " + addComp.city + ", " + addComp.district + ", " + addComp.street + ", " + addComp.streetNumber;
+                        //将对应的HTML元素设置值
+                        $('#shopAddress').val(site)
+                    });
+                }
+                // var pt = e.point;
+                // geoc.getLocation(pt, function(rs){
+                //     //addressComponents对象可以获取到详细的地址信息
+                //     var addComp = rs.addressComponents;
+                //     var site = addComp.province + ", " + addComp.city + ", " + addComp.district + ", " + addComp.street + ", " + addComp.streetNumber;
+                //     //将对应的HTML元素设置值
+                //     console.log(site)
+                // });
+            });
+        });
+        // -------------百度地图结束-----------------
+    }
+    $(document).ready(function () {
+        $('.i-checks').iCheck({
+            checkboxClass: 'icheckbox_square-green',
+            radioClass: 'iradio_square-green',
+        });
+    });
+    function check(){
+        var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+        parent.layer.close(index)
+    }
+    $(function(){
+        // 获取订单Id
+        var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+        console.log(index)
+        // parent.layer.close(index)
+        var htmlHref =$('.layui-layer-content').context.URL
+        htmlHref = htmlHref.replace(/^http:\/\/[^/]+/, "");
+        var addr = htmlHref.substr(htmlHref.lastIndexOf('/', htmlHref.lastIndexOf('/') - 1) + 1);
+        var index = addr.lastIndexOf("\/");
+        //js 获取字符串中最后一个斜杠后面的内容
+        var id = decodeURI(addr.substring(index + 1, addr.length));
+        $('#order_id').val(id)
+        console.log("id="+id)
+        // 调取详情接口
+        var url="/shopInfo/shopInfo_edit/"+id
+        $.ajax({
+            url:url,
+            type:"get",
+            processData:false,
+            contentType:false,
+            dataType: 'json',
+            success:function(data){
+                console.log(data)
+                $('#aroundFlow').val(data.aroundFlow)
+                $('#aroundInfo').val(data.aroundInfo)
+                $('#businessHours').val(data.businessHours)
+                $('#businessLicense').val(data.businessLicense)
+                $('#businessScope').val(data.businessScope)
+                $('#commonPlatform').val(data.commonPlatform)
+                $('#communityService').val(data.communityService)
+                $('#dailyTurnover').val(data.dailyTurnover)
+                $('#ifIndependentOrder').val(data.ifIndependentOrder)
+                $('#ifPlaceOrder').val(data.ifPlaceOrder)
+                $('#ifRegistes').val(data.ifRegistes)
+                $('#mobilePlatform').val(data.mobilePlatform)
+                $('#nearbyShop').val(data.nearbyShop)
+                $('#ownerAge').val(data.ownerAge)
+                $('#ownerCulture').val(data.ownerCulture)
+                $('#ownerCharacter').val(data.ownerCharacter)
+                $('#ownerName').val(data.ownerName)
+                $('#ownerPlace').val(data.ownerPlace)
+                $('#ownerSex').val(data.ownerSex)
+                $('#ownerType').val(data.ownerType)
+                $('#phone').val(data.phone)
+                $('#platformOrderRatio').val(data.platformOrderRatio)
+                $('#potentialPrediction').val(data.potentialPrediction)
+                $('#shopAddress').val(data.shopAddress)
+                $('#shopArea').val(data.shopArea)
+                $('#shopLife').val(data.shopLife)
+                $('#shopName').val(data.shopName)
+                $('#shopStaffNum').val(data.shopStaffNum)
+                $('#shopType').val(data.shopType)
+                $('#userActivity').val(data.userActivity)
+                $('#lat').val(data.lat)
+                $('#lng').val(data.lng)
+                $('#memo').val(data.memo)
+                if(data.lat!=''&&data.lng!=''){
+                    console.log('11111')
+                    baidu(data.lng,data.lat,true)
+                }else{
+                    console.log('22222')
+                    baidu(117.143341,39.126067,false)
+                }
+                var img = new Image();
+                img.src = data.businessLicense; //base64字符串
+                console.log(data.businessLicense)
+                img.style="width:100%";
+                $('#license').empty()
+                img.onload = function () {
+                    $('#license').append(img);
+                };
+                $('#img_src').val(data.businessLicense)
+                var businessScope =data.businessScope.split(",");
+                var nearbyShop =data.nearbyShop.split(",");
+                console.log(nearbyShop)
+                $('.icheckbox_square-green').each(function(){
+                      for(var i=0;i<businessScope.length;i++){
+                          if($(this).find('input').val()==businessScope[i]){
+                              $(this).addClass('checked')
+                              $(this).find('input').attr("checked",true)
+                          }
+                      }
+                    for(var i=0;i<nearbyShop.length;i++){
+                        if($(this).find('input').val()==nearbyShop[i]){
+                            $(this).addClass('checked')
+                            $(this).find('input').attr("checked",true)
+                        }
+                    }
+                })
+
+            },
+            error:function(e){
+                console.log(e)
+                swal({
+                    title: "提示",
+                    text: "服务器异常",
+                    type: "success"
+                });
+                tijiaole=false
+            }
+        });
+        $('#file').change(function(){
+            var formData = new FormData();
+            formData.append('imageFile', $('#file')[0].files[0]);  //添加图片信息的参数
+            $.ajax({
+                url: "/upload/image",
+                type: 'POST',
+                cache: false,
+                data: formData,
+                processData: false,
+                contentType: false,
+                dataType:"json",
+                success : function(data) {
+                    console.log(data)
+                    var img = new Image();
+                        img.src = data; //base64字符串
+                        img.style="width:100%";
+                        $('#license').empty()
+                        img.onload = function () {
+                            $('#license').append(img);
+                        };
+                        $('#img_src').val(data)
+                }
+            });
+        })
+        $('#tip_up').click(function(){
+            $('#signupForm').submit();
+        })
+
+    })
+</script>
+@}

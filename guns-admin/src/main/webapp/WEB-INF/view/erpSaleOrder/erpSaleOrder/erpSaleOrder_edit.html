@@ -1,0 +1,45 @@
+@layout("/common/_container.html"){
+<div class="ibox float-e-margins">
+    <div class="ibox-content">
+        <div class="form-horizontal">
+
+            <div class="row">
+                <div class="col-sm-6 b-r">
+                            <#input id="id" name="主键" value="${item.id}" underline="true"/>
+                            <#input id="sn" name="单号" value="${item.sn}" underline="true"/>
+                            <#input id="zqpSn" name="找汽配订单编号" value="${item.zqpSn}" underline="true"/>
+                            <#input id="saleDate" name="销售时间" value="${item.saleDate}" underline="true"/>
+                            <#input id="totalPrice" name="总金额" value="${item.totalPrice}" underline="true"/>
+                            <#input id="orderStatus" name="订单状态，0-未确认" value="${item.orderStatus}" underline="true"/>
+                            <#input id="verifyStatus" name="审核状态" value="${item.verifyStatus}" underline="true"/>
+                            <#input id="stockStatus" name="出入库状态，0-未处理" value="${item.stockStatus}" underline="true"/>
+                            <#input id="cName" name="" value="${item.cName}" underline="true"/>
+                            <#input id="discountP" name="折扣百分比" value="${item.discountP}" />
+                </div>
+
+                <div class="col-sm-6">
+                            <#input id="source" name="订单来源" value="${item.source}" underline="true"/>
+                            <#input id="operator" name="" value="${item.operator}" underline="true"/>
+                            <#input id="dLibrary" name="库区ID" value="${item.dLibrary}" underline="true"/>
+                            <#input id="pMethod" name="电商订单收款方式" value="${item.pMethod}" underline="true"/>
+                            <#input id="rAddress" name="电商订单收货地址" value="${item.rAddress}" underline="true"/>
+                            <#input id="tMan" name="电商订单收货人" value="${item.tMan}" underline="true"/>
+                            <#input id="tNo" name="承运单号" value="${item.tNo}" underline="true"/>
+                            <#input id="tCost" name="运费" value="${item.tCost}" underline="true"/>
+                            <#input id="tPrice" name="折扣前总金额" value="${item.tPrice}" underline="true"/>
+                            <#input id="dPrice" name="总金额" value="${item.dPrice}" />
+                </div>
+            </div>
+
+            <div class="row btn-group-m-t">
+                <div class="col-sm-10">
+                    <#button btnCss="info" name="提交" id="ensure" icon="fa-check" clickFun="ErpSaleOrderInfoDlg.editSubmit()"/>
+                    <#button btnCss="danger" name="取消" id="cancel" icon="fa-eraser" clickFun="ErpSaleOrderInfoDlg.close()"/>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script src="${ctxPath}/static/modular/erpSaleOrder/erpSaleOrder/erpSaleOrder_info.js"></script>
+@}

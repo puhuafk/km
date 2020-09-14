@@ -1,0 +1,491 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>市场调研回馈表</title>
+        <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport"/>
+        <meta content="yes" name="apple-mobile-web-app-capable"/>
+        <meta content="black" name="apple-mobile-web-app-status-bar-style"/>
+        <meta content="telephone=no" name="format-detection"/>
+        <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+        <link rel="stylesheet" href="/static/css/shop_mobile/mobileSelect.css" />
+        <link rel="stylesheet" href="/static/css/shop_mobile/shop_moile.css" />
+        <script src="/static/js/jquery.min.js"></script>
+        <script src="/static/js/lrz.all.bundle.js"></script>
+        <script src="/static/js/mobileSelect.min.js"></script>
+        <script type="text/javascript" src="http://api.map.baidu.com/api?v=3.0&ak=u45nFCgs5dNCnKaUPqgiqZqtn3kyq0yR"></script>
+        <style>
+            html{height:100%}
+            body{height:100%;margin:0px;padding:0px}
+        </style>
+    </head>
+    <body>
+        <section class="aui-flexView">
+            <header class="aui-navBar aui-navBar-fixed">
+                
+                <div class="aui-center">
+                    <h2 class="aui-center-title">市场调研回馈表</h2>
+                </div>
+                <a href="javascript:;" class="aui-navBar-item">
+                    <i class="icon icon-sys"></i>
+                </a>
+            </header>
+            <section class="aui-scrollView">
+                <div class="aui-view-box">
+                    <form class="form-horizontal m-t" id="signupForm" action="/shopInfo/add" method="post" onsubmit="return check()">
+                    <div class="aui-view-box-item">
+                        <h2>店铺名称:</h2>
+                        <input name="shopName" id="shopName" type="text" placeholder="请输入店铺名称">
+                    </div>
+                    <div class="aui-view-box-item">
+                        <h2>店铺地址:</h2>
+                        <input name="shopAddress" id="shopAddress"  readonly="readonly" type="text" placeholder="请输入店铺地址">
+                    </div>
+                     <div class="aui-view-box-item">
+                        <h2>联系方式:</h2>
+                        <input name="phone" id="phone" type="text" placeholder="请输入联系方式">
+                    </div>
+                    <div class="aui-view-box-item">
+                        <h2>营业执照:</h2>
+                        <input type="file" accept="image/*" id="file" style="background:none;margin-bottom:0;">
+                        <div style="height:auto;width:70%;margin-left:27%;background-size:100%;padding:0;" id="license"></div>
+                        <input style="display:none" type="text" name="businessLicense" id="img_src">
+                    </div>
+                    <div class="aui-view-box-item">
+                        <h2>店铺类型:</h2>
+                        <div id="trigger1">请选择</div>
+                        <input style="display:none" type="text" id="trigger1_ipt" name="shopType">
+                    </div>
+                    <div class="aui-view-box-item">
+                        <h2>店铺位置:</h2>
+                        <div id="trigger2">请选择</div>
+                        <input style="display:none" type="text" id="trigger2_ipt" name="aroundInfo">
+                    </div>
+                    <div class="aui-view-box-item">
+                        <h2>店铺周边流量:</h2>
+                        <div id="trigger3">请选择</div>
+                        <input style="display:none" type="text" id="trigger3_ipt" name="aroundFlow">
+                    </div>
+                    <!--<div class="aui-view-box-item">
+                        <h2>店主姓名:</h2>
+                        <input type="text" placeholder="请输入店主姓名">
+                    </div>-->
+                     <div class="aui-view-box-item">
+                        <h2>店主性别:</h2>
+                        <div id="trigger4">请选择</div>
+                         <input style="display:none" type="text" id="trigger4_ipt" name="ownerSex">
+                    </div>
+                     <div class="aui-view-box-item">
+                        <h2>店主年龄:</h2>
+                        <div id="trigger5">请选择</div>
+                         <input style="display:none" type="text" id="trigger5_ipt" name="ownerAge">
+                    </div>
+                     <!--<div class="aui-view-box-item">
+                    <h2>店主籍贯:</h2>
+                        <div id="trigger6">请选择</div>
+                    </div>
+                     <div class="aui-view-box-item">
+                        <h2>店主性格:</h2>
+                        <div id="trigger7">请选择</div>
+                    </div>-->
+                     <!--<div class="aui-view-box-item">
+                        <h2>店主类型:</h2>
+                        <div id="trigger8">请选择</div>
+                    </div>
+                     <div class="aui-view-box-item">
+                        <h2>店主文化:</h2>
+                        <div id="trigger9">请选择</div>
+                    </div>-->
+                     <div class="aui-view-box-item">
+                        <h2>店铺面积:</h2>
+                        <div id="trigger10">请选择</div>
+                        <input style="display:none" type="text" id="trigger10_ipt" name="shopArea">
+                    </div>
+                    <!--<div class="aui-view-box-item">
+                        <h2>店员数量:</h2>
+                        <div id="trigger11">请选择</div>
+                    </div>
+                    <div class="aui-view-box-item">
+                        <h2>营业时间:</h2>
+                        <div id="trigger12">请选择</div>
+                    </div>-->
+                     <div class="aui-view-box-item" style="margin-top:10px">
+                        <h2 style="float:left;margin-top:15px">经营品种:</h2>
+                        <div class='pinzhong_div'>
+	                        <input class="pinzhong" name="businessScope" type="checkbox" value="酒水饮料">酒水饮料</input>
+	                        <input class="pinzhong" name="businessScope" type="checkbox" value="休闲零食">休闲零食</input>
+	                        <input class="pinzhong" name="businessScope" type="checkbox" value="粮油副食">粮油副食</input>
+	                        <input class="pinzhong" name="businessScope" type="checkbox" value="方便冲调">方便冲调</input>
+	                        <input class="pinzhong" name="businessScope" type="checkbox" value="日用百货">日用百货</input>
+	                        <input class="pinzhong" name="businessScope" type="checkbox" value="生鲜蔬菜">生鲜蔬菜</input>
+	                        <input class="pinzhong" name="businessScope" type="checkbox" value="冷冻食品">冷冻食品</input>
+	                        <input class="pinzhong" name="businessScope" type="checkbox" value="烟草">烟草</input>
+	                        <input class="pinzhong" name="businessScope" type="checkbox" value="其他">其他</input>
+                        </div>
+                    </div>
+                     <div class="aui-view-box-item">
+                        <h2>社区服务:</h2>
+                        <div id="trigger13">请选择</div>
+                         <input style="display:none" type="text" id="trigger13_ipt" name="communityService">
+                    </div>
+                     <!--<div class="aui-view-box-item">
+                        <h2>是否注册津小超:</h2>
+                        <div id="trigger14">请选择</div>
+                    </div>-->
+                     <div class="aui-view-box-item">
+                        <h2>是否下单:</h2>
+                        <div id="trigger15">请选择</div>
+                        <input style="display:none" type="text" id="trigger15_ipt" name="ifPlaceOrder">
+                    </div>
+                     <div class="aui-view-box-item">
+                        <h2>常用平台:</h2>
+                        <div id="trigger16">请选择</div>
+                        <input style="display:none" type="text" id="trigger16_ipt" name="commonPlatform">
+                    </div>
+                     <!--<div class="aui-view-box-item">
+                        <h2>平台订货比例:</h2>
+                        <div id="trigger17">请选择</div>
+                    </div>
+                     <div class="aui-view-box-item">
+                        <h2>手机平台:</h2>
+                        <div id="trigger18">请选择</div>
+                    </div>
+                     <div class="aui-view-box-item">
+                        <h2 >习惯独立下单:</h2>
+                        <div id="trigger19" >请选择</div>
+                    </div>
+                     <div class="aui-view-box-item">
+                        <h2>每日营业额:</h2>
+                        <div id="trigger20">请选择</div>
+                    </div>
+                     <div class="aui-view-box-item">
+                        <h2>店铺经营年限:</h2>
+                        <div id="trigger21">请选择</div>
+                    </div>
+                     <div class="aui-view-box-item">
+                        <h2>周边便利店:</h2>
+                        <div id="trigger22">请选择</div>
+                    </div>
+                     <div class="aui-view-box-item">
+                        <h2>億米潜力预估:</h2>
+                        <div id="trigger23">请选择</div>
+                    </div>-->
+                    <div class="aui-view-box-item">
+                        <h2 style="float:left;margin-top:6%">其他描述:</h2>
+                        <textarea id="memo" name="" rows="" cols="" style="width:70%;margin-left:1%;height:6rem"></textarea>
+                    </div>
+                    <div style="width:350px;height:350px;left:2%;display:none" id="allmap">
+
+                    </div>
+                    <div class="aui-btn-submit">
+                        <button type="submit" id="tip_up" style="width:45%;font-size:16px">提交建议</button>
+                    </div>
+                        <input type="hidden" name="creater" id="creater">
+                        <input type="hidden" name="lat" id="lat">
+                        <input type="hidden" name="lng" id="lng">
+                    </form>
+                </div>
+            </section>
+        </section>
+    </body>
+    <script type="text/javascript">
+        // 百度地图API功能
+        // 百度地图API功能
+        var map = new BMap.Map("allmap");
+        var point = new BMap.Point(117.21081309,39.1439299);
+        map.centerAndZoom(point,15);
+        map.enableScrollWheelZoom();
+        var geolocation = new BMap.Geolocation();
+        geolocation.getCurrentPosition(function(r){
+            console.log(r)
+            $('#lat').val(r.latitude)
+            $('#lng').val(r.longitude)
+            if(this.getStatus() == BMAP_STATUS_SUCCESS){
+                var mk = new BMap.Marker(r.point);
+                map.addOverlay(mk);
+                map.panTo(r.point);
+                var geoc = new BMap.Geocoder();
+                var pt = r.point;
+                geoc.getLocation(pt, function(rs){//解析格式：城市，区县，街道
+                    var addComp = rs.addressComponents;
+                    $('#shopAddress').val(addComp.city + ", " + addComp.district + ", " + addComp.street+","+addComp.streetNumber);
+                });
+            }
+            else {
+                alert('failed'+this.getStatus());
+            }
+        },{enableHighAccuracy: true})
+        // 获取url参数
+        function getUrlParam(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+            var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+            if (r != null) return unescape(r[2]); return null; //返回参数值
+        }
+        function check(){
+            console.log('88888888888')
+        }
+    	$(function(){
+    	    var creater=getUrlParam('creater')
+            console.log(creater)
+            $('#creater').val(creater)
+            $('#file').change(function(){
+                var formData = new FormData();
+                formData.append('imageFile', $('#file')[0].files[0]);  //添加图片信息的参数
+                $.ajax({
+                    url: "/upload/image",
+                    type: 'POST',
+                    cache: false,
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    dataType:"json",
+                    success : function(data) {
+                        console.log(data)
+                        var img = new Image();
+                        img.src = data; //base64字符串
+                        img.style="width:100%";
+                        $('#license').empty()
+                        img.onload = function () {
+                            $('#license').append(img);
+                        };
+                        $('#img_src').val(data)
+                    }
+                });
+            })
+
+    	})
+//  	店铺类型
+    	var weekdayArr=['综合超市','烟酒店','零食店','小卖部','副食店','文具店','快餐店','其他'];
+    	var mobileSelect1 = new MobileSelect({
+		    trigger: '#trigger1', 
+		    title: '店铺类型',  
+		    wheels: [
+		                {data: weekdayArr}
+		            ],
+		    position:[2], //初始化定位 打开时默认选中的哪个 如果不填默认为0
+		    transitionEnd:function(indexArr, data){
+		    },
+		    callback:function(indexArr, data){
+		        $('#trigger1_ipt').val(data)
+		    }
+		});
+//		店铺位置
+		var weekdayArr=['商业CBD底商','小区外围底商','小区内部底商','小区居民房','写字楼','工业园区','快餐店','其他'];
+    	var mobileSelect1 = new MobileSelect({
+		    trigger: '#trigger2', 
+		    title: '店铺位置',  
+		    wheels: [
+		                {data: weekdayArr}
+		            ],
+		    position:[2], //初始化定位 打开时默认选中的哪个 如果不填默认为0
+		    transitionEnd:function(indexArr, data){
+		    },
+		    callback:function(indexArr, data){
+                $('#trigger2_ipt').val(data)
+		    }
+		});
+//		店铺周边流量
+		var weekdayArr=['稀少','正常','较密集','非常密集'];
+    	var mobileSelect1 = new MobileSelect({
+		    trigger: '#trigger3', 
+		    title: '店铺周边流量',  
+		    wheels: [
+		                {data: weekdayArr}
+		            ],
+		    position:[2], //初始化定位 打开时默认选中的哪个 如果不填默认为0
+		    transitionEnd:function(indexArr, data){
+		    },
+		    callback:function(indexArr, data){
+                $('#trigger3_ipt').val(data)
+		    }
+		});
+//		店主性别
+		var weekdayArr=['男','女'];
+    	var mobileSelect1 = new MobileSelect({
+		    trigger: '#trigger4', 
+		    title: '店主性别',  
+		    wheels: [
+		                {data: weekdayArr}
+		            ],
+		    position:[2], //初始化定位 打开时默认选中的哪个 如果不填默认为0
+		    transitionEnd:function(indexArr, data){
+		    },
+		    callback:function(indexArr, data){
+                $('#trigger4_ipt').val(data)
+		    }
+		});		
+//		店主年龄
+		var weekdayArr=['20-30','30-40','40-50','50-60'];
+    	var mobileSelect1 = new MobileSelect({
+		    trigger: '#trigger5', 
+		    title: '店主年龄',  
+		    wheels: [
+		                {data: weekdayArr}
+		            ],
+		    position:[2], //初始化定位 打开时默认选中的哪个 如果不填默认为0
+		    transitionEnd:function(indexArr, data){
+		    },
+		    callback:function(indexArr, data){
+                $('#trigger5_ipt').val(data)
+		    }
+		});	
+//		店主籍贯
+//		var weekdayArr=['北京市','天津市','上海','河北','河南','山东','山西','江苏','浙江','陕西','云南','贵州','四川','广东','广西','福建','江西','湖南','湖北','辽宁','吉林','黑龙江','陕西','甘肃','宁夏','内蒙古','青海','新疆','重庆','西藏','海南','香港','澳门','台湾','安徽'];
+//  	var mobileSelect1 = new MobileSelect({
+//		    trigger: '#trigger6', 
+//		    title: '店主籍贯',  
+//		    wheels: [
+//		                {data: weekdayArr}
+//		            ],
+//		    position:[2], //初始化定位 打开时默认选中的哪个 如果不填默认为0
+//		    transitionEnd:function(indexArr, data){
+//		    },
+//		    callback:function(indexArr, data){
+//		    }
+//		});		
+//		店主性格
+//		var weekdayArr=['外向','内向'];
+//  	var mobileSelect1 = new MobileSelect({
+//		    trigger: '#trigger7', 
+//		    title: '店主性格',  
+//		    wheels: [
+//		                {data: weekdayArr}
+//		            ],
+//		    position:[2], //初始化定位 打开时默认选中的哪个 如果不填默认为0
+//		    transitionEnd:function(indexArr, data){
+//		    },
+//		    callback:function(indexArr, data){
+//		    }
+//		});	
+//		店主类型
+//		var weekdayArr=['平易近人','沟通困难'];
+//  	var mobileSelect1 = new MobileSelect({
+//		    trigger: '#trigger8', 
+//		    title: '店主类型',  
+//		    wheels: [
+//		                {data: weekdayArr}
+//		            ],
+//		    position:[2], //初始化定位 打开时默认选中的哪个 如果不填默认为0
+//		    transitionEnd:function(indexArr, data){
+//		    },
+//		    callback:function(indexArr, data){
+//		    }
+//		});	
+//		店主文化
+//		var weekdayArr=['高知','书生气','一般','粗鲁','低俗','书生气','社会人'];
+//  	var mobileSelect1 = new MobileSelect({
+//		    trigger: '#trigger9', 
+//		    title: '店主文化',  
+//		    wheels: [
+//		                {data: weekdayArr}
+//		            ],
+//		    position:[2], //初始化定位 打开时默认选中的哪个 如果不填默认为0
+//		    transitionEnd:function(indexArr, data){
+//		    },
+//		    callback:function(indexArr, data){
+//		    }
+//		});		
+//		店铺面积
+		var weekdayArr=['20平米以下','20-30','30-50','50-80','80-120','120以上'];
+    	var mobileSelect1 = new MobileSelect({
+		    trigger: '#trigger10', 
+		    title: '店铺面积',  
+		    wheels: [
+		                {data: weekdayArr}
+		            ],
+		    position:[2], //初始化定位 打开时默认选中的哪个 如果不填默认为0
+		    transitionEnd:function(indexArr, data){
+		    },
+		    callback:function(indexArr, data){
+                $('#trigger10_ipt').val(data)
+		    }
+		});	
+//		社区服务
+		var weekdayArr=['快递','代收代缴','其他'];
+    	var mobileSelect1 = new MobileSelect({
+		    trigger: '#trigger13', 
+		    title: '社区服务',  
+		    wheels: [
+		                {data: weekdayArr}
+		            ],
+		    position:[2], //初始化定位 打开时默认选中的哪个 如果不填默认为0
+		    transitionEnd:function(indexArr, data){
+		    },
+		    callback:function(indexArr, data){
+                $('#trigger13_ipt').val(data)
+		    }
+		});			
+//		是否下单
+		var weekdayArr=['活跃客户','偶尔下单','3个月未下单','从未下单'];
+    	var mobileSelect1 = new MobileSelect({
+		    trigger: '#trigger15', 
+		    title: '是否下单',  
+		    wheels: [
+		                {data: weekdayArr}
+		            ],
+		    position:[2], //初始化定位 打开时默认选中的哪个 如果不填默认为0
+		    transitionEnd:function(indexArr, data){
+		    },
+		    callback:function(indexArr, data){
+                $('#trigger15_ipt').val(data)
+		    }
+		});			
+//		常用平台
+		var weekdayArr=['京东','阿里','易酒批','中商惠民','百世店家','链商优供','快驴','菜易得','美菜网','周边二批'];
+    	var mobileSelect1 = new MobileSelect({
+		    trigger: '#trigger16', 
+		    title: '常用平台',  
+		    wheels: [
+		                {data: weekdayArr}
+		            ],
+		    position:[2], //初始化定位 打开时默认选中的哪个 如果不填默认为0
+		    transitionEnd:function(indexArr, data){
+		    },
+		    callback:function(indexArr, data){
+                $('#trigger16_ipt').val(data)
+		    }
+		});			
+//		店员数量
+//		var weekdayArr=['无','1','2','3','4','5','5个以上'];
+//  	var mobileSelect1 = new MobileSelect({
+//		    trigger: '#trigger11', 
+//		    title: '店员数量',  
+//		    wheels: [
+//		                {data: weekdayArr}
+//		            ],
+//		    position:[2], //初始化定位 打开时默认选中的哪个 如果不填默认为0
+//		    transitionEnd:function(indexArr, data){
+//		    },
+//		    callback:function(indexArr, data){
+//		    }
+//		});	
+//		营业时间
+//		var weekdayArr=['普通','24小时'];
+//  	var mobileSelect1 = new MobileSelect({
+//		    trigger: '#trigger12', 
+//		    title: '营业时间',  
+//		    wheels: [
+//		                {data: weekdayArr}
+//		            ],
+//		    position:[2], //初始化定位 打开时默认选中的哪个 如果不填默认为0
+//		    transitionEnd:function(indexArr, data){
+//		    },
+//		    callback:function(indexArr, data){
+//		    }
+//		});	
+//		经营品种
+//		var weekdayArr=['普通','24小时'];
+//  	var mobileSelect1 = new MobileSelect({
+//		    trigger: '#trigger13', 
+//		    title: '经营品种',  
+//		    wheels: [
+//		                {data: weekdayArr}
+//		            ],
+//		    position:[2], //初始化定位 打开时默认选中的哪个 如果不填默认为0
+//		    transitionEnd:function(indexArr, data){
+//		    },
+//		    callback:function(indexArr, data){
+//		    }
+//		});		
+    </script>
+</html>

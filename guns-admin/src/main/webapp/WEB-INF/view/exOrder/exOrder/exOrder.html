@@ -1,0 +1,41 @@
+@layout("/common/_container.html"){
+<div class="row">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>异常订单管理管理</h5>
+            </div>
+            <div class="ibox-content">
+                <div class="row row-lg">
+                    <div class="col-sm-12">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <#NameCon id="condition" name="名称" />
+                            </div>
+                            <div class="col-sm-3">
+                                <#button name="搜索" icon="fa-search" clickFun="ExOrder.search()"/>
+                            </div>
+                        </div>
+                        <div class="hidden-xs" id="ExOrderTableToolbar" role="group">
+                            @if(shiro.hasPermission("/exOrder/add")){
+                                <#button name="添加" icon="fa-plus" clickFun="ExOrder.openAddExOrder()"/>
+                            @}
+                            @if(shiro.hasPermission("/exOrder/update")){
+                                <#button name="修改" icon="fa-edit" clickFun="ExOrder.openExOrderDetail()" space="true"/>
+                            @}
+                            @if(shiro.hasPermission("/exOrder/delete")){
+                                <#button name="删除" icon="fa-remove" clickFun="ExOrder.delete()" space="true"/>
+                            @}
+                            @if(shiro.hasPermission("/exOrder/delete")){
+                            <#button name="excel导出" icon="fa-edit" clickFun="ExOrder.delete()" space="true"/>
+                            @}
+                        </div>
+                        <#table id="ExOrderTable"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="${ctxPath}/static/modular/exOrder/exOrder/exOrder.js"></script>
+@}

@@ -1,0 +1,158 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="stylesheet" href="/static/css/wang_formstyle.css" />
+		<link rel="stylesheet" href="/static/css/wang_sweetalert.css" />
+		<script type="text/javascript"> 
+        !function(J){function H(){var d=E.getBoundingClientRect().width;var e=(d/7.5>100*B?100*B:(d/7.5<42?42:d/7.5));E.style.fontSize=e+"px",J.rem=e}var G,F=J.document,E=F.documentElement,D=F.querySelector('meta[name="viewport"]'),B=0,A=0;if(D){var y=D.getAttribute("content").match(/initial\-scale=([\d\.]+)/);y&&(A=parseFloat(y[1]),B=parseInt(1/A))}if(!B&&!A){var u=(J.navigator.appVersion.match(/android/gi),J.navigator.appVersion.match(/iphone/gi)),t=J.devicePixelRatio;B=u?t>=3&&(!B||B>=3)?3:t>=2&&(!B||B>=2)?2:1:1,A=1/B}if(E.setAttribute("data-dpr",B),!D){if(D=F.createElement("meta"),D.setAttribute("name","viewport"),D.setAttribute("content","initial-scale="+A+", maximum-scale="+A+", minimum-scale="+A+", user-scalable=no"),E.firstElementChild){E.firstElementChild.appendChild(D)}else{var s=F.createElement("div");s.appendChild(D),F.write(s.innerHTML)}}J.addEventListener("resize",function(){clearTimeout(G),G=setTimeout(H,300)},!1),J.addEventListener("pageshow",function(b){b.persisted&&(clearTimeout(G),G=setTimeout(H,300))},!1),H()}(window);
+        if (typeof(M) == 'undefined' || !M){
+            window.M = {};
+        }
+     </script>   	
+	</head>
+	<body>
+		<div class="banner">
+			<img src="/static/picture/wang_formbanner.jpg" />
+		</div>
+		<form id="person" enctype="multipart/form-data">
+				<ul class="information">
+					<h2>基本信息</h2>
+					<li>
+						<label>姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 名：</label>
+						<input id="name" class="infor-input" placeholder="" type="text"  maxlength="100" name="name" />
+					</li>
+					<li>
+						<label>性&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 别：</label>
+						<input  type="radio" checked="checked" name="sex" value="男" />&nbsp男
+						<input style='margin-left:30px' type="radio" name="sex" value="女"/>&nbsp女
+					</li>
+					<li>
+						<label>年&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 龄：</label>
+						<input id="age" class="infor-input" placeholder="" type="number"  maxlength="100" name="age" />
+					</li>
+					<li>
+						<label>民&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 族：</label>
+						<input id='nation' class="infor-input" placeholder="" type="text"  maxlength="100" name="nation" />
+					</li>
+					<li>
+						<label>籍&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 贯：</label>
+						<input id="nativePlace" class="infor-input btn" placeholder="" type="text" maxlength="100" name="nativePlace" />
+					    <div id='result' ></div>
+					</li>
+					<li>
+						<label>学&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 历：</label>
+						<input id="education" class="infor-input" placeholder="" type="text" maxlength="100" name="education" />
+					</li>
+					<li>
+						<label>婚&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 否：</label>
+						<input id="man" type="radio" checked="checked" name="maStatus" value="已婚"/>&nbsp已婚
+						<input class="right_radio"  id="man" type="radio" name="maStatus" value="未婚"/>&nbsp未婚
+					</li>
+					<li>
+						<label>育&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 否：</label> 
+						<input id="man" type="radio" checked="checked" name="feStatus" value="已育"/>&nbsp已育
+						<input class="right_radio" id="man" type="radio" name="feStatus" value="未育" />&nbsp未育
+					</li>
+					<li>
+						<label>工作情况：</label>
+						<input id="man" type="radio" checked="checked" name="workStatus" value="在职"/>&nbsp在职
+						<input class="right_radio" id="man" type="radio"  name="workStatus" value="离职"/>&nbsp离职
+					</li>
+					<li>
+						<label>政治面貌：</label>
+						<input id="poStatus" class="infor-input" placeholder="" maxlength="50" name="poStatus" type="text" />
+					</li>
+					<li>
+						<label>应聘岗位：</label>
+						<select class="infor-input" name="position">
+							<option value="便利店店员">便利店店员</option>
+							<option value="库管">库管</option>
+							<option value="运营前端">运营前端</option>
+							<option value="司机(有c1驾照)">司机(有c1驾照)</option>
+						</select>
+					</li>
+					<li>
+						<label>薪资要求：</label>
+						<input id="pay" class="infor-input" placeholder="" maxlength="50" name="pay" type="number" />
+					</li>
+					<li>
+						<label>联系电话：</label>
+						<input id="phone" class="infor-input" placeholder="" maxlength="50" name="phone" type="number" />
+					</li>
+				</ul>
+				
+				<ul class="detail-infor">
+					<h2>详细信息</h2>
+					<li>
+						<p>工作经历:</p>
+						<textarea id="buHistory" style='resize:none;height:100px' class="infor-text" maxlength="300" name="buHistory" placeholder="简单介绍自己的真实工作经历经历"></textarea>
+					</li>
+					<li>
+						<p>自我评价:</p>
+						<textarea id="selfEvaluation" style='resize:none;height:100px' class="infor-text" maxlength="300" name="selfEvaluation" placeholder="对自己做出真实的评价"></textarea>
+					</li>
+				</ul>
+				<div class="ture">注：确保所填信息为真实信息</div>
+				<a class="submit-btn">立即报名</a>
+		</form>
+		<script src="/static/js/jquery.min.js"></script>
+		<script src="/static/js/wang_sweetalert.min.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function () {
+				var tijiaole=true
+				$('.submit-btn').click(function(){
+					let form=new FormData(document.getElementById("person"));
+					let name=$('#name').val();
+					let age=$('#age').val();
+					let nation=$('#nation').val();
+					let nativePlace=$('#nativePlace').val();
+					let education=$('#education').val();
+					let poStatus=$('#poStatus').val();
+					let pay=$('#pay').val();
+					let phone=$('#phone').val();
+					let buHistory=$('#buHistory').val();
+					let selfEvaluation=$('#selfEvaluation').val();
+					if(form==''||name==''||age==''||nation==''||nativePlace==''||education==''||poStatus==''||pay==''||phone==''||buHistory==''||selfEvaluation==''){
+						 swal({
+			                    title: "提示",
+			                    text: "请确保信息填写完整",
+			                    type: "error"
+	                      });
+                        tijiaole=true
+	                     return
+					}else if(tijiaole){
+						$.ajax({
+			                url:"/staffInfo/add",
+			                type:"post",
+			                data:form,
+			                processData:false,
+			                contentType:false,
+			                dataType: 'json',
+			                success:function(data){
+			                   console.log(data)
+			                   swal({
+					                    title: "提示",
+					                    text: "恭喜您申请成功",
+					                    type: "success"
+					                });
+                                tijiaole=false
+			                },
+			                error:function(e){
+			                	console.log(e)
+			                	swal({
+					                    title: "提示",
+					                    text: "恭喜您申请成功",
+					                    type: "success"
+					                });
+                                tijiaole=false
+			                }
+			            }); 
+					}
+				})
+			})
+		</script>
+	</body>
+</html>

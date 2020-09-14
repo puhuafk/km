@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stylefeng.guns.modular.system.dao.ExOrderMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.stylefeng.guns.modular.system.model.ExOrder">
+        <id column="id" property="id"/>
+        <result column="ec_erp_order_id" property="ecErpOrderId"/>
+        <result column="ex_type" property="exType"/>
+        <result column="step_sign" property="stepSign"/>
+        <result column="flow_id" property="flowId"/>
+        <result column="exam_dep_id" property="examDepId"/>
+        <result column="ex_state" property="exState"/>
+        <result column="operator" property="operator"/>
+        <result column="operator_id" property="operatorId"/>
+        <result column="createtime" property="createtime"/>
+        <result column="ex_reason" property="exReason"/>
+        <result column="order_sn" property="orderSn"/>
+        <result column="sale_sn" property="saleSn"/>
+        <result column="out_hou_time" property="outHouTime"/>
+        <result column="data_statue" property="dataStatue"/>
+        <result column="red_pack_amount" property="redPackAmount"/>
+        <result column="delete_order_items" property="deleteOrderItems"/>
+        <result column="exam_view" property="examView"/>
+        <result column="if_reject" property="ifReject"/>
+        <result column="refund_money" property="refundMoney"/>
+        <result column="refund_type" property="refundType"/>
+    </resultMap>
+
+
+    <resultMap id="BaseResultMap1" type="com.stylefeng.guns.modular.system.model.ExOrder">
+        <id column="exo_id" property="id"/>
+        <result column="exo_ec_erp_order_id" property="ecErpOrderId"/>
+        <result column="exo_ex_type" property="exType"/>
+        <result column="exo_step_sign" property="stepSign"/>
+        <result column="exo_flow_id" property="flowId"/>
+        <result column="exo_exam_dep_id" property="examDepId"/>
+        <result column="exo_ex_state" property="exState"/>
+        <result column="exo_operator" property="operator"/>
+        <result column="exo_operator_id" property="operatorId"/>
+        <result column="exo_createtime" property="createtime"/>
+        <result column="exo_ex_reason" property="exReason"/>
+        <result column="exo_order_sn" property="orderSn"/>
+        <result column="exo_sale_sn" property="saleSn"/>
+        <result column="exo_out_hou_time" property="outHouTime"/>
+        <result column="exo_data_statue" property="dataStatue"/>
+        <result column="exo_red_pack_amount" property="redPackAmount"/>
+        <result column="exo_delete_order_items" property="deleteOrderItems"/>
+        <result column="exo_exam_view" property="examView"/>
+        <result column="exo_if_reject" property="ifReject"/>
+        <result column="exo_refund_money" property="refundMoney"/>
+        <result column="exo_refund_type" property="refundType"/>
+        <association property="ecErpOrder" columnPrefix="ord_" javaType="com.stylefeng.guns.modular.system.model.EcErpOrder">
+            <id column="id" property="id"/>
+            <result column="ec_no" property="ecNo"/>
+            <result column="sale_no" property="saleNo"/>
+            <result column="createdate" property="createdate"/>
+            <result column="total_amount" property="totalAmount"/>
+            <result column="data_source" property="dataSource"/>
+            <result column="customer_name" property="customerName"/>
+            <result column="delivery_address" property="deliveryAddress"/>
+            <result column="out_store_per" property="outStorePer"/>
+            <result column="out_store_time" property="outStoreTime"/>
+            <result column="order_state" property="orderState"/>
+            <result column="pay_mode" property="payMode"/>
+            <result column="payer" property="payer"/>
+            <result column="payee" property="payee"/>
+            <result column="sent_per" property="sentPer"/>
+            <result column="open_bill_store" property="openBillStore"/>
+            <result column="pay_type" property="payType"/>
+            <result column="sale_date" property="saleDate"/>
+            <result column="lib" property="lib"/>
+            <result column="total_qnty" property="totalQnty"/>
+            <result column="discount_amount" property="discountAmount"/>
+            <result column="actual_amount" property="actualAmount"/>
+            <result column="if_check" property="ifCheck"/>
+            <result column="if_out_store" property="ifOutStore"/>
+            <result column="ex_order_sign" property="exOrderSign"/>
+            <result column="red_pack_amount" property="redPackAmount"/>
+            <result column="if_close" property="ifClose"/>
+            <result column="t_price" property="tPrice"/>
+            <result column="d_price" property="dPrice"/>
+            <result column="t_no" property="tNo"/>
+            <result column="t_man" property="tMan"/>
+            <result column="p_method" property="pMethod"/>
+            <result column="d_library" property="dLibrary"/>
+            <result column="order_state" property="orderState"/>
+            <result column="stock_status" property="stockStatus"/>
+            <result column="verify_status" property="verifyStatus"/>
+            <result column="discount_p" property="discountP"/>
+            <result column="check_time" property="checkTime"/>
+            <result column="return_goods_flag" property="returnGoodsFlag"/>
+            <result column="check_money" property="checkMoney"/>
+            <result column="ex_order_sign" property="exOrderSign"/>
+            <result column="enter_system_time" property="enterSystemTime"/>
+            <result column="check_node" property="checkNode"/>
+            <result column="refund_money" property="refundMoney"/>
+            <result column="return_red_type" property="returnRedType"/>
+            <result column="return_red_money" property="returnRedMoney"/>
+            <result column="return_single_type" property="returnSingleType"/>
+            <result column="ex_money" property="exMoney"/>
+            <result column="return_single_money" property="returnRedType"/>
+        </association>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,
+        ec_erp_order_id,
+        ex_type,
+        step_sign,
+        flow_id,
+        exam_dep_id,
+        ex_state,
+        operator,
+        operator_id,
+        createtime,
+        ex_reason,
+        order_sn,
+        sale_sn,
+        out_hou_time,
+        data_statue,
+        out_hou_per,
+        red_pack_amount,
+        delete_order_items,
+        exam_view,
+        if_reject,
+        refund_money,
+        refund_type
+    </sql>
+
+
+    <sql id="Base_Column_List1">
+        ex.id  exo_id,
+        ex.ec_erp_order_id  exo_ec_erp_order_id,
+        ex.ex_type  exo_ex_type,
+        ex.step_sign  exo_step_sign,
+        ex.flow_id  exo_flow_id ,
+        ex.exam_dep_id  exo_exam_dep_id,
+        ex.ex_state  exo_ex_state,
+        ex.operator  exo_operator,
+        ex.operator_id  exo_operator_id,
+        ex.createtime  exo_createtime,
+        ex.ex_reason  exo_ex_reason,
+        ex.order_sn  exo_order_sn,
+        ex.sale_sn  exo_sale_sn,
+        ex.out_hou_time  exo_out_hou_time,
+        ex.data_statue  exo_data_statue,
+        ex.out_hou_per  exo_out_hou_per,
+        ex.red_pack_amount  exo_red_pack_amount,
+        ex.delete_order_items  exo_delete_order_items,
+        ex.exam_view  exo_exam_view,
+        ex.if_reject  exo_if_reject,
+        ex.refund_money  exo_refund_money,
+        ex.refund_type  exo_refund_type
+    </sql>
+
+    <!--退单品导出-->
+    <select id="exportDeExOrderList"   resultType="java.util.Map" parameterType="java.util.Map" >
+
+        SELECT
+        ex_order.createtime,
+        ec_erp_order.createdate,
+        ec_erp_order.customer_name,
+        order_item.sn,
+        order_item.product_name,
+        order_item.model,
+        order_item.amount,
+        CONCAT( "1", order_item.unit, "=", order_item.unit_e, "件" ) AS unit_info,
+        order_item.return_num,
+        order_item.no_valency,
+        ex_order.refund_money
+        FROM
+        ex_order,
+        order_item,
+        ec_erp_order
+        WHERE
+        ex_order.ec_erp_order_id = ec_erp_order.id
+        AND order_item.ec_erp_order_id = ec_erp_order.id
+        AND ex_order.ex_type = 2
+        AND ex_order.exam_dep_id = 0
+        AND order_item.return_num IS NOT NULL
+        AND #{startTime} &lt;=  ex_order.createtime
+        AND #{endTime}  &gt;=  ex_order.createtime
+        <if test="content != null and content != ''">
+            AND customer_name like concat('%',#{content},'%')
+        </if>
+        ORDER BY ex_order.createtime  asc
+    </select>
+
+    <!--退整单异常导出-->
+    <select id="exportAllExOrderList" resultType="java.util.Map" >
+
+        SELECT
+            ex_order.createtime,
+            order_item.sn,
+            order_item.product_name,
+            order_item.model,
+            order_item.amount,
+            CONCAT( "1", order_item.unit, "=", order_item.unit_e, "件" ) AS unit_info,
+            order_item.return_num,
+            order_item.no_valency,
+            ex_order.refund_money,
+            ex_order.ex_state,
+            ex_order.delete_order_items
+        FROM
+            ex_order,
+            order_item
+        WHERE
+            ( ex_order.ex_type = 3 OR ex_order.ex_type = 4 )
+            AND ex_order.ex_state = 0
+            AND ex_order.exam_dep_id = 0
+            AND ex_order.ec_erp_order_id = order_item.ec_erp_order_id
+            AND #{startTime} &lt;=  ex_order.createtime
+            AND #{endTime}  &gt;=  ex_order.createtime
+
+    </select>
+
+
+    <!--退单品、退货、拒收三种异常导出-->
+    <!--<select id="exportAllExOrderList" resultType="java.util.Map">-->
+                <!--SELECT-->
+            <!--ex_order.createtime,-->
+            <!--order_item.sn,-->
+            <!--order_item.product_name,-->
+            <!--order_item.model,-->
+            <!--order_item.amount,-->
+            <!--CONCAT( "1", order_item.unit, "=", order_item.unit_e, "件" ) AS unit_info,-->
+            <!--order_item.return_num,-->
+            <!--order_item.no_valency,-->
+            <!--ex_order.refund_money,-->
+            <!--ex_order.ex_state,-->
+            <!--ex_order.delete_order_items-->
+        <!--FROM-->
+            <!--ex_order,-->
+            <!--order_item,-->
+            <!--ex_order_item-->
+        <!--WHERE-->
+            <!--ex_order.id = ex_order_item.ex_order_id-->
+            <!--AND order_item.id = ex_order_item.order_item_id-->
+            <!--AND ex_order.ex_type = 2-->
+            <!--AND ex_order.exam_dep_id = 0 UNION-->
+        <!--SELECT-->
+            <!--ex_order.createtime,-->
+            <!--order_item.sn,-->
+            <!--order_item.product_name,-->
+            <!--order_item.model,-->
+            <!--order_item.amount,-->
+            <!--CONCAT( "1", order_item.unit, "=", order_item.unit_e, "件" ) AS unit_info,-->
+            <!--order_item.return_num,-->
+            <!--order_item.no_valency,-->
+            <!--ex_order.refund_money,-->
+            <!--ex_order.ex_state,-->
+            <!--ex_order.delete_order_items-->
+        <!--FROM-->
+            <!--ex_order,-->
+            <!--order_item-->
+        <!--WHERE-->
+            <!--( ex_order.ex_type = 3 OR ex_order.ex_type = 4 )-->
+            <!--AND ex_order.ex_state = 0-->
+            <!--AND ex_order.exam_dep_id = 0-->
+            <!--AND ex_order.ec_erp_order_id = order_item.ec_erp_order_id-->
+            <!--AND #{startTime} &lt;=  ex_order.createtime-->
+            <!--AND #{endTime}  &gt;=  ex_order.createtime-->
+
+    <!--</select>-->
+
+</mapper>

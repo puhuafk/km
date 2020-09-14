@@ -1,0 +1,1795 @@
+@layout("/common/_container.html"){
+<div class="wrapper wrapper-content animated fadeInRight">
+    <!-- Panel Other -->
+    <div class="ibox float-e-margins">
+        <div class="ibox-content">
+            <div class="row row-lg">
+                <!--财务-->
+                <div class="col-sm-12 active" id="financek">
+                    <div onclick="allAll_order(this)"  class="btn btn-primary  chcolor"><span class="types">查询所有(包含未出库/已关闭)</span><span id="allAllNumber"> </span></div>
+                    <!--<div onclick="not_out_store(this)"  class="btn btn-primary  chcolor"><span class="types">未出库订单</span><span id="notOutStore"> </span></div>-->
+                    <div onclick="all_order(this)"  class="btn btn-primary  chcolor"><span class="types">全部订单</span><span id="allNumber"> </span></div>
+                    <div onclick="init_exam_order(this)" class="btn btn-primary chcolor"><span class="types">审核中</span><span id="initExamNumber"> </span>
+                    </div>
+                    <div onclick="not_exam_order(this)" class="btn btn-primary btn-success chcolor"><span class="types">待审核</span><span id="notExamNumber"> </span>
+                    </div>
+                    <!--<div onclick="not_exam_order(this)" class="btn btn-primary chcolor"><span class="types">已驳回</span><span id="notExamNumber"> </span>-->
+                    <!--</div>-->
+                    <div onclick="exam_order(this)" class="btn btn-primary chcolor"><span class="types">已审核</span><span
+                            id="examNumber"> </span></div>
+                    <div onclick="not_check_order(this)" class="btn btn-primary chcolor"><span class="types">待核销</span><span id="notCheckNumber"> </span>
+                    </div>
+                    <div onclick="check_order(this)" class="btn btn-primary chcolor" id="overcancel"><span class="types">已核销</span><span
+                            id="checkNumber"> </span></div>
+                </div>
+                <div class="col-sm-12">
+                    <div style="padding:10px;margin-top:5px;padding-left:25%;padding-top:15px;background-color:#ececef;border-radius:5px;display:none" id="allordersearch">
+                        <div class='tongji_title' style="padding-inline-start:0px">统计日期：</div>
+                        <input placeholder="开始日期" class="form-control layer-date" id="startTime" style="float:left;" autocomplete="off">
+                        <input placeholder="结束日期" class="form-control layer-date" id="endTime" style="float:left;margin-left:5px;" autocomplete="off">
+                        <input placeholder="客户名称" class="form-control layer-date" id="content" style="float:left;margin-left:5px;" >
+                        <div class="btn btn-primary" style="float:left;margin-left:15px" id="queryButton" onclick="daichuku()">查 询</div>
+                        <div class="btn btn-primary" style="float:left;margin-left:15px" id="cancel_time" onclick="canceltime()">根据核销日期查询</div>
+                        <div class="btn btn-primary" style="float:left;margin-left:15px;display:none" id="out_exc">导 出</div>
+                        <div class="btn btn-primary" style="float:left;margin-left:15px;display:none" id="out_ysh">导 出</div>
+                        <div class="btn btn-primary" style="float:left;margin-left:15px;display:none" id="allout_exc">导 出</div>
+                        <div class="btn btn-primary" style="float:left;margin-left:15px;" id="tuihuo_exc">退 单 品 导 出</div>
+                        <div class="btn btn-primary" style="float:left;margin-left:15px;" id="yichang_exc">退 货 导 出</div>
+
+                        <div style="clear: both"></div>
+                    </div>
+                    <!-- Example Pagination -->
+                    <div id="batch2" class="btn btn-primary" style="display:none;float:left;margin-top:10px;margin-left:0px;margin-right:10px;background-color:#CC6699;border:1px solid #CC6699" onclick="bacth_shenhe()">批量审核</div>
+                    <div class="example-wrap">
+                        <div class="example">
+                            <table id="table" data-query-params="queryParams" data-mobile-responsive="true"
+                                   data-pagination="true" data-icon-size="outline" data-search="true">
+                            </table>
+                        </div>
+                    </div>
+                    <!-- End Example Pagination -->
+                </div>
+                <!--审核订单窗口-->
+                <div class="modal inmodal" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog" style="margin-top:20%;">
+                        <div class="modal-content animated fadeIn">
+                            <div class="modal-header" style="padding:15px 15px">
+                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+                                        class="sr-only">Close</span></button>
+                                <h4 class="modal-title">审核订单</h4>
+                            </div>
+                            <div class="modal-body" style="padding:15px">
+                                <p style="font-size: 18px;text-align:center;height:25px;line-height:30px;margin-bottom:0px">是否审核此订单？</p>
+                                <br>
+                                <div class="radio i-checks" style="font-size:15px">
+                                    <label style="margin-left:20%">
+                                        <input type="radio" value="1" name="isornot" checked="checked"> <i></i>同意审核</label>
+                                    <label style="margin-left:16%">
+                                        <input type="radio" value="2" name="isornot"> <i></i>不同意审核</label>
+                                </div>
+                                <br>
+                                <span style="font-size:15px;margin-right:10px;margin-left:20%">审核意见:</span><input id="opinion" type="text" class="form-control" style="width:50%;display:inline-block">
+                                <div id="tiptops" style="display:none;color:red;margin-top:10px;padding-left:40%;font-size:14px">不同意审核必须填写审核意见</div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
+                                <button type="button" class="btn btn-primary" id="confirm_exam">确认审核</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--核销订单窗口-->
+                <div class="modal inmodal" id="myModa2" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog" style="margin-top:20%;width:500px">
+                        <div class="modal-content animated fadeIn">
+                            <div class="modal-header" style="padding:15px 15px">
+                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+                                        class="sr-only">Close</span></button>
+                                <h4 class="modal-title">核销订单</h4>
+                            </div>
+                            <div class="modal-body" style="padding:15px;padding-left:50px;">
+                                <div id="pay_style"><span>结算方式：</span>
+                                    <div class="pay_type" style="display:inline">
+                                        <select name="" id="firsttype"
+                                                style="border:1px solid #e5e6e7;height:34px;text-align:center">
+                                            <option value="现金">现金</option>
+                                            <option value="支付宝">支付宝</option>
+                                            <option value="公司微信">公司微信</option>
+                                            <option value="审核退货金额">审核退货金额</option>
+                                            <option value="张新微信">张新微信</option>
+                                            <option value="小程序">小程序</option>
+                                            <option value="合并支付">合并支付</option>
+                                            <option value="余额支付">余额支付</option>
+                                            <option value="不收钱">不收钱</option>
+                                        </select>
+                                        <input style="display:inline-block;width:50%" type="number"
+                                               class="fow_col form-control" id="firstvalue"/>
+                                        <button class="btn btn-primary" onclick="addpay()">添加</button>
+                                    </div>
+                                </div>
+                                <div id="pay_amount_tip"
+                                     style='margin:8px;color:#ed5565;text-align:center;visibility:hidden;'>请输入结算金额
+                                </div>
+                                <div><span>&nbsp&nbsp&nbsp&nbsp交款人：</span><input id="payer"
+                                                                                 style="display:inline-block;width:70%"
+                                                                                 type="text"
+                                                                                 class="fow_col form-control layer-date"/></div>
+                                <div id="payey_tip"
+                                     style='margin:5px;color:#ed5565;text-align:center;visibility:hidden;'>请输入交款人
+                                </div>
+                                <div><span>&nbsp&nbsp&nbsp&nbsp收款人：</span><input id="payee"
+                                                                                 style="display:inline-block;width:70%"
+                                                                                 type="text"
+                                                                                 class="fow_col form-control layer-date"/></div>
+                                <div id="payee_tip"
+                                     style='margin:5px;color:#ed5565;text-align:center;margin-bottom: 0px;visibility:hidden;'>
+                                    请输入收款人
+                                </div>
+                                <div><span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp备注：</span><input id="checknode"
+                                                                                 style="display:inline-block;width:70%"
+                                                                                 type="text"
+                                                                                 class="fow_col form-control layer-date"/></div>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
+                                <button type="button" class="btn btn-primary" id="sure_cancel">确认核销</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <!--删除商品窗口-->
+                <div class="modal inmodal" id="myModa3" tabindex="-1" role="dialog" aria-hidden="true" style="top:-250px">
+                    <div class="modal-dialog" style="margin-top:20%;width:580px">
+                        <div class="modal-content animated fadeIn">
+                            <div class="modal-header" style="padding:15px 15px">
+                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+                                        class="sr-only">Close</span></button>
+                                <h4 class="modal-title">删除商品</h4>
+                            </div>
+                            <div class="modal-body" style="padding:15px;padding-left:50px;">
+                                <table id="table2" data-height="150" style="margin-bottom:10px"></table>
+                                <div style="padding-top:10px">
+                                    <span >退款方式：</span>
+                                    <select name="" id="tuikuanstyle" style="border:1px solid #e5e6e7;height:34px;text-align:center">
+                                        <option value="现金">现金</option>
+                                        <option value="支付宝">支付宝</option>
+                                        <option value="微信">微信</option>
+                                        <option value="银行转账">银行转账</option>
+                                        <option value="张新微信">张新微信</option>
+                                    </select>
+                                <div style="margin-top:10px;margin-bottom:10px"><div style="float: left;line-height:35px">退货金额：</div>
+                                    <input id="tuidanAmount" style="display:inline-block;width:70%" type="number" class="form-control layer-date"/>
+                                 </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
+                                <button type="button" id="delshang" class="btn btn-primary">确认删除</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--红包减款窗口-->
+                <div class="modal inmodal" id="myModa4" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog" style="margin-top:20%;width:500px">
+                        <div class="modal-content animated fadeIn">
+                            <div class="modal-header" style="padding:15px 15px">
+                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+                                        class="sr-only">Close</span></button>
+                                <h4 class="modal-title">红包减款</h4>
+                            </div>
+                            <div class="modal-body" style="padding:15px;padding-left:50px;">
+                                <span style="margin-left:22px">减款方式：</span>
+                                    <select name="" id="redstyle" style="border:1px solid #e5e6e7;height:34px;text-align:center">
+                                        <option value="现金">现金</option>
+                                        <option value="支付宝">支付宝</option>
+                                        <option value="微信">微信</option>
+                                        <option value="银行转账">银行转账</option>
+                                        <option value="张新微信">张新微信</option>
+                                    </select>
+                                <div style="margin-top:10px"><div style="float: left;line-height:35px">红包减款金额：</div><input id="redPackAmount"
+                                                                style="display:inline-block;width:70%" type="number"
+                                                                class="form-control layer-date"/></div>
+                                <div id="redpacket_tip"
+                                     style='margin-top:8px;color:#ed5565;text-align:center;visibility:hidden;'>
+                                    请输入红包减款金额
+                                </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
+                                <button id="redpacket_true" type="button" class="btn btn-primary">发起红包减款</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--申请退单窗口-->
+                <div class="modal inmodal" id="myModa5" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog" style="margin-top:20%;">
+                        <div class="modal-content animated fadeIn">
+                            <div class="modal-header" style="padding:15px 15px">
+                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+                                        class="sr-only">Close</span></button>
+                                <h4 class="modal-title">申请退单</h4>
+                            </div>
+                            <div class="modal-body" style="padding:15px;font-size:16px">
+                                <input type="radio" value="3" name="tuidan" style='margin-left:150px'/> 商家拒收
+                                <input type="radio" value="4" name="tuidan" style='margin-left:50px'/> 商家申请退单
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
+                                <button type="button" class="btn btn-primary" id="chargeback_true">确认发起</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--查看订单窗口-->
+               <div class="modal inmodal" id="myModa6" tabindex="-1" role="dialog"  aria-hidden="true" style="top:-350px;">
+                            <div class="modal-dialog" style="margin-top:20%;">
+                                <div class="modal-content animated fadeIn">
+                                    <div class="modal-header" style="padding:15px 15px">
+                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                        <h4 class="modal-title" >订单操作历史</h4>
+                                    </div>
+                                    <div class="modal-body" style="padding:15px">
+                                        <h2 style="text-align:center;font-weight:bold;color:#1c84c6" id="abnormal_type"></h2>
+                                        <div id="vertical-timeline" class="vertical-container light-timeline">
+
+                                            <div class="vertical-timeline-block">
+                                                <div class="vertical-timeline-icon blue-bg">
+                                                    <i class="fa fa-file-text"></i>
+                                                </div>
+                                                <div class="vertical-timeline-content">
+                                                    <h2>给张三发送文档</h2>
+                                                    <p>发送上年度《销售业绩报告》</p>
+                                                    <span class="vertical-date">
+                                                        今天 <br>
+                                                        <small>2月3日</small>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
+                                        <!--<button type="button" class="btn btn-primary" id="checkit_true">确认</button>-->
+                                    </div>
+                                </div>
+                            </div>
+                 </div>
+                <!--撤销订单窗口-->
+                <div class="modal inmodal" id="myModa7" tabindex="-1" role="dialog"  aria-hidden="true">
+                    <div class="modal-dialog" style="margin-top:20%;">
+                        <div class="modal-content animated fadeIn">
+                            <div class="modal-header" style="padding:15px 15px">
+                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+                                        class="sr-only">Close</span></button>
+                                <h4 class="modal-title">撤销订单</h4>
+                            </div>
+                            <div class="modal-body" style="padding:15px">
+                                <p style="font-size: 18px;text-align:center;height:25px;line-height:30px;margin-bottom:0px">是否撤销此订单？</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
+                                <button type="button" class="btn btn-primary" id="initiate_sure">确认撤销</button>
+                            </div>
+                        </div>
+                    </div>
+                 </div>
+                <!--重新发起异常-->
+                <div class="modal inmodal" id="myModa8" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog" style="margin-top:20%;">
+                        <div class="modal-content animated fadeIn">
+                            <div class="modal-header" style="padding:15px 15px">
+                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+                                        class="sr-only">Close</span></button>
+                                <h4 class="modal-title">重新发起</h4>
+                            </div>
+                            <div class="modal-body" style="padding:15px">
+                                <span style="font-size:15px;margin-right:10px;margin-left:15%">重新发起异常理由:</span><input id="opinion2" type="text" class="form-control" style="width:50%;display:inline-block">
+                                <div id="tiptops2" style="display:none;color:red;margin-top:10px;padding-left:40%;font-size:14px">请输入重新发起此异常的理由</div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
+                                <button type="button" class="btn btn-primary" id="again_offer">确认发起</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!--取消核销窗口-->
+                    <div class="modal inmodal" id="myModa9" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog" style="margin-top:20%;">
+                            <div class="modal-content animated fadeIn">
+                                <div class="modal-header" style="padding:15px 15px">
+                                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+                                            class="sr-only">Close</span></button>
+                                    <h4 class="modal-title">取消核销订单</h4>
+                                </div>
+                                <div class="modal-body" style="padding:15px">
+                                    <p style="font-size: 18px;text-align:center;height:25px;line-height:30px;margin-bottom:0px">取消核销后,此订单将重新进入待核销状态？</p>
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
+                                    <button type="button" class="btn btn-primary" id="sure_offcancel">确认取消</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <!--关闭订单-->
+                    <div class="modal inmodal" id="myModa10" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog" style="margin-top:20%;">
+                            <div class="modal-content animated fadeIn">
+                                <div class="modal-header" style="padding:15px 15px">
+                                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+                                            class="sr-only">Close</span></button>
+                                    <h4 class="modal-title">关闭订单</h4>
+                                </div>
+                                <div class="modal-body form-group" >
+                                        <label for="lastname" class="col-sm-2 control-label" style="padding:7px 15px">原因</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" id="sure_close_order_reason" class="form-control" id="lastname" placeholder="请输入关闭原因">
+                                            <div id="sure_close_order_reason_tip"
+                                                 style='margin-top:8px;color:#ed5565;text-align:center;visibility:hidden;'>
+                                                请输入关闭原因
+                                            </div>
+                                        </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-white" data-dismiss="modal">取消</button>
+                                    <button type="button" class="btn btn-primary" id="sure_close_order">确认关闭</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+            </div>
+        </div>
+    </div>
+    <!-- End Panel Other -->
+</div>
+<script src="${ctxPath}/static/js/plugins/layer/laydate/laydate.js"></script>
+<script>
+
+    // 已核销导出
+    $('#out_exc').click(function(){
+        if($('#startTime').val()==''||$('#endTime').val()==''){
+            swal({
+                title: "提示",
+                text: "请选择统计日期",
+                // type: "error"
+            });
+        }else{
+            var startTime= $("#startTime").val();
+            var endTime=$("#endTime").val();
+            var content=$('#content').val()
+            if(content!=''){
+                var url="/cancelOrder/caiwu/yhxExport?startTime="+startTime+"&&endTime="+endTime+"&&content="+content
+            }else{
+                var url="/cancelOrder/caiwu/yhxExport?startTime="+startTime+"&&endTime="+endTime
+            }
+            window.open(url)
+        }
+    })
+
+
+    // 已审核导出
+    $('#out_ysh').click(function(){
+        if($('#startTime').val()==''||$('#endTime').val()==''){
+            swal({
+                title: "提示",
+                text: "请选择统计日期",
+                // type: "error"
+            });
+        }else{
+            var startTime= $("#startTime").val();
+            var endTime=$("#endTime").val();
+            var content=$('#content').val()
+            if(content!=''){
+                var url="/cancelOrder/yshExport?startTime="+startTime+"&&endTime="+endTime+"&&content="+content
+            }else{
+                var url="/cancelOrder/yshExport?startTime="+startTime+"&&endTime="+endTime
+            }
+            window.open(url)
+        }
+    })
+    // 全部订单导出
+    $('#allout_exc').click(function(){
+        if($('#startTime').val()==''||$('#endTime').val()==''){
+            swal({
+                title: "提示",
+                text: "请选择统计日期",
+                // type: "error"
+            });
+        }else{
+            var startTime= $("#startTime").val();
+            var endTime=$("#endTime").val();
+            var content=$('#content').val()
+            if(content!=''){
+                var url="/cancelOrder/caiwu/allExport?startTime="+startTime+"&&endTime="+endTime+"&&content="+content+"&&tFlag="+tFlag
+            }else{
+                var url="/cancelOrder/caiwu/allExport?startTime="+startTime+"&&endTime="+endTime+"&&tFlag="+tFlag
+            }
+            window.open(url)
+        }
+    })
+
+
+
+
+    //退单品导出
+    $(function(){
+        $("#tuihuo_exc").click(function () {
+
+                if($('#startTime').val()==''||$('#endTime').val()==''){
+                    swal({
+                        title: "提示",
+                        text: "请选择统计日期",
+                        // type: "error"
+                    });
+                }else{
+                    var startTime= $("#startTime").val();
+                    var endTime=$("#endTime").val();
+                    var content=$('#content').val()
+
+
+                    var d1 = new Date(startTime.replace(/\-/g, "\/"));
+                    var d2 = new Date(endTime.replace(/\-/g, "\/"));
+
+                    if(d1 > d2)
+                    {
+                        swal({
+                            title: "提示",
+                            text: "开始时间不能大于结束时间",
+                            // type: "error"
+                        });
+                        return false;
+                    }
+
+                    if (content!=''){
+                        var url="/exOrder/exportDeExOrderList?startTime="+startTime+"&endTime="+endTime+"&content="+content
+                    }else {
+                        var url="/exOrder/exportDeExOrderList?startTime="+startTime+"&endTime="+endTime
+                    }
+
+                    window.open(url)
+                    }
+
+                })
+
+
+
+        })
+
+
+
+
+    //退货导出
+    $(function(){
+        $("#yichang_exc").click(function () {
+
+            if($('#startTime').val()==''||$('#endTime').val()==''){
+                swal({
+                    title: "提示",
+                    text: "请选择统计日期",
+                    // type: "error"
+                });
+            }else{
+                var startTime= $("#startTime").val();
+                var endTime=$("#endTime").val();
+                var content=$('#content').val()
+
+
+                var d1 = new Date(startTime.replace(/\-/g, "\/"));
+                var d2 = new Date(endTime.replace(/\-/g, "\/"));
+
+                if(d1 > d2)
+                {
+                    swal({
+                        title: "提示",
+                        text: "开始时间不能大于结束时间",
+                        // type: "error"
+                    });
+                    return false;
+                }
+
+                var url="/exOrder/exportAllExOrderList?startTime="+startTime+"&endTime="+endTime+"&content="+content
+                window.open(url)
+            }
+
+        })
+
+
+
+    })
+
+
+    $(function () {
+        refreshOrderNum();
+    })
+    function  refreshOrderNum() {
+        // 获取各个订单的数量
+        $.ajax({
+            type: "get",
+            dataType: "json",
+            url: "/cancelOrder/caiwu/orderNumber",
+            success: function (data) {
+                $('#allAllNumber').html('(' + data.allAllNumber + ')')
+                $('#allNumber').html('(' + data.allNumber + ')')
+                $('#notExamNumber').html('(' + data.notExamNumber + ')')
+                $('#examNumber').html('(' + data.examNumber + ')')
+                $('#notCheckNumber').html('(' + data.notCheckNumber + ')')
+                $('#checkNumber').html('(' + data.checkNumber + ')')
+                $('#initExamNumber').html('(' + data.initExamNumber + ')')
+            },
+            error: function (e) {
+                console.log(e)
+            }
+        });
+    }
+    // 删除商品
+    var idlist = []
+    var idlist2 =[]
+    var idlist3 =[]
+    var iddel
+    function del(e) {
+        iddel = e
+        console.log(iddel)
+        $('#table2').bootstrapTable('refresh');
+        $('#table2').bootstrapTable({
+            ajax: function (request) {
+                $.ajax({
+                    type: "get",
+                    dataType: "json",
+                    url: "/cancelOrder/detail/deleteList/" + iddel,
+                    success: function (data) {
+                        idlist=[]
+                        idlist3=[]
+                        idlist2=data.orderItemList    //w订单项
+                        console.log(idlist2)
+                        for(var i=0;i<idlist2.length;i++){
+                            // if(idlist2[i].returnNum==''){
+                            //     idlist2[i].amount=idlist2[i].unitE
+                            // }else{
+                            //     idlist2[i].amount=idlist2[i].unitE-idlist2[i].returnNum
+                            // }
+                            idlist2[i].amount=idlist2[i].unitE      //w换算数量
+                        }
+                        for(var i=0;i<idlist2.length;i++){
+                            idlist3.push(idlist2[i].amount)   //w  push() 方法可向数组的末尾添加一个或多个元素，并返回新的长度。
+                        }
+                        request.success({
+                            row: data.orderItemList
+                        });
+
+                        $('#table2').bootstrapTable('load', idlist2);
+                        refreshOrderNum();
+                    },
+                    error: function (e) {
+                        swal({
+                            title: "提示",
+                            text: "请求服务器出错",
+                            type: "error"
+                        });
+                    }
+
+                });
+            },
+            cache: false, // 设置为 false 禁用 AJAX 数据缓存， 默认为true
+            striped: true,  //表格显示条纹，默认为false
+            toggle: "table",
+            height: 530, //表格高度
+            columns: [{
+                field: 'state',
+                align: 'center',
+                checkbox: true,
+
+            }, {
+                field: 'productName',
+                align: 'center',
+                title: '商品名称'
+            }, {
+                field: 'salesPrice',
+                align: 'center',
+                title: '销售价',
+                width:'15%'
+            },{
+                field: 'model',
+                align: 'center',
+                title: '规格',
+                width:'20%'
+            },{
+                field: 'caozuo',
+                title: "数量",
+                align: 'center',
+                valign: 'middle',
+                formatter: function (value, row, index) {
+                    var str = '';
+                        str +='<div class="addcancel" style="float:left;line-height:17px" onclick="cancel(\'' + index+ '\',\''+row.id+ '\')">-</div>'
+                        // str +='<div class='+"can"+row.id+' style="display:inline-block;margin:0 6px;line-height:22px")">'+row.unitE/row.amount+'</div>'
+                        str +='<input class='+"can"+row.id+' onchange="change(\'' + index+ '\',\''+row.id+ '\')" value='+row.unitE+' style="text-align:center;float:left;height:20px;width:40px;display:inline-block;margin:0 6px;line-height:22px")">'
+                        str +='<div class="addcancel" style="float:left" onclick="add(\'' +index+ '\',\'' +row.id+ '\')">+</div>'
+                    return str
+                }
+            }],
+            onCheckAll: function (rows) {
+                idlist = []
+                for (var i = 0; i < rows.length; i++) {
+                    var message={};
+                    message.id=rows[i].id
+                    message.num=rows[i].amount
+                    message.productName=rows[i].productName
+                    idlist.push(message)
+                }
+            },
+            onUncheckAll:function(rows){
+                idlist=[]
+            },
+            //点击每一个单选框时触发的操作
+            onCheck: function (row) {
+                if(idlist.length>0){
+                    for(var i=0;i<idlist.length;i++){
+                        if(row.id==idlist[i].id){
+                            return
+                        }else{
+                            var message={};
+                            message.id=row.id
+                            message.num=row.amount
+                            message.productName=row.productName
+                            idlist.push(message)
+                            break
+                        }
+                    }
+                }else{
+                    var message={};
+                    message.id=row.id
+                    message.num=row.amount
+                    message.productName=row.productName
+                    idlist.push(message)
+                }
+            },
+            //取消每一个单选框时对应的操作；
+            onUncheck: function (row) {
+                for(var i=0;i<idlist.length;i++){
+                    if(row.id===idlist[i].id){
+                        idlist.splice(i,1)
+                        break
+                    }
+                }
+            },
+
+        });
+    }
+    // 更改每一项数据时操作
+    function  change(e,s){
+        console.log(idlist3[e])
+        console.log($(".can"+s).val())
+        if($(".can"+s).val()<=idlist3[e]&&$(".can"+s).val()>0){
+            console.log('111')
+            idlist2[e].amount=$(".can"+s).val()
+        }else{
+            $(".can"+s).val(idlist3[e])
+            idlist2[e].amount=idlist3[e]
+        }
+    }
+     // 数量加1
+    function add(e,s){
+        console.log(idlist3[e])
+        if(idlist2[e].amount<idlist3[e]){
+            idlist2[e].amount=Number(idlist2[e].amount)+1
+            // $('#table2').bootstrapTable('load', idlist2);
+            $(".can"+s).val(idlist2[e].amount)
+        }else{
+            return
+            // swal({
+            //     title: "提示",
+            //     text: "此商品最多可退"+idlist3[e]+"个",
+            //     type: "error"
+            // });
+        }
+    }
+    // 数量减少1
+    function cancel(e,s){
+        console.log(idlist2[e])
+        if(idlist2[e].amount>1){
+            idlist2[e].amount=Number(idlist2[e].amount)-1
+            // $('#table2').bootstrapTable('load', idlist2);
+            $(".can"+s).val(idlist2[e].amount)
+        }else{
+            return
+            // swal({
+            //     title: "提示",
+            //     text: "此商品最少退1个",
+            //     type: "error"
+            // });
+        }
+    }
+    // 确认提交删除商品
+    $('#delshang').click(function () {
+        if(idlist.length>0){
+            for(var i=0;i<idlist.length;i++){
+                for(var j=0;j<idlist2.length;j++){
+                    if(idlist[i].id===idlist2[j].id){
+                        idlist[i].num=idlist2[j].amount
+                    }
+                }
+            }
+            console.log(idlist)
+            var json_data = {
+                ecErpOrderId: iddel,
+                exType: 2,
+                orderItemListJson: JSON.stringify(idlist),
+                refundMoney:$('#tuidanAmount').val(),
+                refundType:$('#tuikuanstyle').val()
+            };
+            $.ajax({
+                type: "post",
+                dataType: "json",
+                traditional: true,
+                url: "/exOrderExam/initExOrder",
+                data : json_data,
+                success: function (data) {
+                    refresh()
+                },
+                error: function (e) {
+                    swal({
+                        title: "提示",
+                        text: "请求服务器出错",
+                        type: "error"
+                    });
+                }
+
+            });
+        }else{
+            swal({
+                title: "提示",
+                text: "请选择商品",
+                type: "error"
+            });
+        }
+
+    })
+
+    //增加付款方式
+    function addpay() {
+        var x = '<div class="pay_type pay_type2" ><select name="" id="" style="border:1px solid #e5e6e7;height:34px;text-align:center;margin-left:70px;margin-top:10px">'
+        x += ' <option value="现金">现金</option>'
+        x += ' <option value="支付宝">支付宝</option>'
+        x += ' <option value="公司微信">公司微信</option>'
+        x += ' <option value="审核退货金额">审核退货金额</option>'
+        x += ' <option value="张新微信">张新微信</option>'
+        x += ' <option value="小程序">小程序</option>'
+        x += ' <option value="合并支付">合并支付</option>'
+        x += ' <option value="余额支付">余额支付</option>'
+        x += ' <option value="不收钱">不收钱</option>'
+        x += ' </select>'
+        x += '<input style="display:inline-block;width:50%;margin-left:3px" type="number" class="form-control"/>'
+        x += '<img class="delpaytype" style="width:5%;margin-left:5px;cursor:pointer" src="${ctxPath}/static/images/jian.png" alt=""></div>'
+        $('#pay_style').append(x)
+        // 删除付款方式
+        $('.delpaytype').click(function(){
+            $(this).parent().remove()
+        })
+    }
+    function refresh(){
+        cancellist=[]
+        $('.chcolor').each(function(){
+            if($(this).is('.btn-success')&&$(this).find('.types').html()=='全部订单'){
+                $("#table").bootstrapTable('refresh', {url: '/cancelOrder/caiwu/list'});
+                $('.modal').modal('hide');
+            }else if($(this).is('.btn-success')&&$(this).find('.types').html()=='已发起审核'){
+                $("#table").bootstrapTable('refresh', {url: '/cancelOrder/init'});
+                $('.modal').modal('hide');
+            }else if($(this).is('.btn-success')&&$(this).find('.types').html()=='待审核'){
+                $("#table").bootstrapTable('refresh', {url: '/cancelOrder/dsh'});
+                $('.modal').modal('hide');
+            }else if($(this).is('.btn-success')&&$(this).find('.types').html()=='已审核'){
+                $("#table").bootstrapTable('refresh', {url: '/cancelOrder/ysh'});
+                $('.modal').modal('hide');
+            }else if($(this).is('.btn-success')&&$(this).find('.types').html()=='待核销'){
+                $("#table").bootstrapTable('refresh', {url: '/cancelOrder/caiwu/dhx'});
+                $('.modal').modal('hide');
+            }else if($(this).is('.btn-success')&&$(this).find('.types').html()=='已核销'){
+                $("#table").bootstrapTable('refresh', {url: '/cancelOrder/caiwu/yhx'});
+                $('.modal').modal('hide');
+            }
+
+        })
+        refreshOrderNum();
+    }
+    // 查询全部订单
+    function allAll_order(obj) {
+        changeColour(obj);
+        $('#kkkkkkk').show()
+        $("#table").bootstrapTable('refresh', {url: '/cancelOrder/cangpei/list'});
+        cancellist=[]
+        $('#batch2').hide();
+    }
+
+    // 查询仓配未出库订单
+    // function not_out_store(obj) {
+    //     changeColour(obj);
+    //     $("#table").bootstrapTable('refresh', {url: '/cancelOrder/cangpei/dck'});
+    //     cancellist=[]
+    //     $('#batch2').hide();
+    // }
+    // 根据日期查询全部订单
+    var tFlag
+   function daichuku(){
+        if($('#startTime').val()==''||$('#endTime').val()==''){
+            swal({
+                title: "提示",
+                text: "请选择统计日期",
+                // type: "error"
+            });
+        }else{
+            if($('.btn-success').find('.types').html()=="全部订单"){
+                console.log('全部订单')
+                $("#table").bootstrapTable('refresh',{url: '/cancelOrder/caiwu/list'});
+                cancellist=[]
+            }else if($('.btn-success').find('.types').html()=="审核中"){
+                console.log('审核中')
+                $("#table").bootstrapTable('refresh', {url: '/cancelOrder/init'});
+                cancellist=[]
+            }else if($('.btn-success').find('.types').html()=="待审核"){
+                console.log('待审核')
+                $("#table").bootstrapTable('refresh', {url: '/cancelOrder/dsh'});
+                cancellist=[]
+            }else if($('.btn-success').find('.types').html()=="已审核"){
+                console.log('已审核')
+                $("#table").bootstrapTable('refresh', {url: '/cancelOrder/ysh'});
+                cancellist=[]
+            }else if($('.btn-success').find('.types').html()=="待核销"){
+                console.log('待核销')
+                $("#table").bootstrapTable('refresh', {url: '/cancelOrder/caiwu/dhx'});
+                cancellist=[]
+            }else if($('.btn-success').find('.types').html()=="已核销"){
+                console.log('已核销')
+                $("#table").bootstrapTable('refresh', {url: '/cancelOrder/caiwu/yhx?tFlag=1'});
+                cancellist=[]
+                tFlag=1
+                console.log(1)
+            }
+        }
+   }
+   // 根据核销日期查询
+   function canceltime(){
+       if($('#startTime').val()==''||$('#endTime').val()==''){
+           swal({
+               title: "提示",
+               text: "请选择统计日期",
+           });
+       }else{
+           $("#table").bootstrapTable('refresh', {url: '/cancelOrder/caiwu/yhx?tFlag=2'});
+           cancellist=[]
+           tFlag=2
+           console.log(2)
+       }
+   }
+    // 查询全部订单
+    function all_order(obj) {
+        changeColour(obj);
+        var opt = {
+            url: "/cancelOrder/caiwu/list",
+        };
+        $("#table").bootstrapTable('refresh',opt);
+        cancellist=[]
+        $('#batch2').hide();
+        $('#allordersearch').show()
+        $('#out_exc').hide()
+        $('#out_ysh').hide()
+        $('#allout_exc').show()
+        $('#cancel_time').hide();
+        $('#tuihuo_exc').show();
+        $('#yichang_exc').show();
+    }
+    // 审核中
+    function init_exam_order(obj) {
+        changeColour(obj);
+        $("#table").bootstrapTable('refresh', {url: '/cancelOrder/init'});
+        cancellist=[]
+        $('#batch2').hide();
+        $('#allordersearch').hide()
+        $('#out_exc').hide()
+        $('#out_ysh').hide()
+        $('#allout_exc').hide()
+        $('#cancel_time').hide();
+        $('#tuihuo_exc').hide();
+        $('#yichang_exc').hide();
+    }
+    // 待审核
+    function not_exam_order(obj) {
+        changeColour(obj);
+        $("#table").bootstrapTable('refresh', {url: '/cancelOrder/dsh'});
+        cancellist=[]
+        $('#batch2').show();
+        $('#allordersearch').hide()
+        $('#out_exc').hide()
+        $('#out_ysh').hide()
+        $('#allout_exc').hide()
+        $('#cancel_time').hide();
+        $('#tuihuo_exc').hide();
+        $('#yichang_exc').hide();
+    }
+    // 已审核
+    function exam_order(obj) {
+        changeColour(obj);
+        $("#table").bootstrapTable('refresh', {url: '/cancelOrder/ysh'});
+        cancellist=[]
+        $('#batch2').hide();
+         $('#allordersearch').show()
+        $('#out_exc').hide()
+        $('#out_ysh').show()
+        $('#allout_exc').hide()
+        $('#cancel_time').hide();
+        $('#tuihuo_exc').hide();
+        $('#yichang_exc').hide();
+    }
+    // 已核销订单
+    function check_order(obj) {
+        changeColour(obj);
+        $("#table").bootstrapTable('refresh', {url: '/cancelOrder/caiwu/yhx'});
+        cancellist=[]
+        $('#batch2').hide();
+        $('#allordersearch').show()
+        $('#out_exc').show()
+        $('#out_ysh').hide()
+        $('#allout_exc').hide()
+        $('#cancel_time').show();
+        $('#tuihuo_exc').hide();
+        $('#yichang_exc').hide();
+    }
+    // 未核销订单
+    function not_check_order(obj) {
+
+        changeColour(obj);
+        $("#table").bootstrapTable('refresh', {url: '/cancelOrder/caiwu/dhx'});
+        cancellist=[]
+        $('#batch2').hide();
+        $('#allordersearch').show()
+        $('#out_exc').hide()
+        $('#out_ysh').hide()
+        $('#allout_exc').hide()
+        $('#cancel_time').hide();
+        $('#tuihuo_exc').hide();
+        $('#yichang_exc').hide();
+    }
+    // 激活按钮变色
+    function changeColour(obj) {
+        var $this = $(obj);
+        $(".chcolor").removeClass("btn-success");
+        $this.addClass("btn-success");
+    }
+    // 查看订单窗口
+    function checkit(e){
+        // console.log(e)
+        var x=[{"bumen":"运营部","time":"2018-11-11 9:30","name":"小猪猪","type":"减红包"},{"bumen":"运营部","time":"2018-11-11 9:30","type":"减红包","name":"小猪猪"}]
+        $('#vertical-timeline').empty();
+        $.ajax({
+            type: "get",
+            dataType: "json",
+            url: "/exOrderExam/selectExanList",
+            data: {
+                exOrderId:e
+            },
+            success: function (data) {
+                var examList = data.exOrderExamList;
+                console.log("=========="+examList)
+                console.log(data)
+                $('#abnormal_type').html(data.exOrderInfo)
+                var str = '';
+                for(var i=0;i<examList.length;i++){
+                    str += '<div class="vertical-timeline-block">'
+                    str += '<div class="vertical-timeline-icon blue-bg">'
+                    str += '<i class="fa fa-file-text"></i>'
+                    str += '</div>'
+                    str += '<div class="vertical-timeline-content">'
+                    str += '<h2>'+examList[i].createDeptName+'</h2>'
+                    // str += '<p>'+examList[i].type+'</p>'
+                    str += '<p>'+examList[i].operator+'</p>'
+                    if(examList[i].opinion!=''){
+                        str += '<p>审核意见：'+examList[i].opinion+'</p>'
+                    }
+                    str += '<span class="vertical-date">'
+                    str += ' <small>'+examList[i].createtime+'</small>'
+                    str += ' </span>'
+                    str += '</div> </div>'
+                }
+                $('#vertical-timeline').append(str)
+            },
+            error: function (e) {
+                // window.location.reload()
+                swal({
+                    title: "提示",
+                    text: e.message,
+                    type: "error"
+                });
+            }
+        });
+    }
+    // 打开核销确认窗口
+    var idcheck
+    function checkOrder(id,x) {
+        idcheck = id
+        // $('.form-control').val('')
+        // $('#startTime').val(laydate.now(-30, 'YYYY-MM-DD'));
+        // $('#endTime').val(laydate.now(0, 'YYYY-MM-DD'));
+        $('.fow_col').val('')
+        $('.pay_type2').remove()
+        if(x==2){
+            $.ajax({
+                type: "get",
+                dataType: "json",
+                url: "/cancelOrder/detail/"+id,
+                success: function (data) {
+                    var paymode=JSON.parse(data.payMode)
+                    console.log(paymode)
+                    if(paymode.length>0){
+                        $('#firsttype').val(paymode[0].payType)
+                        $('#firstvalue').val(paymode[0].amoun)
+                        for(var i=1;i<paymode.length;i++){
+                            var x = '<div class="pay_type pay_type2" ><select class="selector" value='+paymode[i].payType+' style="border:1px solid #e5e6e7;height:34px;text-align:center;margin-left:70px;margin-top:10px">'
+                            if(paymode[i].payType=='现金'){
+                                x += ' <option selected="selected" value="现金">现金</option>'
+                            }else{
+                                x += ' <option value="现金">现金</option>'
+                            }
+                            if(paymode[i].payType=='支付宝'){
+                                x += ' <option selected="selected" value="支付宝">支付宝</option>'
+                            }else{
+                                x += ' <option value="支付宝">支付宝</option>'
+                            }
+                            if(paymode[i].payType=='公司微信'){
+                                x += ' <option selected="selected" value="公司微信">公司微信</option>'
+                            }else{
+                                x += ' <option value="公司微信">公司微信</option>'
+                            }
+                            if(paymode[i].payType=='审核退货金额'){
+                                x += ' <option selected="selected" value="审核退货金额">审核退货金额</option>'
+                            }else{
+                                x += ' <option value="审核退货金额">审核退货金额</option>'
+                            }
+                            if(paymode[i].payType=='张新微信'){
+                                x += ' <option selected="selected" value="张新微信">张新微信</option>'
+                            }else{
+                                x += ' <option value="张新微信">张新微信</option>'
+                            }
+                            if(paymode[i].payType=='小程序'){
+                                x += ' <option selected="selected" value="小程序">小程序</option>'
+                            }else{
+                                x += ' <option value="小程序">小程序</option>'
+                            }
+                            if(paymode[i].payType=='合并支付'){
+                                x += ' <option selected="selected" value="合并支付">合并支付</option>'
+                            }else{
+                                x += ' <option value="合并支付">合并支付</option>'
+                            }
+                            if(paymode[i].payType=='余额支付'){
+                                x += ' <option selected="selected" value="余额支付">余额支付</option>'
+                            }else{
+                                x += ' <option value="余额支付">余额支付</option>'
+                            }
+                            if(paymode[i].payType=='不收钱'){
+                                x += ' <option selected="selected" value="不收钱">不收钱</option>'
+                            }else{
+                                x += ' <option value="不收钱">不收钱</option>'
+                            }
+                            x += ' </select>'
+                            x += '<input style="display:inline-block;width:50%;margin-left:3px" type="number" value='+paymode[i].amoun+' class="form-control"/>'
+                            x += '<img class="delpaytype" style="width:5%;margin-left:5px;cursor:pointer" src="${ctxPath}/static/images/jian.png" alt=""></div>'
+                               $('#pay_style').append(x)
+                            // 删除付款方式
+                            $('.delpaytype').click(function(){
+                                $(this).parent().remove()
+                            })
+                        }
+                    }
+                    $('#payer').val(data.payer)
+                    $('#payee').val(data.payee)
+                    if(data.checkNode){
+                        $('#checknode').val(data.checkNode)
+                    }
+                },
+                error: function (e) {
+                    swal({
+                        title: "提示",
+                        text: "请求服务器出错",
+                        type: "error"
+                    });
+                }
+
+            });
+        }
+    }
+    // 确认核销提交
+    $('#sure_cancel').click(function(){
+        var payMode = []
+        $('.pay_type').each(function () {
+            var x = {}
+            x.payType = $(this).find('select').val()
+            x.amoun = $(this).find('input').val()
+            if ($(this).find('input').val() == '') {
+                $('#pay_amount_tip').css("visibility", "visible")
+                return false
+            }else {
+                $('#pay_amount_tip').css("visibility", "hidden")
+                payMode.push(x)
+            }
+        })
+        var payer = $('#payer').val();
+        if (payer == '') {
+            $('#payey_tip').css("visibility", "visible")
+            return false
+        }else{
+            $('#payey_tip').css("visibility", "hidden")
+        }
+        var payee = $('#payee').val();
+        if (payee == '') {
+            $('#payee_tip').css("visibility", "visible")
+            return false
+        }else{
+            $('#payee_tip').css("visibility", "hidden")
+        }
+        console.log(idcheck)
+        console.log(payMode)
+        console.log(payer)
+        console.log(payee)
+        $.ajax({
+            type: "post",
+            dataType: "json",
+            url: "/cancelOrder/caiwu/checkOrder",
+            data: {
+                id: idcheck,
+                payMode: JSON.stringify(payMode),
+                payer: payer,
+                payee: payee,
+                ifCheck: true,
+                checkNode:$('#checknode').val()
+            },
+            success: function (data) {
+                refresh()
+                $('.modal').modal('hide');
+                // $('#overcancel').click()
+            },
+            error: function (e) {
+                refresh()
+                swal({
+                    title: "提示",
+                    text: e.message,
+                    type: "error"
+                });
+            }
+        });
+    })
+    // 发起红包减款
+    var idredpacket
+    function apply_redpacket(id) {
+        $('#redPackAmount').val('')
+        idredpacket = id
+    }
+    // 确认发起
+    $('#redpacket_true').click(function () {
+        var redPackAmount = $('#redPackAmount').val();
+         // var redPackType=$('#redstyle').val();
+        if (redPackAmount == '') {
+            $('#redpacket_tip').html('请输入红包减款金额')
+            $('#redpacket_tip').css("visibility", "visible")
+        } else {
+            if (isNaN(redPackAmount) || redPackAmount < 0) {
+                $('#redpacket_tip').html('请输入正整数')
+                $('#redpacket_tip').css("visibility", "visible")
+            } else {
+                $('#redpacket_tip').css("visibility", "hidden")
+                $.ajax({
+                    type: "post",
+                    dataType: "json",
+                    url: "/exOrderExam/initExOrder",
+                    data: {
+                        refundType:$('#redstyle').val(),
+                        ecErpOrderId: idredpacket,
+                        exType: 1,
+                        redPackAmount: redPackAmount
+                    },
+                    success: function (data) {
+                        refresh()
+                    },
+                    error: function (e) {
+                        refresh()
+                        console.log(e)
+                        swal({
+                            title: "提示",
+                            text: e.message,
+                            type: "error"
+                        });
+                    }
+                });
+            }
+        }
+    })
+    // 批量审核
+    var batchshenhe=false
+    function bacth_shenhe(){
+        if(cancellist.length>0){
+            batchshenhe=true
+            $('#myModal').modal('show');
+        }else{
+            swal({
+                title: "提示",
+                text:"请选择批量出库的订单",
+                type: "error"
+            });
+        }
+    }
+    //撤销订单审核
+    var cancelCheckid
+    function cancelCheck(exOrderId) {
+        cancelCheckid=exOrderId
+    };
+    $('#initiate_sure').click(function () {
+        $.ajax({
+            type: "get",
+            dataType: "json",
+            data: {
+                exOrderId: cancelCheckid,
+            },
+            url: "/exOrderExam/cancelCheck",
+            success: function (data) {
+                console.log(data)
+                refresh()
+            },
+            error: function (e) {
+                refresh()
+                console.log(e)
+                swal({
+                    title: "提示",
+                    text: "请求服务器出错",
+                    type: "error"
+                });
+            }
+        });
+    })
+    // 重新发起异常
+    var initiateid
+    function initiate_again(exOrderId){
+        initiateid=exOrderId
+    }
+    $('#again_offer').click(function(){
+        var opinion=$('#opinion2').val()
+        if(opinion==''){
+            $('#tiptops2').show()
+            return false
+        }else{
+            $.ajax({
+                type: "get",
+                dataType: "json",
+                data: {
+                    exOrderId: initiateid,
+                    opinion:opinion,
+                    ifPass:true
+                },
+                url: "/exOrderExam/checkExOrder",
+                success: function (data) {
+                    refresh()
+                },
+                error: function (e) {
+                    console.log('失败')
+                    console.log(e)
+                    refresh()
+                    swal({
+                        title: "提示",
+                        text: e.message,
+                        type: "error"
+                    });
+                }
+            });
+        }
+    })
+    //审核订单
+    var idexOrder
+    function examOrder(exOrderId) {
+        batchshenhe=false
+        idexOrder = exOrderId
+    };
+    $('#confirm_exam').click(function () {
+        var opinion=$('#opinion').val()
+        var ifPass=$("input[name='isornot']:checked").val();
+        if(ifPass=="1"){
+            ifPass=true
+            $('#tiptops').hide()
+        }else{
+            ifPass=false
+            if(opinion==''){
+                $('#tiptops').show()
+                return false
+            }
+        }
+        if(batchshenhe){
+            $('#kkkkkkk').show()
+            console.log('批量审核')
+            for(var i=0;i<cancellist.length;i++){
+                cancellist[i].opinion=opinion
+                cancellist[i].ifPass=ifPass
+            }
+            $.ajax({
+                type: "post",
+                dataType: "json",
+                contentType : 'application/json;charset=utf-8',
+                data:JSON.stringify(cancellist),
+                url: "/exOrderExam/checkExOrderBatch",
+                success: function (data) {
+                    cancellist=[]
+                    refresh()
+                    $('#kkkkkkk').hide()
+                },
+                error: function (e) {
+                    cancellist=[]
+                    console.log('失败')
+                    console.log(e)
+                    refresh()
+                    $('#kkkkkkk').hide()
+                    swal({
+                        title: "提示",
+                        text: e.message,
+                        type: "error"
+                    });
+                }
+            });
+        }else{
+            $('#kkkkkkk').show()
+            $.ajax({
+                type: "get",
+                dataType: "json",
+                data: {
+                    exOrderId: idexOrder,
+                    opinion:opinion,
+                    ifPass:ifPass
+                },
+                url: "/exOrderExam/checkExOrder",
+                success: function (data) {
+                    refresh()
+                    $('#kkkkkkk').hide()
+                },
+                error: function (e) {
+                    console.log('失败')
+                    console.log(e)
+                    refresh()
+                    $('#kkkkkkk').hide()
+                    swal({
+                        title: "提示",
+                        text: e.message,
+                        type: "error"
+                    });
+                }
+            });
+        }
+    })
+    // 发起申请退单
+    var ecErpOrderIds
+
+    function apply_chargeback(ecErpOrderId, exType) {
+        ecErpOrderIds = ecErpOrderId;
+    }
+    $('#chargeback_true').click(function () {
+        var exType = $("input[name='tuidan']:checked").val();
+        console.log("=====" + ecErpOrderIds + "========" + exType);
+        $.ajax({
+            type: "post",
+            traditional: true,
+            // contentType: 'application/json; charset=UTF-8',
+            dataType: "json",
+            data: {
+                exType: exType,
+                ecErpOrderId: ecErpOrderIds,
+            },
+            url: "/exOrderExam/initExOrder",
+            success: function (data) {
+                $('#myModa5').modal('hide');
+                console.log(data)
+                refresh()
+            },
+            error: function (e) {
+                refresh()
+                console.log(e)
+                swal({
+                    title: "提示",
+                    text: "请求服务器出错",
+                    type: "error"
+                });
+            }
+        });
+    })
+    // 发起取消核销
+    var offorderid;
+    function offcancel(offorderids){
+        console.log(offorderids);
+        offorderid=offorderids;
+    }
+    $('#sure_offcancel').click(function(){
+        console.log(offorderid)
+        $.ajax({
+            type: "post",
+            traditional: true,
+            // contentType: 'application/json; charset=UTF-8',
+            dataType: "json",
+            data: {
+                ecErpOrderId: offorderid,
+            },
+            url: "/cancelOrder/caiwu/repealCheck",
+            success: function (data) {
+                $('#myModa9').modal('hide');
+                console.log(data)
+                refresh()
+            },
+            error: function (e) {
+                refresh()
+                console.log(e)
+                swal({
+                    title: "提示",
+                    text: "请求服务器出错",
+                    type: "error"
+                });
+            }
+        });
+    })
+
+
+    $('#sure_close_order').click(function(){
+
+        var reason = $("#sure_close_order_reason").val();
+        console.log(reason);
+
+        if(reason==''){
+            $('#sure_close_order_reason_tip').html('请输入关闭原因')
+            $('#sure_close_order_reason_tip').css("visibility", "visible")
+            return ;
+        }
+
+
+
+        $.ajax({
+            type: "post",
+            traditional: true,
+            // contentType: 'application/json; charset=UTF-8',
+            dataType: "json",
+            data: {
+                ecErpOrderId: offorderid,
+                closeReason: reason
+            },
+            url: "/cancelOrder/caiwu/closeOrder",
+            success: function (data) {
+                $('#myModa10').modal('hide');
+                console.log(data)
+                refresh()
+            },
+            error: function (e) {
+                refresh()
+                console.log(e)
+                swal({
+                    title: "提示",
+                    text: "请求服务器出错",
+                    type: "error"
+                });
+            }
+        });
+    })
+
+
+
+    var cancellist=[]
+    // 进入页面时加载全部订单
+    $('#table').bootstrapTable({
+        // ajax: function (request){
+        //     $.ajax({
+        //         type: "get",
+        //         dataType: "json",
+        //         url: "/cancelOrder/caiwu/list",
+        //         data:{size:1},
+        //         success: function (data) {
+        //             console.log(data)
+        //             request.success({
+        //                 row: data.records
+        //             });
+        //             $('#table').bootstrapTable('load', data.records);
+        //         },
+        //         error: function (e) {
+        //             swal({
+        //                 title: "提示",
+        //                 text: "请求服务器出错",
+        //                 type: "error"
+        //             });
+        //         }
+        //
+        //     });
+        // },
+        // contentType: "application/x-www-form-urlencoded",
+         url: "/cancelOrder/dsh",
+        cache: false, // 设置为 false 禁用 AJAX 数据缓存， 默认为true
+        striped: true,  //表格显示条纹，默认为false
+        silent: true,  //刷新事件必须设置
+        paginationPreText: '‹',//指定分页条中上一页按钮的图标或文字,这里是<
+        paginationNextText: '›',//指定分页条中下一页按钮的图标或文字,这里是>
+        toggle: "table",
+        height: 1100, //表格高度
+        search: false,
+        pagination: true,
+        queryParamsType:'',//注意:查询参数组织方式，默认值为 'limit',在默认情况下 传给服务端的参数为：offset,limit,sort 。 设置为 '' 在这种情况下传给服务器的参数为：pageSize,pageNumber
+        pageNumber:1,//初始化加载第一页，默认第一页
+        pageSize: 20,//每页的记录行数（*）
+        sidePagination: "server", //服务端处理分页
+        dataField: "rows",//bootstrap table 可以前端分页也可以后端分页,默认数据集合是rows
+        queryParams:queryParams,
+        pageList: [10,20,30,50],//可供选择的每页的行数（*）
+        showToggle: "true",
+        showColumns: "true",
+        columns: [{
+            field: 'state',
+            align: 'center',
+            checkbox: true,
+            formatter:function(value, row, index){
+                if (row.examButton){
+                    return {
+                        disabled : false,//设置是否可用
+                        checked : false//设置选中
+                    };
+                }else{
+                    return {
+                        disabled : true,//设置是否可用
+                        checked : false//设置选中
+                    };
+                }
+            }
+        },{
+            field: 'saleNo',
+            align: 'center',
+            title: '销售单号'
+        }, {
+            field: 'ecNo',
+            align: 'center',
+            title: '电商单号'
+        }, {
+            field: 'createdate',
+            align: 'center',
+            title: '日期'
+        }, {
+            field: 'actualAmount',
+            align: 'center',
+            title: '金额'
+        }, {
+            field: 'dataSource',
+            align: 'center',
+            title: '来源',
+            formatter: function (value, row, index) {
+                if (row.dataSource == 1) {
+                    return "电商"
+                }
+                if (row.dataSource == 2) {
+                    return "erp"
+                }
+            }
+        }, {
+            field: 'customerName',
+            align: 'center',
+            title: '客户名称'
+        }, {
+            field: 'orderStateInfo',
+            align: 'center',
+            title: '订单状态'
+        }, {
+            field: 'checkTime',
+            align: 'center',
+            title: '核销时间'
+        }, {
+            field: 'caozuo',
+            title: "操作",
+            align: 'center',
+            valign: 'middle',
+            width: 500, // 定义列的宽度，单位为像素px
+            formatter: function (value, row, index) {
+                var str = '';
+                if (row.examButton) {
+                    str += '<button class="btn btn-primary btn-sm"    onclick="examOrder(\'' + row.exOrderId + '\')"   data-toggle="modal" data-target="#myModal">审核订单</button>'
+                }
+                if (row.cancelCheckButton) {
+                    str += '<button class="btn btn-primary btn-sm"    onclick="initiate_again(\'' + row.exOrderId + '\')"  style="background-color: rgb(204, 102, 153); border: 1px solid rgb(204, 102, 153);" data-toggle="modal" data-target="#myModa8">重新发起</button>'
+                }
+                if (row.cancelCheckButton) {
+                    str += '<button class="btn btn-primary btn-sm"    onclick="cancelCheck(\'' + row.exOrderId + '\')"  style="background-color: rgb(204, 102, 153); border: 1px solid rgb(204, 102, 153);" data-toggle="modal" data-target="#myModa7">撤销审核</button>'
+                }
+                if (row.checkButton) {
+                    str += '<button class="btn btn-primary btn-success "  onclick="checkOrder(\'' + row.id + '\')" data-toggle="modal" data-target="#myModa2">核销订单</button>'
+                }
+                if (row.returnSingleButton) {
+                    str += '<button class="btn btn-primary btn-warning " data-toggle="modal" data-target="#myModa3" onclick="del(\'' + row.id + '\')">删除商品</button>'
+                }
+                if (row.redPacketButton) {
+                    str += '<button onclick="apply_redpacket(\'' + row.id + '\')" class="btn btn-primary btn-warning" data-toggle="modal" data-target="#myModa4">红包减款</button>'
+                }
+                if (row.returnAllButton) {
+                    str += '<button onclick="apply_chargeback(\'' + row.id + '\',\'' + row.exType + '\')" class="btn btn-primary btn-warning" data-toggle="modal" data-target="#myModa5">申请退单</button>'
+                }
+                if (row.examFlowButton) {
+                    str += '<button class="btn btn-primary btn-success"    onclick="checkit(\'' + row.exOrderId + '\')"   data-toggle="modal" data-target="#myModa6">查看</button>'
+                }
+                if (row.repealCheckButton) {
+                    str += '<button class="btn btn-primary btn-warning"    onclick="offcancel(\'' + row.id + '\')"   data-toggle="modal" data-target="#myModa9">取消核销</button>'
+                    str += '<button class="btn btn-primary btn-success "  onclick="checkOrder(\'' + row.id + '\',2)" data-toggle="modal" data-target="#myModa2">重新核销</button>'
+                }
+                if (row.checkButton) {
+                    str += '<button class="btn btn-primary btn-success "  onclick="offcancel(\'' + row.id + '\')"    data-toggle="modal" data-target="#myModa10">关闭订单</button>'
+                }
+                return str
+//			    return '<button class="btn btn-primary btn-sm" onclick="del(\'' + row.stdId + '\')">删除</button>';
+            }
+        }],
+        queryParams:function(params){
+           if($('#content').val()!=''){
+               var temp={
+                   pageSize:params.pageSize,
+                   pageNumber:params.pageNumber,
+                   startTime:$('#startTime').val(),
+                   endTime:$('#endTime').val(),
+                   content:$('#content').val()
+               }
+           }else{
+               var temp={
+                   pageSize:params.pageSize,
+                   pageNumber:params.pageNumber,
+                   startTime:$('#startTime').val(),
+                   endTime:$('#endTime').val(),
+               }
+           }
+           return temp
+        },
+        // 调取成功后
+        onLoadSuccess:function(data){
+            console.log(data)
+            $('#kkkkkkk').hide()
+        },
+        // 跳转到订单详情页
+        onClickCell: function (field, value, row) {
+            if (field != "caozuo"&&field != "state") {
+                var url = "/cancelOrder/detail?id=" + row.id;
+                $('.chcolor').each(function(){
+                    if($(this).is('.btn-success')&&$(this).find('.types').html()=='查询所有(包含未出库/已关闭)'){
+                         url = "/cancelOrder/cangpei/detail?id=" + row.id+"&detailsFlag="+row.detailsFlag;
+                    }
+                })
+                if($("#allAll_order"))
+                var flag = true;
+                // 选项卡菜单已存在
+                $('.J_menuTab', parent.document).each(function () {
+                    if ($(this).data('id') == url) {
+                        if (!$(this).hasClass('active')) {
+                            $(this).addClass('active').siblings('.J_menuTab').removeClass('active');
+                            // 显示tab对应的内容区
+                            $('.J_mainContent .J_iframe', parent.document).each(function () {
+                                if ($(this).data('id') == url) {
+                                    $(this).show().siblings('.J_iframe').hide();
+                                    return false;
+                                }
+                            });
+                        }
+                        flag = false;
+                        return false;
+                    }
+                });
+                if (flag) {
+                    $('.J_menuTab', parent.document).removeClass('active');
+                    $('.J_menuTabs .page-tabs-content ', parent.document).append(' <a href="javascript:;" class="J_menuTab active" data-id="' + url + '">订单详情页<i class="fa fa-times-circle"></i></a>');
+                    var str1 = '<iframe class="J_iframe" name="iframe23" width="100%" height="100%" src="' + url + '" frameborder="0" data-id="' + url + '" seamless style="display:inline"></iframe>';
+                    $('.J_mainContent', parent.document).find('iframe.J_iframe').hide().parents('.J_mainContent').append(str1);
+                }
+            }
+        },
+        onCheckAll: function (rows) {
+            for(var i=0;i<rows.length;i++){
+                var obj={}
+                obj.exOrderId=rows[i].exOrderId;
+                obj.dataSource=rows[i].dataSource
+                cancellist.push(obj)
+            }
+            console.log(cancellist)
+        },
+        onUncheckAll:function(rows){
+            cancellist=[]
+        },
+        //点击每一个单选框时触发的操作
+        onCheck: function (row) {
+            if(cancellist.length==0){
+                var obj={}
+                obj.exOrderId=row.exOrderId;
+                obj.dataSource=row.dataSource
+                cancellist.push(obj)
+            }else{
+                for(var i=0;i<cancellist.length;i++){
+                    if(cancellist[i].exOrderId==row.exOrderId){
+                        break
+                    }else{
+                        var obj={}
+                        obj.exOrderId=row.exOrderId;
+                        obj.dataSource=row.dataSource
+                        cancellist.push(obj)
+                        break
+                    }
+                }
+            }
+            console.log(cancellist)
+        },
+        //取消每一个单选框时对应的操作；
+        onUncheck: function (row){
+           for(var i=0;i<cancellist.length;i++){
+               if(row.exOrderId==cancellist[i].exOrderId){
+                   cancellist.splice(i, 1);
+                   break
+               }
+           }
+           console.log(cancellist)
+        },
+        rowStyle: function (row, index) {
+            //这里有5个取值代表5中颜色['active', 'success', 'info', 'warning', 'danger'];
+            var strclass = "";
+            console.log(row.cancelCheckButton)
+            if (row.cancelCheckButton ==false){
+                strclass = 'active';//还有一个active
+            }
+            else if (row.cancelCheckButton==true){
+                strclass = 'danger';
+            }
+            else {
+                return {};
+            }
+            return { classes: strclass }
+        }
+    });
+    //请求服务数据时所传参数
+    function queryParams(params){
+        return{
+            //每页多少条数据
+            pageSize: params.pageSize,
+            //请求第几页
+            pageNumber:params.pageNumber
+        }
+    }
+    //外部js调用
+    laydate({
+        elem: '#startTime', //目标元素。由于laydate.js封装了一个轻量级的选择器引擎，因此elem还允许你传入class、tag但必须按照这种方式 '#id .class'
+        event: 'focus' //响应事件。如果没有传入event，则按照默认的click
+    });
+    laydate({
+        elem: '#endTime', //目标元素。由于laydate.js封装了一个轻量级的选择器引擎，因此elem还允许你传入class、tag但必须按照这种方式 '#id .class'
+        event: 'focus' //响应事件。如果没有传入event，则按照默认的click
+    });
+    //日期范围限制
+    var start = {
+        elem: '#startTime',
+        format: 'YYYY-MM-DD',
+        max: laydate.now(), //最大日期
+//          istime: true,
+        istoday: false,
+        choose: function (datas) {
+            end.start = datas //将结束日的初始值设定为开始日
+        }
+    };
+    var end = {
+        elem: '#endTime',
+        format: 'YYYY-MM-DD',
+        max:laydate.now(),
+        // istime: true,
+        istoday: false,
+        choose: function (datas) {
+            start.max = datas; //结束日选好后，重置开始日的最大日期
+        }
+    };
+    laydate(start);
+    laydate(end);
+    console.log(laydate.now(0, 'YYYY-MM-DD'))
+    $('#startTime').val(laydate.now(-30, 'YYYY-MM-DD'));
+    $('#endTime').val(laydate.now(0, 'YYYY-MM-DD'));
+</script>
+@}

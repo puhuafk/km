@@ -1,0 +1,47 @@
+@layout("/common/_container.html"){
+<div class="ibox float-e-margins">
+    <div class="ibox-content">
+        <div class="form-horizontal">
+
+            <div class="row">
+                <div class="col-sm-6 b-r">
+                            <#input id="id" name="id" value="${item.id}" underline="true"/>
+                            <#input id="ecNo" name="电商单号" value="${item.ecNo}" underline="true"/>
+                            <#input id="saleNo" name="销售单号" value="${item.saleNo}" underline="true"/>
+                            <#input id="createdate" name="订单创建日期" value="${item.createdate}" underline="true"/>
+                            <#input id="amount" name="金额" value="${item.amount}" underline="true"/>
+                            <#input id="source" name="来源" value="${item.source}" underline="true"/>
+                            <#input id="customerName" name="客户名称" value="${item.customerName}" underline="true"/>
+                            <#input id="deliveryAddress" name="收货地址" value="${item.deliveryAddress}" underline="true"/>
+                            <#input id="outStorePer" name="出库人" value="${item.outStorePer}" underline="true"/>
+                            <#input id="outStoreTime" name="出库时间" value="${item.outStoreTime}" underline="true"/>
+                            <#input id="orderState" name="订单状态  确认 备货（订单可关闭） 出库" value="${item.orderState}" />
+                </div>
+
+                <div class="col-sm-6">
+                            <#input id="payMode" name="结算方式" value="${item.payMode}" underline="true"/>
+                            <#input id="payer" name="交款人" value="${item.payer}" underline="true"/>
+                            <#input id="payee" name="收款人" value="${item.payee}" underline="true"/>
+                            <#input id="sentPer" name="送货员" value="${item.sentPer}" underline="true"/>
+                            <#input id="openBillStore" name="开单门店" value="${item.openBillStore}" underline="true"/>
+                            <#input id="payType" name="付款方式" value="${item.payType}" underline="true"/>
+                            <#input id="saleDate" name="销售日期" value="${item.saleDate}" underline="true"/>
+                            <#input id="lib" name="库区" value="${item.lib}" underline="true"/>
+                            <#input id="totalQnty" name="总数量" value="${item.totalQnty}" underline="true"/>
+                            <#input id="discountAmount" name="优惠金额" value="${item.discountAmount}" underline="true"/>
+                            <#input id="actualAmount" name="实际付款金额" value="${item.actualAmount}" />
+                </div>
+            </div>
+
+            <div class="row btn-group-m-t">
+                <div class="col-sm-10">
+                    <#button btnCss="info" name="提交" id="ensure" icon="fa-check" clickFun="EcErpOrderInfoDlg.editSubmit()"/>
+                    <#button btnCss="danger" name="取消" id="cancel" icon="fa-eraser" clickFun="EcErpOrderInfoDlg.close()"/>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script src="${ctxPath}/static/modular/ecErpOrder/ecErpOrder/ecErpOrder_info.js"></script>
+@}

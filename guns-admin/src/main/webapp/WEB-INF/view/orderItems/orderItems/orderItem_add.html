@@ -1,0 +1,52 @@
+@layout("/common/_container.html"){
+<div class="ibox float-e-margins">
+    <div class="ibox-content">
+        <div class="form-horizontal">
+
+            <div class="row">
+                <div class="col-sm-6 b-r">
+                            <#input id="id" name="id" underline="true"/>
+                            <#input id="productName" name="商品名称" underline="true"/>
+                            <#input id="sn" name="条形码" underline="true"/>
+                            <#input id="unit" name="单位" underline="true"/>
+                            <#input id="unitState" name="单位说明" underline="true"/>
+                            <#input id="count" name="数量" underline="true"/>
+                            <#input id="noValency" name="正常价" underline="true"/>
+                            <#input id="salesPrice" name="销售价" underline="true"/>
+                            <#input id="disPrice" name="折后价" underline="true"/>
+                            <#input id="money" name="金额" underline="true"/>
+                            <#input id="model" name="规格/型号" underline="true"/>
+                            <#input id="brand" name="品牌" underline="true"/>
+                            <#input id="reArea" name="库区" underline="true"/>
+                            <#input id="client" name="客户"/>
+                </div>
+
+                <div class="col-sm-6">
+                            <#input id="saleDate" name="销售日期" underline="true"/>
+                            <#input id="openBillStore" name="开单门店" underline="true"/>
+                            <#input id="lib" name="库区" underline="true"/>
+                            <#input id="payType" name="付款方式" underline="true"/>
+                            <#input id="paymentAmount" name="付款金额" underline="true"/>
+                            <#input id="customerName" name="收货人" underline="true"/>
+                            <#input id="deliveryAddress" name="收货地址" underline="true"/>
+                            <#input id="saleNo" name="销售单号" underline="true"/>
+                            <#input id="ecNo" name="电商单号" underline="true"/>
+                            <#input id="totalQnty" name="总数量" underline="true"/>
+                            <#input id="moneyAmount" name="总金额" underline="true"/>
+                            <#input id="actualAmount" name="折后金额" underline="true"/>
+                            <#input id="discountAmount" name="已优惠" underline="true"/>
+                </div>
+            </div>
+
+            <div class="row btn-group-m-t">
+                <div class="col-sm-10">
+                    <#button btnCss="info" name="提交" id="ensure" icon="fa-check" clickFun="orderItemInfoDlg.addSubmit()"/>
+                    <#button btnCss="danger" name="取消" id="cancel" icon="fa-eraser" clickFun="orderItemInfoDlg.close()"/>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script src="${ctxPath}/static/modular/orderItem/orderItem/orderItem_info.js"></script>
+@}

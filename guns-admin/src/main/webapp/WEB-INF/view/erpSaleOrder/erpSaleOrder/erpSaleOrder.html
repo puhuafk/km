@@ -1,0 +1,38 @@
+@layout("/common/_container.html"){
+<div class="row">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>erp订单管理管理</h5>
+            </div>
+            <div class="ibox-content">
+                <div class="row row-lg">
+                    <div class="col-sm-12">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <#NameCon id="condition" name="名称" />
+                            </div>
+                            <div class="col-sm-3">
+                                <#button name="搜索" icon="fa-search" clickFun="ErpSaleOrder.search()"/>
+                            </div>
+                        </div>
+                        <div class="hidden-xs" id="ErpSaleOrderTableToolbar" role="group">
+                            @if(shiro.hasPermission("/erpSaleOrder/add")){
+                                <#button name="添加" icon="fa-plus" clickFun="ErpSaleOrder.openAddErpSaleOrder()"/>
+                            @}
+                            @if(shiro.hasPermission("/erpSaleOrder/update")){
+                                <#button name="修改" icon="fa-edit" clickFun="ErpSaleOrder.openErpSaleOrderDetail()" space="true"/>
+                            @}
+                            @if(shiro.hasPermission("/erpSaleOrder/delete")){
+                                <#button name="删除" icon="fa-remove" clickFun="ErpSaleOrder.delete()" space="true"/>
+                            @}
+                        </div>
+                        <#table id="ErpSaleOrderTable"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="${ctxPath}/static/modular/erpSaleOrder/erpSaleOrder/erpSaleOrder.js"></script>
+@}

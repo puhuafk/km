@@ -1,0 +1,543 @@
+@layout("/common/_container.html"){
+<div class="wrapper wrapper-content animated fadeInRight">
+    <!-- Panel Other -->
+    <div class="ibox float-e-margins">
+        <div class="ibox-content">
+            <div class="row row-lg">
+
+                <div class="col-sm-5" id="finance2" class="active">
+                    <table border="1" id="order_message">
+                        <tr>
+                            <td class="td_headline tdbgc1">客户</td>
+                            <td id="customerName"></td>
+                            <td class="td_headline tdbgc1">销售日期</td>
+                            <td id="saleDate"></td>
+                        </tr>
+                        <!--<tr>-->
+                        <!--&lt;!&ndash;<td class="td_headline tdbgc1">开单门店</td>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<td id="openBillStore"></td>&ndash;&gt;-->
+                        <!--<td class="td_headline tdbgc1">库区</td>-->
+                        <!--<td id="lib"></td>-->
+                        <!--</tr>-->
+                        <tr>
+                            <td class="td_headline tdbgc1">付款方式</td>
+                            <td id="pMethod"></td>
+                            <td class="td_headline tdbgc1">付款金额</td>
+                            <td id="actualAmount"></td>
+                        </tr>
+                        <tr>
+                            <td class="td_headline tdbgc1">收货人</td>
+                            <td id="tMan"></td>
+                            <td class="td_headline tdbgc1">收货地址</td>
+                            <td id="deliveryAddress"></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="col-sm-3" id="finance2" class="active">
+                    <table border="1" id="order_message">
+                        <tr>
+                            <td class="td_headline tdbgc2">结算方式</td>
+                            <td id="payMode"></td>
+                        </tr>
+                        <tr>
+                            <td class="td_headline tdbgc2">交款人</td>
+                            <td id="payer"></td>
+                        </tr>
+                        <tr>
+                            <td class="td_headline tdbgc2">收款人</td>
+                            <td id="payee"></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="col-sm-3" id="finance2" class="active">
+                    <table border="1" id="order_message">
+                        <tr>
+                            <td class="td_headline tdbgc3">出库时间</td>
+                            <td id="outStoreTime"></td>
+                        </tr>
+                        <tr>
+                            <td class="td_headline tdbgc3">送货人</td>
+                            <td id="outStorePer"></td>
+                        </tr>
+
+                    </table>
+                </div>
+                <!--财务-->
+                <div class="col-sm-1" id="finance" class="active">
+                    <!--<div class="btn btn-primary" onclick="ssfs()">导 出</div>-->
+                    <div class="btn btn-primary" onclick="print()">打 印</div>
+                </div>
+                <!--订单部分-->
+                <div class="col-sm-12">
+                    <!-- Example Pagination -->
+                    <div class="tab_underlin"
+                         style='border:1px solid #e4eaec;margin-bottom:0px;border-bottom:none;line-height: 40px;height:40px;background-color:#f9f9f9;'>
+                        <ul style="float:left;margin-bottom: 0px;">
+                            <li>销售单号：<span id="saleNo"></span></li>
+                            <li style="margin-left:20px">电商单号：<span id="ecNo"></span></li>
+                        </ul>
+                    </div>
+                    <!-- End Example Pagination -->
+                </div>
+                <div style="clear:both;"></div>
+                ·
+                <div class="col-sm-12">
+                    <!-- Example Pagination -->
+                    <div class="example-wrap" id="lodop_print">
+                        <table id="table" data-mobile-responsive="true" data-striped="true">
+                        </table>
+                    </div>
+                </div>
+                <!-- End Example Pagination -->
+            </div>
+            <!--汇总部分-->
+            <div>
+                <!-- Example Pagination -->
+                <div class="tab_underlin">
+                    <ul>
+                        <!--<li >总数量：<span id="totalQnty">16</span></li>-->
+                        <li>退红包金额：<span id="redPackAmount"></span></li>
+                        <li>运费：<span id="tCost"></span></li>
+                        <li>总金额：<span id="amount2">16</span></li>
+                        <li>折后金额：<span id="dPrice">16</span></li>
+                        <li>已优惠：<span id="discountAmount">16</span></li>
+                    </ul>
+                </div>
+                <!-- End Example Pagination -->
+            </div>
+        </div>
+        <!--异常类型流程-->
+        <div class="col-sm-12" style="height:500px;" id="problem_area"></div>
+    </div>
+</div>
+<!-- End Panel Other -->
+</div>
+<!-- Peity -->
+<script>
+    function abnormal(list) {
+        console.log(list)
+        for (var i = 0; i < list.length; i++) {
+            // 减红包异常
+            if (list[i].exType == 1) {
+                var hongbao = ''
+                hongbao += '<div><h1 class="extypestl">' + list[i].exOrderInfo + '</h1>'
+                for (var k = 0; k < list[i].exOrderExamList.length; k++) {
+                    console.log(list[i].exOrderExamList[k].createDeptName)
+                    hongbao += '<div class="model">'
+                    hongbao += '<h3>审核部门:</h3> <span>' + list[i].exOrderExamList[k].createDeptName + '</span><br>'
+                    hongbao += '<h3>审核人员:</h3> <span>' + list[i].exOrderExamList[k].operator + '</span><br>'
+                    hongbao += '<h3>审核日期:</h3> <span>' + list[i].exOrderExamList[k].operateTime + '</span><br>'
+                    hongbao += '<h3>审核意见:</h3> <span>' + list[i].exOrderExamList[k].opinion + '</span>'
+                    hongbao += '</div>'
+                    if (k + 1 < list[i].exOrderExamList.length) {
+                        hongbao += '<img class="jian2" src="${ctxPath}/static/images/jian2.png" alt="">'
+                    }
+                }
+                hongbao += '<div style="margin-top:20px;clear:both"></div></div>'
+                $('#problem_area').append(hongbao)
+            } else if (list[i].exType == 2) {
+                var product = JSON.parse(list[i].deleteOrderItems)
+                console.log(product)
+                // 退单品
+                var danpin = ''
+                danpin += '<div><h1 class="extypestl">退单品</h1>'
+                danpin += '<div class="col-sm-12" id="finance3" class="active" style="padding-left:0px">'
+                danpin += '<table border="1" id="order_message3"><tr>'
+                danpin += '<td class="td_headline tdbgc1">商品名称</td>'
+                danpin += '<td class="td_headline tdbgc1">条形码</td>'
+                danpin += '<td class="td_headline tdbgc1">单位</td>'
+                danpin += '<td class="td_headline tdbgc1">件</td>'
+                danpin += '<td class="td_headline tdbgc1">数量</td>'
+                danpin += '<td class="td_headline tdbgc1">待退货数量</td>'
+                danpin += '<td class="td_headline tdbgc1">退货数量</td>'
+                danpin += '<td class="td_headline tdbgc1">销售价</td>'
+                danpin += '<td class="td_headline tdbgc1">折后价</td>'
+                danpin += '<td class="td_headline tdbgc1">金额</td>'
+                danpin += '<td class="td_headline tdbgc1">规格/型号</td></tr>'
+                for (var j = 0; j < product.length; j++) {
+                    danpin += '<tr style="background-color:#ffffff"><td>' + product[j].orderItem.productName + '</td>'
+                    danpin += '<td>' + product[j].orderItem.sn + '</td>'
+                    danpin += '<td>' + product[j].orderItem.unit + '</td>'
+                    danpin += '<td>' + product[j].orderItem.unitE / product[j].orderItem.amount + '</td>'
+                    danpin += '<td>' + product[j].orderItem.amount + '</td>'
+                    danpin += '<td>' + product[j].orderItem.forReturnNum + '</td>'
+                    danpin += '<td>' + product[j].orderItem.returnNum + '</td>'
+                    danpin += '<td>' + product[j].orderItem.salesPrice + '</td>'
+                    danpin += '<td>' + product[j].orderItem.disPrice + '</td>'
+                    danpin += '<td>' + product[j].orderItem.money + '</td>'
+                    danpin += '<td>' + product[j].orderItem.model + '</td></tr>'
+                }
+                danpin += '</table></div>'
+                for (var k = 0; k < list[i].exOrderExamList.length; k++) {
+                    console.log(list[i].exOrderExamList[k].createDeptName)
+                    danpin += '<div class="model">'
+                    danpin += '<h3>审核部门:</h3> <span>' + list[i].exOrderExamList[k].createDeptName + '</span><br>'
+                    danpin += '<h3>审核人员:</h3> <span>' + list[i].exOrderExamList[k].operator + '</span><br>'
+                    danpin += '<h3>审核日期:</h3> <span>' + list[i].exOrderExamList[k].operateTime + '</span><br>'
+                    danpin += '<h3>审核意见:</h3> <span>' + list[i].exOrderExamList[k].opinion + '</span>'
+                    danpin += '</div>'
+                    if (k + 1 < list[i].exOrderExamList.length) {
+                        danpin += '<img class="jian2" src="${ctxPath}/static/images/jian2.png" alt="">'
+                    }
+                }
+                danpin += '<div style="margin-top:20px;clear:both"></div></div>'
+                $('#problem_area').append(danpin)
+            } else {
+                var tuidan = ''
+                if (list[i].exType == 3) {
+                    tuidan += '<div><h1 class="extypestl">退货：商家拒收</h1>'
+                } else {
+                    tuidan += '<div><h1 class="extypestl">退货：商家申请退单</h1>'
+                }
+                for (var k = 0; k < list[i].exOrderExamList.length; k++) {
+                    console.log(list[i].exOrderExamList[k].createDeptName)
+                    tuidan += '<div class="model">'
+                    tuidan += '<h3>审核部门:</h3> <span>' + list[i].exOrderExamList[k].createDeptName + '</span><br>'
+                    tuidan += '<h3>审核人员:</h3> <span>' + list[i].exOrderExamList[k].operator + '</span><br>'
+                    tuidan += '<h3>审核日期:</h3> <span>' + list[i].exOrderExamList[k].operateTime + '</span><br>'
+                    tuidan += '<h3>审核意见:</h3> <span>' + list[i].exOrderExamList[k].opinion + '</span>'
+                    tuidan += '</div>'
+                    if (k + 1 < list[i].exOrderExamList.length) {
+                        tuidan += '<img class="jian2" src="${ctxPath}/static/images/jian2.png" alt="">'
+                    }
+                }
+                tuidan += '<div style="margin-top:20px;clear:both"></div></div>'
+                $('#problem_area').append(tuidan)
+            }
+        }
+    }
+
+    // 获取url中参数
+    function getUrlParam(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+        var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+        if (r != null) return unescape(r[2]);
+        return null; //返回参数值
+    }
+
+    // $(function(){
+    //
+    // })
+    function print() {
+//  	  	            上 左 宽 高
+        var LODOP; //声明为全局变量
+//			                获取表格信息
+        var id = getUrlParam('id');
+        var detailsFlag = getUrlParam('detailsFlag');
+        $.ajax({
+            url: "/cancelOrder/cangpei/detail/" + id + "?detailsFlag=" + detailsFlag,
+            type: "get",
+            dataType: 'json',
+            success: function (data) {
+                // SET_PRINT_PAGESIZE(intOrient,intPageWidth,intPageHeight,strPageName);
+                // 参数含义：
+                // intOrient：打印方向及纸张类型
+                //                 值为1---纵向打印，固定纸张；
+                // 值为2---横向打印，固定纸张；
+                // 值为3---纵向打印，宽度固定，高度按打印内容的高度自适应；
+                // 0(或其它)----打印方向由操作者自行选择或按打印机缺省设置。
+                // intPageWidth：
+                // 纸张宽，单位为0.1mm 譬如该参数值为45，则表示4.5mm,计量精度是0.1mm。
+                //
+                // intPageHeight：
+                // 固定纸张时该参数是纸张高；高度自适应时该参数是纸张底边的空白高，计量单位与纸张宽一样。
+                //
+                // strPageName：
+                // 纸张名，必须intPageWidth等于零时本参数才有效，有如下选择：
+                // Letter, LetterSmall, Tabloid, Ledger, Legal,Statement, Executive,
+                //     A3, A4, A4Small, A5, B4, B5, Folio, Quarto, qr10X14, qr11X17, Note,
+                //     Env9, Env10, Env11, Env12,Env14, Sheet, DSheet, ESheet
+                LODOP = getLodop();
+                // LODOP.PRINT_INIT("银燕公司宽带收费明细");
+                LODOP.SET_PRINT_STYLE("FontSize", 11)
+                // LODOP.SET_PRINT_PAGESIZE (1,2000,500,"");
+                // LODOP.SET_PRINT_PAGESIZE(2, 0, 0, "A4");
+                LODOP.ADD_PRINT_TEXT(10, 280, 500, 50, "津小超（销售明细）")
+                LODOP.SET_PRINT_STYLEA(1, "ItemType", 1);//设置第一个内容项的
+                LODOP.SET_PRINT_STYLEA(1, "FontSize", 16);
+                LODOP.SET_PRINT_STYLEA(1, "Bold", 1);
+
+                // LODOP.ADD_PRINT_TEXT(50, 50, 360, 20, "客户：" + data.customerName);
+                // LODOP.ADD_PRINT_TEXT(50, 380, 360, 20, "销售日期：" + data.saleDate);
+                // LODOP.ADD_PRINT_TEXT(75, 50, 360, 20, "收货人：" + data.tMan);
+                // // LODOP.ADD_PRINT_TEXT(100,365,360,20,"开单门店："+data.openBillStore);
+                // LODOP.ADD_PRINT_TEXT(100, 50, 360, 20, "付款方式：" + data.payType);
+                // LODOP.ADD_PRINT_TEXT(100, 380, 360, 20, "付款金额：" + data.actualAmount);
+                // LODOP.ADD_PRINT_TEXT(75, 380, 360, 20, "单号：" + data.saleNo);
+                // LODOP.ADD_PRINT_TEXT(125, 50, 600, 20, "收货地址：" + data.deliveryAddress);
+                // LODOP.ADD_PRINT_TEXT(150, 50, 600, 20, "配货库管：");
+                // LODOP.ADD_PRINT_TEXT(150, 380, 600, 20, "配送司机：");
+
+                var tHtml0 = "<table border='0'  style=' border-collapse:collapse;border:0px solid black;font-size:13px; width:80%;height: 100px;margin-bottom: 5px;margin-left: 20px;' bordercolor='#000000'>" +
+                    "<tr><td>客&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;户：</td><td>"+data.customerName+"</td><td>销售日期：</td><td>"+data.saleDate+"</td></tr>" +
+                    "<tr><td>收&nbsp;&nbsp;货&nbsp;&nbsp;人：</td><td> "+data.tMan+"</td><td>单&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号：</td><td>"+data.saleNo+"</td></tr>" +
+                    "<tr><td>付款方式：</td><td>"+data.payType+"</td><td>付款金额：</td><td>"+data.actualAmount+"</td></tr>" +
+                    "<tr><td>收货地址：</td><td colspan=\"3\">"+data.deliveryAddress+"</td></tr>" +
+                    "<tr><td>客户留言：</td><td colspan=\"3\">"+data.memo+"</td></tr>" +
+                    "<tr><td>配货库管：</td><td></td><td>配送司机：</td><td></td></tr>" +
+                    "</table>";
+
+
+                var tHtml = ""
+                tHtml += " <table border='1' id='tableall' style='font-size:13px; border-collapse:collapse;border:1px solid black;width:100%' bordercolor='#000000'>";
+                tHtml += " <tr style=\"font-size:13px; text-align:center; font-weight:bold;\" > ";
+                tHtml += " <td style='width:2.5%'>齐</td>";
+                // tHtml += " <td style='width:2.5%'>欠</td>";
+                tHtml += " <td style='width:30%'>商品名称</td>";
+                tHtml += " <td style='width:9%'>库位</td>";
+                tHtml += " <td style='width:6%'>规格</td>";
+                tHtml += " <td style='width:5%'>数量</td>";
+                tHtml += " <td style='width:15%'>条形码</td>";
+                tHtml += " <td style='width:5%'>单位</td>";
+                tHtml += " <td style='width:10%'>单位说明</td>";
+                tHtml += " <td style='width:7%'>单价</td>";
+                tHtml += " <td style='width:7%'>金额</td>";
+                // tHtml += " <td>库位</td>";
+                tHtml += " </tr> ";
+
+                var tHtml2 = "";
+                for (var i = 0; i < parseInt(data.orderItemList.length); i++) {
+
+                    tHtml2 += " <tr style=\"font-size:14px; text-align:center;height:30px\"> ";
+                    tHtml2 += " <td style='width:2.5%'> </td>";
+                    // tHtml2 += " <td style='width:2.5%'></td>";
+                    tHtml2 += " <td style='width:30%;text-align:left'>" + data.orderItemList[i].productName + "</td>";
+                    tHtml2 += " <td style='width:9%;'>" + data.orderItemList[i].remark + "</td>";
+                    tHtml2 += " <td style='width:6%'>" + data.orderItemList[i].model + "</td>";
+                    tHtml2 += " <td style='width:5%'>" + data.orderItemList[i].amount + "</td>";
+                    tHtml2 += " <td style='width:15%;text-align:left'>" + data.orderItemList[i].sn + "</td>";
+                    tHtml2 += " <td style='width:5%'>" + data.orderItemList[i].unit + "</td>";
+                    tHtml2 += " <td style='width:10%'>1" + data.orderItemList[i].unit + "=" + data.orderItemList[i].unitE / data.orderItemList[i].amount + "件</td>";//单位说明
+                    tHtml2 += " <td style='width:7%'>" + data.orderItemList[i].salesPrice + "</td>";
+                    tHtml2 += " <td style='width:7%'>" + data.orderItemList[i].money + "</td>";
+                    // tHtml2 += " <td>" + data.orderItemList[i].reArea+"</td>";
+                    tHtml2 += " </tr>";
+                }
+                var tHtml3 = " <tr style=\"font-size:13px; text-align:center;height:30px\">";
+                tHtml3 += " <td style='width:2.5%'></td>";
+                // tHtml3 += " <td style='width:2.5%'></td>";
+                tHtml3 += " <td >合计：" + data.totalAmount
+                    + "</td>";
+                tHtml3 += " </tr>";
+                var SHtml =tHtml0 + tHtml + tHtml2 + tHtml3 + "</table>"
+
+                LODOP.ADD_PRINT_HTM(50, 0, "100%", "100%", SHtml);
+
+                // LODOP.SET_PRINT_STYLEA(0, "Vorient", 3);//设定打印项在纸张内的垂直位置锁定方式。
+                // LODOP.ADD_PRINT_HTM(1, 600, 300, 50, "总页号：<font color='#0000ff' format='ChineseNum'><span tdata='pageNO'>第##页</span>/<span tdata='pageCount'>共##页</span></font>");
+                // LODOP.SET_PRINT_STYLEA(0, "ItemType", 1);//固定标题,设置卫页眉页脚，设定打印项的基本属性。
+                // LODOP.SET_PRINT_STYLEA(0, "Horient", 1);//设定打印项在纸张内的水平位置锁定方式。
+                LODOP.PREVIEW();
+            },
+            error: function (e) {
+                console.log(e)
+            }
+        });
+    }
+
+    $('#table').bootstrapTable({
+
+        // url:"js/demo/bootstrap_table_test3.json",
+        ajax: function (request) {
+            $('#kkkkkkk').show()
+            var id = getUrlParam('id');
+            var detailsFlag = getUrlParam('detailsFlag');
+            $.ajax({
+                type: "get",
+                dataType: "json",
+                url: "/cancelOrder/cangpei/detail/" + id + "?detailsFlag=" + detailsFlag,
+                success: function (data) {
+                    abnormal(data.exOrderVoList)
+                    $('#kkkkkkk').hide()
+                    // console.log(data)
+                    if (data.actualAmount) {
+                        $('#actualAmount').html(data.actualAmount)  //实际付款金额
+                    } else {
+                        $('#actualAmount').html('— — —')
+                    }
+                    if (data.amount) {
+                        $('#amount2').html(data.amount)
+                    } else {
+                        $('#amount2').html('— — —')
+                    }
+                    if (data.customerName) {
+                        $('#customerName').html(data.customerName)
+                    } else {
+                        $('#customerName').html('— — —')
+                    }
+                    if (data.deliveryAddress) {
+                        $('#deliveryAddress').html(data.deliveryAddress)
+                    } else {
+                        $('#deliveryAddress').html('— — —')
+                    }
+                    if (data.saleDate) {
+                        $('#saleDate').html(data.saleDate)
+                    } else {
+                        $('#saleDate').html('— — —')
+                    }
+                    if (data.openBillStore) {
+                        $('#openBillStore').html(data.openBillStore)
+                    } else {
+                        $('#openBillStore').html('— — —')
+                    }
+                    if (data.lib) {
+                        $('#lib').html(data.lib)
+                    } else {
+                        $('#lib').html('— — —')
+                    }
+                    if (data.pMethod) {
+                        $('#pMethod').html(data.payType)
+                    } else {
+                        $('#pMethod').html('— — —')
+                    }
+                    //退红包金额、运费
+                    $('#tCost').html(data.tCost)
+                    if (data.redPackAmount) {
+                        $('#redPackAmount').html(data.redPackAmount)
+                    } else {
+                        $('#redPackAmount').html('— — —')
+                    }
+                    //收货人
+                    if (data.tMan) {
+                        $('#tMan').html(data.tMan)
+                    } else {
+                        $('#tMan').html('— — —')
+                    }
+                    if (data.outStoreTime) {
+                        $('#outStoreTime').html(data.outStoreTime)
+                    } else {
+                        $('#outStoreTime').html('— — —')
+                    }
+                    if (data.outStorePer) {
+                        $('#outStorePer').html(data.outStorePer)
+                    } else {
+                        $('#outStorePer').html('— — —')
+                    }
+                    var payModeInfo = "";
+                    if (data.payMode) {
+                        var payMode = JSON.parse(data.payMode);
+                        for (var i = 0; i < payMode.length; i++) {
+                            payModeInfo = payModeInfo + payMode[i].payType + ":" + payMode[i].amoun + "元" + "   ";
+                        }
+                    }
+                    if (payModeInfo) {
+                        $('#payMode').html(payModeInfo)//结算方式
+                    } else {
+                        $('#payMode').html('— — —')//结算方式
+                    }
+                    if (data.payer) {
+                        $('#payer').html(data.payer)//结算方式
+                    } else {
+                        $('#payer').html('— — —')//结算方式
+                    }
+                    if (data.payee) {
+                        $('#payee').html(data.payee)//结算方式
+                    } else {
+                        $('#payee').html('— — —')//结算方式
+                    }
+                    if (data.dPrice) {
+                        $('#dPrice').html(data.dPrice)//结算方式
+                    } else {
+                        $('#dPrice').html('— — —')//结算方式
+                    }
+                    if (data.discountAmount) {
+                        $('#discountAmount').html(data.discountAmount)//结算方式
+                    } else {
+                        $('#discountAmount').html('— — —')//结算方式
+                    }
+                    if (data.saleNo) {
+                        $('#saleNo').html(data.saleNo)//结算方式
+                    } else {
+                        $('#saleNo').html('— — —')//结算方式
+                    }
+
+                    if (data.ecNo) {
+                        $('#ecNo').html(data.ecNo)//结算方式
+                    } else {
+                        $('#ecNo').html('— — —')//结算方式
+                    }
+
+                    request.success({
+                        row: data.orderItemList
+                    });
+                    $('#table').bootstrapTable('load', data.orderItemList);
+                },
+                error: function (e) {
+                    $('#kkkkkkk').hide()
+                    swal({
+                        title: "提示",
+                        text: "请求服务器出错",
+                        type: "error"
+                    });
+                }
+
+            });
+        },
+        cache: false, // 设置为 false 禁用 AJAX 数据缓存， 默认为true
+        striped: true,  //表格显示条纹，默认为false
+        toggle: "table",
+        height: 530, //表格高度
+        columns: [{
+            field: 'productName',
+            align: 'center',
+            title: '商品名称'
+        }, {
+            field: 'sn',
+            align: 'center',
+            title: '条形码'
+        }, {
+            field: 'unit',
+            align: 'center',
+            title: '单位'
+        }, {
+            field: 'jian',
+            align: 'center',
+            title: '件',
+            formatter: function (value, row, index) {
+                var x = row.unitE / row.amount
+                return x
+            }
+        }, {
+            field: 'amount',
+            align: 'center',
+            title: '数量'
+        }, {
+            field: 'returnNum',
+            align: 'center',
+            title: '退货数量'
+        }, {
+            field: 'noValency',
+            align: 'center',
+            title: '正常价'
+        }, {
+            field: 'salesPrice',
+            align: 'center',
+            title: '销售价'
+        }, {
+            field: 'disPrice',
+            align: 'center',
+            title: '折后价'
+        }, {
+            field: 'money',
+            align: 'center',
+            title: '金额'
+        }, {
+            field: 'model',
+            align: 'center',
+            title: '规格/型号'
+        }, {
+            field: 'brand',
+            align: 'center',
+            title: '品牌'
+        }, {
+            field: 'reArea',
+            align: 'center',
+            title: '产地'
+        }],
+        // 跳转到订单详情页
+        onClickCell: function (field, value, row) {
+            console.log(row)
+        }
+    });
+</script>
+@}

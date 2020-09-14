@@ -1,0 +1,249 @@
+@layout("/common/_container.html"){
+<div class="wrapper wrapper-content animated fadeInRight">
+    <!-- Panel Other -->
+    <div class="ibox float-e-margins">
+        <div class="ibox-content">
+            <div class="row row-lg">
+                <div class="col-sm-8" id="finance2" class="active">
+                    <div class='tongji_title'>统计日期：</div>
+                    <input placeholder="开始日期" class="form-control layer-date" id="startTime" style="float:left;" autocomplete="off">
+                    <input placeholder="结束日期" class="form-control layer-date" id="endTime" style="float:left;margin-left:5px;" autocomplete="off">
+                    <!--<div class='tongji_title' style="float:left;">商品：</div>-->
+                    <!--<input placeholder="商品名称\商品条形码" class="form-control layer-date" style="float:left;">-->
+                    <div class="btn btn-primary" style="float:left;margin-left:15px" id="queryButton">查 询</div>
+                </div>
+
+                <div style="clear: both"></div>
+                <!--统计-->
+                <div id="tip_msg" style="height:100%;width:100%;text-align:center;padding:200px">
+                    <img style="width:12%" src="${ctxPath}/static/images/nomessage.png" alt="">
+                    <h3 style="text-align: center;margin-top:30px">请输入有效的统计日期进行查询</h3>
+                </div>
+                <div id="list" style="display:none">
+                        <div class="col-sm-12" id="statistics_message" class="active" style="height: 130px">
+                            <ul>
+                                <li>销售金额：<span id="moneyTotal"></span></li>
+                                <li>核销金额：<span id="checkMoneyTotal"></span></li>
+                                <li>销售数量：<span id="amountTotal"></span></li>
+                                <li>销售退货率：<span id="returnGoodsRate"></span></li>
+                                <li>退货数量：<span id="returnNumTotal"></span></li>
+                                <li>退货金额：<span id="returnMoneyTotal"></span></li>
+                                <li>退单率：<span id="returnBillRate"></span></li>
+                            </ul>
+                            <div style="clear: both"></div>
+                        </div>
+                        <div class="col-sm-12">
+                            <!--财务-->
+                            <div class="btn btn-primary" style="float:right;margin-top:10px" id="out_exc">导 出</div>
+                            <!--<div class="btn btn-primary" style="float:right;margin-top:10px">打 印</div>-->
+                            <span style="float:left;margin-top:18px;font-weight:bold;margin-right:10px">商品信息:</span>
+                            <!-- Example Pagination -->
+                            <div class="example-wrap">
+                                <div class="example">
+
+                                    <table id="table" data-mobile-responsive="true" data-striped="true" data-pagination="true" data-icon-size="outline">
+                                    </table>
+                                </div>
+                            </div>
+                            <!-- End Example Pagination -->
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Panel Other -->
+</div>
+<script src="${ctxPath}/static/js/plugins/layer/laydate/laydate.js"></script>
+<script>
+
+    function del(e){
+        console.log(e)
+    }
+   $('#out_exc').click(function(){
+       var startTime= $("#startTime").val();
+       var endTime=$("#endTime").val();
+       var url="/cancelOrder/caiwu/reportImport?startTime="+startTime+"&&endTime="+endTime
+       window.open(url)
+   })
+    $("#queryButton").click(function () {
+        var startTime= $("#startTime").val();
+        var endTime=$("#endTime").val();
+        if(startTime==""||endTime==""){
+            swal({
+                title: "提示",
+                text: "请输入统计日期",
+                type: "error"
+            });
+            return false;
+        }
+        console.log("========"+startTime);
+            $.ajax({
+                type: "get",
+                dataType: "json",
+                url: "/cancelOrder/caiwu/saleCollect",
+                data:{startTime:startTime,endTime:endTime},
+                success: function (data) {
+                    console.log(data)
+                    // request.success({
+                    //     row: data.records
+                    // });
+                    if(data.orderItemVoList.length>0){
+                        $('#list').show()
+                        $('#tip_msg').hide()
+                        $('#table').bootstrapTable('load', data.orderItemVoList);
+                        if(data.moneyTotal){
+                            $('#moneyTotal').html(data.moneyTotal);
+                        }else{
+                            $('#moneyTotal').html('— — —');
+                        }
+                        if(data.checkMoneyTotal){
+                            $('#checkMoneyTotal').html(data.checkMoneyTotal);
+                        }else{
+                            $('#checkMoneyTotal').html('— — —');
+                        }
+                        if(data.amountTotal){
+                            $('#amountTotal').html(data.amountTotal);
+                        }else{
+                            $('#amountTotal').html('— — —');
+                        }
+                        if(data.returnGoodsRate){
+                            $('#returnGoodsRate').html(data.returnGoodsRate);
+                        }else{
+                            $('#returnGoodsRate').html('— — —');
+                        }
+                        if(data.returnBillRate){
+                            $('#returnBillRate').html(data.returnBillRate);
+                        }else{
+                            $('#returnBillRate').html('— — —');
+                        }
+                        if(data.returnNumTotal){
+                            $('#returnNumTotal').html(data.returnNumTotal);
+                        }else{
+                            $('#returnNumTotal').html('— — —');
+                        }
+                        if(data.returnMoneyTotal){
+                                $('#returnMoneyTotal').html(data.returnMoneyTotal);
+                            }else{
+                                $('#returnMoneyTotal').html('— — —');
+                        }
+
+                    }else{
+                        $('#list').hide()
+                        $('#tip_msg').show()
+                        swal({
+                            title: "提示",
+                            text: "暂无该时间段的数据",
+                        });
+                    }
+                },
+                error: function (e) {
+                    console.log(e)
+                    swal({
+                        title: "提示",
+                        text: "请求服务器出错",
+                        type: "error"
+                    });
+                }
+
+            });
+    })
+
+
+    $('#table').bootstrapTable({
+        search:true,
+        cache: false, // 设置为 false 禁用 AJAX 数据缓存， 默认为true
+        striped: true,  //表格显示条纹，默认为false
+        toggle:"table",
+        pageList: [15, 30], // 设置页面可以显示的数据条数
+        pageSize: 15, // 页面数据条数
+        height:550, //表格高度
+        showToggle: "true",
+        showColumns: "true",
+        columns: [
+        {
+            align: 'center',
+            title: '序号',
+            formatter: function (value, row, index) {
+                return index+1
+            }
+        }, {
+            field: 'productName',
+            align: 'center',
+            title: '商品名称'
+        }, {
+            field: 'sn',
+            align: 'center',
+            title: '条形码'
+        }/*,{
+            field: 'column2',
+            align: 'center',
+            title: '规格/型号'
+        }*/,{
+            field: 'unit',
+            align: 'center',
+            title: '单位'
+        }/*,{
+            field: 'column9',
+            align: 'center',
+            title: '单位说明'
+        }*/,{
+            field: 'brand',
+            align: 'center',
+            title: '品牌'
+        },{
+            field: 'amountTotal',
+            align: 'center',
+            title: '销售数量'
+        },{
+            field: 'avgSalePrice',
+            align: 'center',
+            title: '平均销售单价'
+        },{
+            field: 'moneyTotal',
+            align: 'center',
+            title: '销售金额'
+        },{
+            field: 'returnNumTotal',
+            align: 'center',
+            title: '退货数量'
+        },{
+            field: 'returnMoneyTotal',
+            align: 'center',
+            title: '退货金额'
+        }]
+    });
+    //外部js调用
+    laydate({
+        elem: '#startTime', //目标元素。由于laydate.js封装了一个轻量级的选择器引擎，因此elem还允许你传入class、tag但必须按照这种方式 '#id .class'
+        event: 'focus' //响应事件。如果没有传入event，则按照默认的click
+    });
+    laydate({
+        elem: '#endTime', //目标元素。由于laydate.js封装了一个轻量级的选择器引擎，因此elem还允许你传入class、tag但必须按照这种方式 '#id .class'
+        event: 'focus' //响应事件。如果没有传入event，则按照默认的click
+    });
+    //日期范围限制
+    var start = {
+        elem: '#startTime',
+        format: 'YYYY-MM-DD',
+        max: '2099-06-16', //最大日期
+//          istime: true,
+        istoday: false,
+        choose: function (datas) {
+            end.start = datas //将结束日的初始值设定为开始日
+        }
+    };
+    var end = {
+        elem: '#endTime',
+        format: 'YYYY-MM-DD',
+        min: laydate.now(),
+        max: '2099-06-16',
+          // istime: true,
+        istoday: false,
+        choose: function (datas) {
+            start.max = datas; //结束日选好后，重置开始日的最大日期
+        }
+    };
+    laydate(start);
+    laydate(end);
+</script>
+@}

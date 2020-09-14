@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stylefeng.guns.modular.system.dao.ErpProductStockAreaMapper">
+
+
+    <resultMap id="BaseResultMap" type="com.stylefeng.guns.modular.system.model.ErpProductStockArea">
+        <result column="product" property="product"/>
+        <result column="stock_area" property="stockArea"/>
+        <result column="stock_area_name" property="stockAreaName"/>
+    </resultMap>
+
+
+    <sql id="Base_Column_List">
+          product,stock_area,stock_area_name
+    </sql>
+
+    <select id="queryStoreArea" resultMap="BaseResultMap" parameterType="long">
+
+        select product,stock_area,stock_area_name from erp_product_stock_area
+        where 1=1
+        <if test="productId != null">
+            AND product = #{productId}
+        </if>
+
+    </select>
+
+
+</mapper>

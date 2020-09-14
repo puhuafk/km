@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stylefeng.guns.modular.system.dao.StaffInfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.stylefeng.guns.modular.system.model.StaffInfo">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="sex" property="sex" />
+        <result column="age" property="age" />
+        <result column="nation" property="nation" />
+        <result column="native_place" property="nativePlace" />
+        <result column="education" property="education" />
+        <result column="ma_status" property="maStatus" />
+        <result column="fe_status" property="feStatus" />
+        <result column="work_status" property="workStatus" />
+        <result column="po_status" property="poStatus" />
+        <result column="position" property="position" />
+        <result column="pay" property="pay" />
+        <result column="phone" property="phone" />
+        <result column="bu_history" property="buHistory" />
+        <result column="self_evaluation" property="selfEvaluation" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, name, sex, age, nation, native_place, education, ma_status, fe_status, work_status, po_status, position, pay, phone, bu_history, self_evaluation
+    </sql>
+
+</mapper>

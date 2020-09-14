@@ -1,0 +1,40 @@
+@layout("/common/_container.html"){
+<div class="ibox float-e-margins">
+    <div class="ibox-content">
+        <div class="form-horizontal">
+
+            <div class="row">
+                <div class="col-sm-6 b-r">
+                            <#input id="id" name="id" underline="true"/>
+                            <#input id="orderSn" name="订单单号" underline="true"/>
+                            <#input id="exType" name="异常类型（1红包减款、2已出库退单、3单品退单）" underline="true"/>
+                            <#input id="exReason" name="异常原因" underline="true"/>
+                            <#input id="exState" name="异常状态（是否处理：1未处理、2已经处理）" underline="true"/>
+                            <#input id="operator" name="创建人" underline="true"/>
+                            <#input id="operatorId" name="创建人id" underline="true"/>
+                            <#input id="createtime" name="创建时间"/>
+                </div>
+
+                <div class="col-sm-6">
+                            <#input id="stepSign" name="流程步骤标识" underline="true"/>
+                            <#input id="flowId" name="流程id" underline="true"/>
+                            <#input id="saleSn" name="销售单号" underline="true"/>
+                            <#input id="dataStatue" name="来源（1电商后台,2erp系统）" underline="true"/>
+                            <#input id="outHouTime" name="出库时间" underline="true"/>
+                            <#input id="outHouPer" name="出库人" underline="true"/>
+                            <#input id="examDepId" name="审批部门id" underline="true"/>
+                </div>
+            </div>
+
+            <div class="row btn-group-m-t">
+                <div class="col-sm-10">
+                    <#button btnCss="info" name="提交" id="ensure" icon="fa-check" clickFun="ExOrderInfoDlg.addSubmit()"/>
+                    <#button btnCss="danger" name="取消" id="cancel" icon="fa-eraser" clickFun="ExOrderInfoDlg.close()"/>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script src="${ctxPath}/static/modular/exOrder/exOrder/exOrder_info.js"></script>
+@}

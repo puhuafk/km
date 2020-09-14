@@ -1,0 +1,59 @@
+@layout("/common/_container.html"){
+<div class="ibox float-e-margins">
+    <div class="ibox-content">
+        <div class="form-horizontal">
+
+            <div class="row">
+                <div class="col-sm-6 b-r">
+                            <#input id="id" name="id" underline="true"/>
+                            <#input id="shopName" name="店铺名称" underline="true"/>
+                            <#input id="shopAddress" name="店铺地址" underline="true"/>
+                            <#input id="phone" name="联系方式" underline="true"/>
+                            <#input id="imageFile" name="营业执照图片" type="file" underline="true"/>
+                            <#input id="shopType" name="店铺类型" underline="true"/>
+                            <#input id="aroundInfo" name="店铺周边信息" underline="true"/>
+                            <#input id="aroundFlow" name="店铺周边流量" underline="true"/>
+                            <#input id="shopArea" name="店铺面积" underline="true"/>
+                            <#input id="shopLife" name="店铺经营年限" underline="true"/>
+                            <#input id="shopStaffNum" name="店员数量" underline="true"/>
+                            <#input id="ownerName" name="店主姓名" underline="true"/>
+                            <#input id="ownerSex" name="店主性别" underline="true"/>
+                            <#input id="ownerAge" name="店主年龄" underline="true"/>
+                            <#input id="ownerPlace" name="店主籍贯" underline="true"/>
+                            <#input id="ownerCharacter" name="店主性格" underline="true"/>
+                            <#input id="ownerType" name="店主类型（沟通）"/>
+                </div>
+
+                <div class="col-sm-6">
+                            <#input id="ownerCulture" name="店主文化" underline="true"/>
+                            <#input id="businessHours" name="营业时间" underline="true"/>
+                            <#input id="businessScope" name="经营品种" underline="true"/>
+                            <#input id="communityService" name="社区服务" underline="true"/>
+                            <#input id="ifRegistes" name="是否注册津小超" underline="true"/>
+                            <#input id="ifPlaceOrder" name="是否下单" underline="true"/>
+                            <#input id="ifIndependentOrder" name="是否习惯独立下单" underline="true"/>
+                            <#input id="commonPlatform" name="常用平台" underline="true"/>
+                            <#input id="platformOrderRatio" name="平台订货比例" underline="true"/>
+                            <#input id="mobilePlatform" name="手机平台" underline="true"/>
+                            <#input id="dailyTurnover" name="每日营业额" underline="true"/>
+                            <#input id="nearbyShop" name="周边便利店" underline="true"/>
+                            <#input id="potentialPrediction" name="億米潜力预估" underline="true"/>
+                            <#input id="lat" name="纬度" underline="true"/>
+                            <#input id="lng" name="经度" underline="true"/>
+                            <#input id="userActivity" name="用户活跃度" underline="true"/>
+                            <#input id="memo" name="其他描述" underline="true"/>
+                </div>
+            </div>
+
+            <div class="row btn-group-m-t">
+                <div class="col-sm-10">
+                    <#button btnCss="info" name="提交" id="ensure" icon="fa-check" clickFun="ShopInfoInfoDlg.addSubmit()"/>
+                    <#button btnCss="danger" name="取消" id="cancel" icon="fa-eraser" clickFun="ShopInfoInfoDlg.close()"/>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script src="${ctxPath}/static/modular/shopInfo/shopInfo/shopInfo_info.js"></script>
+@}

@@ -1,0 +1,583 @@
+@layout("/common/_container.html"){
+<div class="wrapper wrapper-content animated fadeInRight">
+    <!-- Panel Other -->
+    <div class="ibox float-e-margins">
+        <div class="ibox-content">
+            <div class="row row-lg">
+                <!--运营-->
+                <div class="col-sm-12 active" id="financek" >
+                    <div class="btn btn-primary btn-success chcolor" onclick="all_order(this)"><span class="types">全部订单</span><span id="allNumber"> </span></div>
+                    <div class="btn btn-primary chcolor" onclick="not_exam_order(this)"><span class="types">待审核</span><span id="notExamNumber"> </span></div>
+                    <div class="btn btn-primary chcolor" onclick="exam_order(this)"><span class="types">已审核</span><span id="examNumber"> </span></div>
+                </div>
+                <div class="col-sm-12">
+                    <div style="padding:10px;margin-top:5px;padding-left:25%;padding-top:15px;background-color:#ececef;border-radius:5px;display:none" id="allordersearch">
+                        <div class='tongji_title' style="padding-inline-start:0px">统计日期：</div>
+                        <input placeholder="开始日期" class="form-control layer-date" id="startTime" style="float:left;" autocomplete="off">
+                        <input placeholder="结束日期" class="form-control layer-date" id="endTime" style="float:left;margin-left:5px;" autocomplete="off">
+                        <input placeholder="客户名称" class="form-control layer-date" id="content" style="float:left;margin-left:5px;" >
+                        <div class="btn btn-primary" style="float:left;margin-left:15px" id="queryButton" onclick="daichuku()">查 询</div>
+                        <div style="clear: both"></div>
+                    </div>
+                    <div  class="btn btn-primary" style="float:left;margin-top:10px;margin-left:0px;margin-right:10px;background-color:#CC6699;border:1px solid #CC6699" onclick="bacth_shenhe()">批量审核</div>
+                    <!-- Example Pagination -->
+                    <div class="example-wrap">
+                        <div class="example">
+                            <table id="table" data-query-params="queryParams" data-mobile-responsive="true"
+                                   data-pagination="true" data-icon-size="outline" data-search="true">
+                            </table>
+                        </div>
+                    </div>
+                    <!-- End Example Pagination -->
+                </div>
+                <!--审核订单窗口-->
+                <div class="modal inmodal" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog" style="margin-top:20%;">
+                        <div class="modal-content animated fadeIn">
+                            <div class="modal-header" style="padding:15px 15px">
+                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+                                        class="sr-only">Close</span></button>
+                                <h4 class="modal-title">审核订单</h4>
+                            </div>
+                            <div class="modal-body" style="padding:15px">
+                                <p style="font-size: 18px;text-align:center;height:25px;line-height:30px;margin-bottom:0px">是否审核此订单？</p>
+                                <br>
+                                <div class="radio i-checks" style="font-size:15px">
+                                    <label style="margin-left:20%">
+                                        <input type="radio" value="1" name="isornot" checked="checked"> <i></i>同意审核</label>
+                                    <label style="margin-left:16%">
+                                        <input type="radio" value="2" name="isornot"> <i></i>不同意审核</label>
+                                </div>
+                                <br>
+                                <span style="font-size:15px;margin-right:10px;margin-left:20%">审核意见:</span><input id="opinion" type="text" class="form-control" style="width:50%;display:inline-block">
+                                <div id="tiptops" style="display:none;color:red;margin-top:10px;padding-left:40%;font-size:14px">不同意审核必须填写审核意见</div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
+                                <button type="button" class="btn btn-primary" id="confirm_exam">确认审核</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--查看订单窗口-->
+                <div class="modal inmodal" id="myModa6" tabindex="-1" role="dialog"  aria-hidden="true" style="top:-350px;">
+                    <div class="modal-dialog" style="margin-top:20%;">
+                        <div class="modal-content animated fadeIn">
+                            <div class="modal-header" style="padding:15px 15px">
+                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                <h4 class="modal-title" >订单操作历史</h4>
+                            </div>
+                            <div class="modal-body" style="padding:15px">
+                                <h2 style="text-align:center;font-weight:bold;color:#1c84c6" id="abnormal_type"></h2>
+                                <div id="vertical-timeline" class="vertical-container light-timeline">
+
+                                    <div class="vertical-timeline-block">
+                                        <div class="vertical-timeline-icon blue-bg">
+                                            <i class="fa fa-file-text"></i>
+                                        </div>
+                                        <div class="vertical-timeline-content">
+                                            <h2>给张三发送文档</h2>
+                                            <p>发送上年度《销售业绩报告》</p>
+                                            <span class="vertical-date">
+                                                        今天 <br>
+                                                        <small>2月3日</small>
+                                                    </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
+                                <!--<button type="button" class="btn btn-primary" id="checkit_true">确认</button>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Panel Other -->
+</div>
+<script src="${ctxPath}/static/js/plugins/layer/laydate/laydate.js"></script>
+<script>
+    function del(e) {
+        console.log(e)
+    }
+    //外部js调用
+    laydate({
+        elem: '#startTime', //目标元素。由于laydate.js封装了一个轻量级的选择器引擎，因此elem还允许你传入class、tag但必须按照这种方式 '#id .class'
+        event: 'focus' //响应事件。如果没有传入event，则按照默认的click
+    });
+    laydate({
+        elem: '#endTime', //目标元素。由于laydate.js封装了一个轻量级的选择器引擎，因此elem还允许你传入class、tag但必须按照这种方式 '#id .class'
+        event: 'focus' //响应事件。如果没有传入event，则按照默认的click
+    });
+    //日期范围限制
+    var start = {
+        elem: '#startTime',
+        format: 'YYYY-MM-DD',
+        max: laydate.now(), //最大日期
+//          istime: true,
+        istoday: false,
+        choose: function (datas) {
+            end.start = datas //将结束日的初始值设定为开始日
+        }
+    };
+    var end = {
+        elem: '#endTime',
+        format: 'YYYY-MM-DD',
+        max:laydate.now(),
+        // istime: true,
+        istoday: false,
+        choose: function (datas) {
+            start.max = datas; //结束日选好后，重置开始日的最大日期
+        }
+    };
+    laydate(start);
+    laydate(end);
+    $('#startTime').val(laydate.now(-5, 'YYYY-MM-DD'));
+    $('#endTime').val(laydate.now(0, 'YYYY-MM-DD'));
+    // 根据日期查询
+    function daichuku(){
+        if($('#startTime').val()==''||$('#endTime').val()==''){
+            swal({
+                title: "提示",
+                text: "请选择统计日期",
+                // type: "error"
+            });
+        }else{
+            if($('.btn-success').find('.types').html()=="全部订单"){
+                console.log('全部订单')
+                $("#table").bootstrapTable('refresh',{url: '/cancelOrder/caiwu/list'});
+                cancellist=[]
+            }else if($('.btn-success').find('.types').html()=="待审核"){
+                console.log('待审核')
+                $("#table").bootstrapTable('refresh', {url: '/cancelOrder/dsh'});
+                cancellist=[]
+            }else if($('.btn-success').find('.types').html()=="已审核"){
+                console.log('已审核')
+                $("#table").bootstrapTable('refresh', {url: '/cancelOrder/ysh'});
+                cancellist=[]
+            }
+        }
+    }
+    // 获取不同状态订单数
+    $(function(){
+        refreshOrderNum();
+    })
+
+    function  refreshOrderNum() {
+        // 获取各个订单的适量
+        $.ajax({
+            type: "get",
+            dataType: "json",
+            url: "/cancelOrder/orderNumber",
+            success: function (data) {
+                $('#allNumber').html('('+data.allNumber+')')
+                $('#notExamNumber').html('('+data.notExamNumber+')')
+                $('#examNumber').html('('+data.examNumber+')')
+            },
+            error: function (e) {
+                swal({
+                    title: "提示",
+                    text: e.message,
+                    type: "error"
+                });
+            }
+        });
+    }
+
+    function refresh(){
+        cancellist=[]
+        $('.chcolor').each(function(){
+            if($(this).is('.btn-success')&&$(this).find('.types').html()=='全部订单'){
+                $("#table").bootstrapTable('refresh', {url: '/cancelOrder/list'});
+                $('.modal').modal('hide');
+            }else if($(this).is('.btn-success')&&$(this).find('.types').html()=='待审核'){
+                $("#table").bootstrapTable('refresh', {url: '/cancelOrder/dsh'});
+                $('.modal').modal('hide');
+            }else if($(this).is('.btn-success')&&$(this).find('.types').html()=='已审核'){
+                $("#table").bootstrapTable('refresh', {url: '/cancelOrder/ysh'});
+                $('.modal').modal('hide');
+            }
+        })
+        refreshOrderNum();
+    }
+    //审核订单
+    // 批量审核
+    var batchshenhe=false
+    function bacth_shenhe(){
+        if(cancellist.length>0){
+            batchshenhe=true
+            $('#myModal').modal('show');
+        }else{
+            swal({
+                title: "提示",
+                text:"请选择批量出库的订单",
+                type: "error"
+            });
+        }
+    }
+    //审核订单
+    var idexOrder
+    function examOrder(exOrderId) {
+        batchshenhe=false
+        idexOrder = exOrderId
+    };
+    $('#confirm_exam').click(function () {
+        var opinion=$('#opinion').val()
+        var ifPass=$("input[name='isornot']:checked").val();
+        if(ifPass=="1"){
+            ifPass=true
+            $('#tiptops').hide()
+        }else{
+            ifPass=false
+            if(opinion==''){
+                $('#tiptops').show()
+                return false
+            }
+        }
+        if(batchshenhe){
+            $('#kkkkkkk').show()
+            for(var i=0;i<cancellist.length;i++){
+                cancellist[i].opinion=opinion
+                cancellist[i].ifPass=ifPass
+            }
+            $.ajax({
+                type: "post",
+                dataType: "json",
+                contentType : 'application/json;charset=utf-8',
+                data:JSON.stringify(cancellist),
+                url: "/exOrderExam/checkExOrderBatch",
+                success: function (data) {
+                    refresh()
+                    cancellist=[]
+                    $('#kkkkkkk').hide()
+                },
+                error: function (e) {
+                    console.log('失败')
+                    console.log(e)
+                    refresh()
+                    cancellist=[]
+                    $('#kkkkkkk').hide()
+                    swal({
+                        title: "提示",
+                        text: e.message,
+                        type: "error"
+                    });
+                }
+            });
+        }else{
+            $('#kkkkkkk').show()
+            $.ajax({
+                type: "get",
+                dataType: "json",
+                data: {
+                    exOrderId: idexOrder,
+                    opinion:opinion,
+                    ifPass:ifPass
+                },
+                url: "/exOrderExam/checkExOrder",
+                success: function (data) {
+                    refresh()
+                    $('#kkkkkkk').hide()
+                },
+                error: function (e) {
+                    console.log('失败')
+                    console.log(e)
+                    refresh()
+                    swal({
+                        title: "提示",
+                        text: e.message,
+                        type: "error"
+                    });
+                    $('#kkkkkkk').hide()
+                }
+            });
+        }
+    })
+    // 查看所有订单
+    function all_order(obj) {
+        changeColour(obj);
+        $("#table").bootstrapTable('refresh', {url: '/cancelOrder/list'});
+        $('#allordersearch').hide()
+    }
+
+    // 已审核订单
+    function exam_order(obj) {
+        changeColour(obj);
+        $("#table").bootstrapTable('refresh', {url: '/cancelOrder/ysh'});
+        $('#allordersearch').show()
+    }
+
+    // 待审核订单
+    function not_exam_order(obj) {
+        changeColour(obj);
+        $("#table").bootstrapTable('refresh', {url: '/cancelOrder/dsh'});
+        $('#allordersearch').hide()
+    }
+    // 查看订单窗口
+    function checkit(e){
+        // console.log(e)
+        var x=[{"bumen":"运营部","time":"2018-11-11 9:30","name":"小猪猪","type":"减红包"},{"bumen":"运营部","time":"2018-11-11 9:30","type":"减红包","name":"小猪猪"}]
+        $('#vertical-timeline').empty();
+        $.ajax({
+            type: "get",
+            dataType: "json",
+            url: "/exOrderExam/selectExanList",
+            data: {
+                exOrderId:e
+            },
+            success: function (data) {
+                var examList = data.exOrderExamList;
+                console.log(data)
+                console.log(examList.length);
+                $('#abnormal_type').html(data.exOrderInfo)
+                var str = '';
+                for(var i=0;i<examList.length;i++){
+                    str += '<div class="vertical-timeline-block">'
+                    str += '<div class="vertical-timeline-icon blue-bg">'
+                    str += '<i class="fa fa-file-text"></i>'
+                    str += '</div>'
+                    str += '<div class="vertical-timeline-content">'
+                    str += '<h2>'+examList[i].createDeptName+'</h2>'
+                    // str += '<p>'+examList[i].type+'</p>'
+                    str += '<p>'+examList[i].operator+'</p>'
+                    if(examList[i].opinion!=''){
+                        str += '<p>审核意见：'+examList[i].opinion+'</p>'
+                    }
+                    str += '<span class="vertical-date">'
+                    str += ' <small>'+examList[i].createtime+'</small>'
+                    str += ' </span>'
+                    str += '</div> </div>'
+                }
+                $('#vertical-timeline').append(str)
+                console.log(data)
+            },
+            error: function (e) {
+                // window.location.reload()
+                swal({
+                    title: "提示",
+                    text: e.message,
+                    type: "error"
+                });
+            }
+        });
+    }
+    var cancellist=[]
+    $('#table').bootstrapTable({
+        url: "/cancelOrder/list",
+        cache: false, // 设置为 false 禁用 AJAX 数据缓存， 默认为true
+        striped: true,  //表格显示条纹，默认为false
+        toggle: "table",
+        height: 1100, //表格高度
+        pagination: true,
+        queryParamsType:'',//注意:查询参数组织方式，默认值为 'limit',在默认情况下 传给服务端的参数为：offset,limit,sort 。 设置为 '' 在这种情况下传给服务器的参数为：pageSize,pageNumber
+        pageNumber:1,//初始化加载第一页，默认第一页
+        pageSize: 20,//每页的记录行数（*）
+        sidePagination: "server", //服务端处理分页
+        dataField: "rows",//bootstrap table 可以前端分页也可以后端分页,默认数据集合是rows
+        queryParams:queryParams,
+        pageList: [10,20,30,50],//可供选择的每页的行数（*）
+        search: false,
+        showToggle: "true",
+        showColumns: "true",
+        columns: [{
+            field: 'state',
+            align: 'center',
+            checkbox: true,
+            formatter:function(value, row, index){
+                if (row.examButton){
+                    return {
+                        disabled : false,//设置是否可用
+                        checked : false,//设置选中
+                    };
+                }else{
+                    return {
+                        disabled : true,//设置是否可用
+                        checked : false//设置选中
+                    };
+                }
+            }
+        },{
+            field: 'saleNo',
+            align: 'center',
+            title: '销售单号'
+        }, {
+            field: 'ecNo',
+            align: 'center',
+            title: '电商单号'
+        }, {
+            field: 'createdate',
+            align: 'center',
+            title: '日期'
+        }, {
+            field: 'actualAmount',
+            align: 'center',
+            title: '金额'
+        }, {
+            field: 'dataSource',
+            align: 'center',
+            title: '来源',
+            formatter: function (value, row, index) {
+                if (row.dataSource == 1) {
+                    return "电商"
+                }
+                if (row.dataSource == 2) {
+                    return "erp"
+                }
+            }
+        }, {
+            field: 'customerName',
+            align: 'center',
+            title: '客户名称'
+        }, {
+            field: 'orderStateInfo',
+            align: 'center',
+            title: '订单状态'
+        }, {
+            field: 'caozuo',
+            title: "操作",
+            align: 'center',
+            valign: 'middle',
+            width: 500, // 定义列的宽度，单位为像素px
+            formatter: function (value, row, index) {
+                var str = '';
+                if (row.examButton) {
+                    var str = '<button class="btn btn-primary btn-sm " onclick="examOrder(\'' + row.exOrderId + '\')" data-toggle="modal" data-target="#myModal">审核订单</button>'
+                }
+                if (row.examFlowButton) {
+                    str += '<button class="btn btn-primary btn-success"    onclick="checkit(\'' + row.exOrderId + '\')"   data-toggle="modal" data-target="#myModa6">查看</button>'
+                }
+                return str
+//			                  return '<button class="btn btn-primary btn-sm" onclick="del(\'' + row.stdId + '\')">删除</button>';
+            }
+        }],
+        queryParams:function(params){
+            if($('#content').val()!=''){
+                var temp={
+                    pageSize:params.pageSize,
+                    pageNumber:params.pageNumber,
+                    startTime:$('#startTime').val(),
+                    endTime:$('#endTime').val(),
+                    content:$('#content').val()
+                }
+            }else{
+                var temp={
+                    pageSize:params.pageSize,
+                    pageNumber:params.pageNumber,
+                    startTime:$('#startTime').val(),
+                    endTime:$('#endTime').val(),
+                }
+            }
+            return temp
+        },
+        // 跳转到订单详情页
+        onClickCell: function (field, value, row) {
+            if (field != "caozuo"&&field != "state") {
+                var url = "/cancelOrder/detail?id=" + row.id;
+                var flag = true;
+                // 选项卡菜单已存在
+                $('.J_menuTab', parent.document).each(function () {
+                    if ($(this).data('id') == url) {
+                        if (!$(this).hasClass('active')) {
+                            $(this).addClass('active').siblings('.J_menuTab').removeClass('active');
+                            // 显示tab对应的内容区
+                            $('.J_mainContent .J_iframe', parent.document).each(function () {
+                                if ($(this).data('id') == url) {
+                                    $(this).show().siblings('.J_iframe').hide();
+                                    return false;
+                                }
+                            });
+                        }
+                        flag = false;
+                        return false;
+                    }
+                });
+                if (flag) {
+                    $('.J_menuTab', parent.document).removeClass('active');
+                    $('.J_menuTabs .page-tabs-content ', parent.document).append(' <a href="javascript:;" class="J_menuTab active" data-id="' + url + '">订单详情页<i class="fa fa-times-circle"></i></a>');
+                    var str1 = '<iframe class="J_iframe" name="iframe23" width="100%" height="100%" src="' + url + '" frameborder="0" data-id="' + url + '" seamless style="display:inline"></iframe>';
+                    $('.J_mainContent', parent.document).find('iframe.J_iframe').hide().parents('.J_mainContent').append(str1);
+                }
+            }
+        },
+        onCheckAll: function (rows) {
+            for(var i=0;i<rows.length;i++){
+                var obj={}
+                obj.exOrderId=rows[i].exOrderId;
+                obj.dataSource=rows[i].dataSource
+                cancellist.push(obj)
+            }
+            console.log(cancellist)
+        },
+        onUncheckAll:function(rows){
+            cancellist=[]
+        },
+        //点击每一个单选框时触发的操作
+        onCheck: function (row) {
+            if(cancellist.length==0){
+                var obj={}
+                obj.exOrderId=row.exOrderId;
+                obj.dataSource=row.dataSource
+                cancellist.push(obj)
+            }else{
+                for(var i=0;i<cancellist.length;i++){
+                    if(cancellist[i].exOrderId==row.exOrderId){
+                        break
+                    }else{
+                        var obj={}
+                        obj.exOrderId=row.exOrderId;
+                        obj.dataSource=row.dataSource
+                        cancellist.push(obj)
+                        break
+                    }
+                }
+            }
+            console.log(cancellist)
+        },
+        //取消每一个单选框时对应的操作；
+        onUncheck: function (row){
+            for(var i=0;i<cancellist.length;i++){
+                if(row.exOrderId==cancellist[i].exOrderId){
+                    cancellist.splice(i, 1);
+                    break
+                }
+            }
+            console.log(cancellist)
+        },
+        rowStyle: function (row, index) {
+            //这里有5个取值代表5中颜色['active', 'success', 'info', 'warning', 'danger'];
+            var strclass = "";
+            console.log(row.cancelCheckButton)
+            if (row.cancelCheckButton ==false){
+                strclass = 'active';//还有一个active
+            }
+            else if (row.cancelCheckButton==true){
+                strclass = 'danger';
+            }
+            else {
+                return {};
+            }
+            return { classes: strclass }
+        }
+    });
+
+    // 激活按钮变色
+    function changeColour(obj) {
+        var $this = $(obj);
+        $(".chcolor").removeClass("btn-success");
+        $this.addClass("btn-success");
+    }
+
+    //请求服务数据时所传参数
+    function queryParams(params){
+        return{
+            //每页多少条数据
+            pageSize: params.pageSize,
+            //请求第几页
+            pageNumber:params.pageNumber
+        }
+    }
+</script>
+@}

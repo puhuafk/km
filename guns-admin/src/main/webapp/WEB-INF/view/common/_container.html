@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit"/><!-- 让360浏览器默认选择webkit内核 -->
+
+    <!-- 全局css -->
+    <link rel="shortcut icon" href="${ctxPath}/static/favicon.ico">
+    <link href="${ctxPath}/static/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="${ctxPath}/static/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="${ctxPath}/static/css/plugins/chosen/chosen.css" rel="stylesheet">
+    <link href="${ctxPath}/static/css/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
+    <link href="${ctxPath}/static/css/plugins/validate/bootstrapValidator.min.css" rel="stylesheet">
+    <link href="${ctxPath}/static/css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="${ctxPath}/static/css/_fstyle.css" rel="stylesheet">
+    <link href="${ctxPath}/static/css/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="${ctxPath}/static/css/plugins/webuploader/webuploader.css" rel="stylesheet">
+    <link href="${ctxPath}/static/css/plugins/ztree/zTreeStyle.css" rel="stylesheet">
+    <link href="${ctxPath}/static/css/plugins/bootstrap-treetable/bootstrap-treetable.css" rel="stylesheet"/>
+    <link href="${ctxPath}/static/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+
+    <!--<link href="${ctxPath}/static/css/plugins/laydate/laydate.css" rel="stylesheet">-->
+    <!-- <link href="${ctxPath}/static/css/plugins/ztree/demo.css" rel="stylesheet"> -->
+
+    <!-- 全局js -->
+    <script src="${ctxPath}/static/js/jquery.min.js?v=2.1.4"></script>
+    <script src="${ctxPath}/static/js/queryString.js"></script>
+    <script src="${ctxPath}/static/js/bootstrap.min.js?v=3.3.6"></script>
+    <script src="${ctxPath}/static/js/plugins/LodopFuncs.js"></script>
+    <script src="${ctxPath}/static/js/plugins/layer/laydate/laydate.js"></script>
+    <script src="${ctxPath}/static/js/plugins/ztree/jquery.ztree.all.min.js"></script>
+    <script src="${ctxPath}/static/js/plugins/bootstrap-table/bootstrap-table.min.js"></script>
+    <script src="${ctxPath}/static/js/plugins/validate/bootstrapValidator.min.js"></script>
+    <script src="${ctxPath}/static/js/plugins/validate/zh_CN.js"></script>
+    <script src="${ctxPath}/static/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js"></script>
+    <script src="${ctxPath}/static/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+    <script src="${ctxPath}/static/js/plugins/bootstrap-treetable/bootstrap-treetable.js"></script>
+    <script src="${ctxPath}/static/js/plugins/layer/layer.js"></script>
+    <script src="${ctxPath}/static/js/plugins/chosen/chosen.jquery.js"></script>
+    <script src="${ctxPath}/static/js/plugins/iCheck/icheck.min.js"></script>
+    <script src="${ctxPath}/static/js/plugins/laydate/laydate.js"></script>
+    <script src="${ctxPath}/static/js/plugins/webuploader/webuploader.min.js"></script>
+    <script src="${ctxPath}/static/js/common/ajax-object.js"></script>
+    <script src="${ctxPath}/static/js/common/bootstrap-table-object.js"></script>
+    <script src="${ctxPath}/static/js/common/tree-table-object.js"></script>
+    <script src="${ctxPath}/static/js/common/web-upload-object.js"></script>
+    <script src="${ctxPath}/static/js/common/ztree-object.js"></script>
+    <script src="${ctxPath}/static/js/common/Feng.js"></script>
+    <script src="${ctxPath}/static/js/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="${ctxPath}/static/js/lrz.all.bundle.js"></script>
+    <style type="text/css">
+        table{  
+            width:100px;  
+            table-layout:fixed;/* 只有定义了表格的布局算法为fixed，下面td的定义才能起作用。 */  
+        }
+        td{  
+            width:100%;  
+            /*word-break:keep-all;!* 不换行 *!  */
+            /*white-space:nowrap;!* 不换行 *!  */
+            overflow:hidden;/* 内容超出宽度时隐藏超出部分的内容 */  
+            text-overflow:ellipsis;/* 当对象内文本溢出时显示省略标记(...) ；需与overflow:hidden;一起使用*/
+        }
+        .btn{
+            margin-left:10px;
+            padding: 6px 12px
+        }
+        #operation,#storage,#market,#purchase{
+            display:none;
+        }
+        #financek div{margin-left:0px}
+        .pull-right{float: left!important;}
+        #finance{margin-top:58px}
+        #finance div{margin-left:10px;float:right}
+        #finance2{margin-bottom:10px}
+        #finance3{margin-bottom:20px}
+        #finance2 tr td,#finance3 tr td{height:30px;width:50%;}
+        #finance2 tr,#finance3 tr{width:100%;font-weight:bold;}
+        #finance3 tr td{width:15rem;text-align:center;}
+        .tab_underlin{
+            width:100%;height:30px;border:1px solid #e4eaec;border-top:none;
+            line-height:29px;
+        }
+        .tab_underlin ul{float:right}
+        .tab_underlin ul li{float:left;margin-right:20px;list-style:none;background-color:#f9f9f9;}
+        #order_message{width:100%;border:1px solid #dddddd;background-color:#f9f9f9;text-align:center;}
+
+        .tongji_title{height:34px;line-height:34px;font-weight:bold;float:left;padding-inline-start: 60px}
+        #statistics_message{border:1px solid #e4eaec;margin:20px;height:100px;width:98.5%;margin-top: 0px;background-color:#f9f9f9;}
+        #statistics_message ul{width:100%;float:left;margin-top:10px;}
+        #statistics_message ul li{float:left;list-style:none;width:33.3%;font-weight:bold;margin-top:10px}
+        #statistics_message ul li span{color:#0095dd;font-size:18px}
+        .bootstrap-table .table thead>tr>th{background-color: #dff0d8;}
+        .tdbgc1{background-color:#dff0d8;}
+        .tdbgc2{background-color:#d9edf7;}
+        .tdbgc3{background-color:#fcf8e3;}
+        .addcancel{cursor:pointer;width:20px;height:20px;display:inline-block;border:1px solid #a6a6a6;text-align: center;line-height:20px;font-size:20px;background-color:#dedede}
+        /*载入*/
+        .bumen{font-size:18px;display:inline-block;float:left;margin-top:5px}
+        .jian2{width:30px;float:left;margin-left:20px;margin-right:15px;margin-top:50px}
+        .jian1{width:30px;float:left;margin-top:2px;margin-right:5px;}
+        .model{width:200px;height:140px;overflow-y:scroll;border:1px solid gray;padding:5px;float:left;background-color:#ffffff}
+        .model h3{display:inline-block;font-size:13px}
+        .model p{float:left;}
+        .extypestl{font-size:20px;font-weight:bold;margin-right:18px;margin-top:20px;color:#ea6f5a;}
+    </style>
+
+    <script type="text/javascript">
+        Feng.addCtx("${ctxPath}");
+        Feng.sessionTimeoutRegistry();
+    </script>
+</head>
+
+<body class="gray-bg">
+<div class="col-sm-12" style="position:fixed;height:100%;width:100%;background-color:white;z-index:10000000;display:none" id="kkkkkkk">
+    <div class="ibox" >
+        <div class="ibox-content">
+            <div class="spiner-example">
+                <div class="sk-spinner sk-spinner-cube-grid">
+                    <div class="sk-cube"></div>
+                    <div class="sk-cube"></div>
+                    <div class="sk-cube"></div>
+                    <div class="sk-cube"></div>
+                    <div class="sk-cube"></div>
+                    <div class="sk-cube"></div>
+                    <div class="sk-cube"></div>
+                    <div class="sk-cube"></div>
+                    <div class="sk-cube"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="wrapper wrapper-content" style="height:100%;width:100%">
+    ${layoutContent}
+</div>
+<script src="${ctxPath}/static/js/content.js?v=1.0.0"></script>
+</body>
+</html>

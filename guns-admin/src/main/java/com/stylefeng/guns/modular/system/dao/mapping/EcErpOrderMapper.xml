@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stylefeng.guns.modular.system.dao.EcErpOrderMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.stylefeng.guns.modular.system.model.EcErpOrder">
+        <id column="id" property="id"/>
+        <result column="ec_no" property="ecNo"/>
+        <result column="sale_no" property="saleNo"/>
+        <result column="createdate" property="createdate"/>
+        <result column="total_amount" property="totalAmount"/>
+        <result column="data_source" property="dataSource"/>
+        <result column="customer_name" property="customerName"/>
+        <result column="delivery_address" property="deliveryAddress"/>
+        <result column="out_store_per" property="outStorePer"/>
+        <result column="out_store_time" property="outStoreTime"/>
+        <result column="order_state" property="orderState"/>
+        <result column="pay_mode" property="payMode"/>
+        <result column="payer" property="payer"/>
+        <result column="payee" property="payee"/>
+        <result column="sent_per" property="sentPer"/>
+        <result column="open_bill_store" property="openBillStore"/>
+        <result column="pay_type" property="payType"/>
+        <result column="sale_date" property="saleDate"/>
+        <result column="lib" property="lib"/>
+        <result column="total_qnty" property="totalQnty"/>
+        <result column="discount_amount" property="discountAmount"/>
+        <result column="actual_amount" property="actualAmount"/>
+        <result column="if_check" property="ifCheck"/>
+        <result column="if_out_store" property="ifOutStore"/>
+        <result column="ex_order_sign" property="exOrderSign"/>
+        <result column="red_pack_amount" property="redPackAmount"/>
+        <result column="if_close" property="ifClose"/>
+        <result column="t_price" property="tPrice"/>
+        <result column="d_price" property="dPrice"/>
+        <result column="t_no" property="tNo"/>
+        <result column="t_man" property="tMan"/>
+        <result column="p_method" property="pMethod"/>
+        <result column="d_library" property="dLibrary"/>
+        <result column="order_state" property="orderState"/>
+        <result column="stock_status" property="stockStatus"/>
+        <result column="verify_status" property="verifyStatus"/>
+        <result column="discount_p" property="discountP"/>
+        <result column="check_time" property="checkTime"/>
+        <result column="return_goods_flag" property="returnGoodsFlag"/>
+        <result column="check_money" property="checkMoney"/>
+        <result column="ex_order_sign" property="exOrderSign"/>
+        <result column="enter_system_time" property="enterSystemTime"/>
+        <result column="check_node" property="checkNode"/>
+        <result column="refund_money" property="refundMoney"/>
+        <result column="return_red_type" property="returnRedType"/>
+        <result column="return_red_money" property="returnRedMoney"/>
+        <result column="return_single_type" property="returnSingleType"/>
+        <result column="ex_money" property="exMoney"/>
+        <result column="return_single_money" property="returnRedType"/>
+    </resultMap>
+
+    <resultMap id="BaseResultMap1" type="com.stylefeng.guns.modular.system.model.EcErpOrder">
+        <id column="id" property="id"/>
+        <result column="ec_no" property="ecNo"/>
+        <result column="sale_no" property="saleNo"/>
+        <result column="createdate" property="createdate"/>
+        <result column="total_amount" property="totalAmount"/>
+        <result column="data_source" property="dataSource"/>
+        <result column="customer_name" property="customerName"/>
+        <result column="delivery_address" property="deliveryAddress"/>
+        <result column="out_store_per" property="outStorePer"/>
+        <result column="out_store_time" property="outStoreTime"/>
+        <result column="order_state" property="orderState"/>
+        <result column="pay_mode" property="payMode"/>
+        <result column="payer" property="payer"/>
+        <result column="payee" property="payee"/>
+        <result column="sent_per" property="sentPer"/>
+        <result column="open_bill_store" property="openBillStore"/>
+        <result column="pay_type" property="payType"/>
+        <result column="sale_date" property="saleDate"/>
+        <result column="lib" property="lib"/>
+        <result column="total_qnty" property="totalQnty"/>
+        <result column="discount_amount" property="discountAmount"/>
+        <result column="actual_amount" property="actualAmount"/>
+        <result column="if_check" property="ifCheck"/>
+        <result column="if_out_store" property="ifOutStore"/>
+        <result column="ex_order_sign" property="exOrderSign"/>
+        <result column="red_pack_amount" property="redPackAmount"/>
+        <result column="if_close" property="ifClose"/>
+        <result column="t_price" property="tPrice"/>
+        <result column="d_price" property="dPrice"/>
+        <result column="t_no" property="tNo"/>
+        <result column="t_man" property="tMan"/>
+        <result column="p_method" property="pMethod"/>
+        <result column="d_library" property="dLibrary"/>
+        <result column="order_state" property="orderState"/>
+        <result column="stock_status" property="stockStatus"/>
+        <result column="verify_status" property="verifyStatus"/>
+        <result column="discount_p" property="discountP"/>
+        <result column="check_time" property="checkTime"/>
+        <result column="return_goods_flag" property="returnGoodsFlag"/>
+        <result column="check_money" property="checkMoney"/>
+        <result column="ex_order_sign" property="exOrderSign"/>
+        <result column="enter_system_time" property="enterSystemTime"/>
+        <result column="check_node" property="checkNode"/>
+        <result column="refund_money" property="refundMoney"/>
+        <result column="return_red_type" property="returnRedType"/>
+        <result column="return_red_money" property="returnRedMoney"/>
+        <result column="return_single_type" property="returnSingleType"/>
+        <result column="ex_money" property="exMoney"/>
+        <result column="return_single_money" property="returnRedType"/>
+        <association property="exOrder" columnPrefix="exo_" javaType="com.stylefeng.guns.modular.system.model.ExOrder">
+            <id column="id" property="id"/>
+            <result column="ec_erp_order_id" property="ecErpOrderId"/>
+            <result column="ex_type" property="exType"/>
+            <result column="step_sign" property="stepSign"/>
+            <result column="flow_id" property="flowId"/>
+            <result column="exam_dep_id" property="examDepId"/>
+            <result column="ex_state" property="exState"/>
+            <result column="operator" property="operator"/>
+            <result column="operator_id" property="operatorId"/>
+            <result column="createtime" property="createtime"/>
+            <result column="ex_reason" property="exReason"/>
+            <result column="order_sn" property="orderSn"/>
+            <result column="sale_sn" property="saleSn"/>
+            <result column="out_hou_time" property="outHouTime"/>
+            <result column="data_statue" property="dataStatue"/>
+            <result column="red_pack_amount" property="redPackAmount"/>
+            <result column="delete_order_items" property="deleteOrderItems"/>
+            <result column="exam_view" property="examView"/>
+            <result column="if_reject" property="ifReject"/>
+            <result column="refund_money" property="refundMoney"/>
+            <result column="refund_type" property="refundType"/>
+        </association>
+    </resultMap>
+
+    <!--通用查询结果列-->
+    <sql id="Base_Column_List">
+        id
+        ,ec_no
+        ,sale_no
+        ,createdate
+        ,total_amount
+        ,data_source
+        ,customer_name
+        ,delivery_address
+        ,out_store_per
+        ,out_store_time
+        ,pay_mode
+        ,payer
+        ,payee
+        ,sent_per
+        ,open_bill_store
+        ,pay_type  -
+        ,sale_date
+        ,lib
+        ,total_qnty
+        ,discount_amount
+        ,actual_amount
+        ,if_check
+        ,if_out_store
+        ,ex_order_sign
+        ,red_pack_amount
+        ,if_close
+        ,t_cost
+        ,t_price
+        ,d_price
+        ,t_no
+        ,t_man
+        ,p_method
+        ,d_library
+        ,order_state
+        ,stock_status
+        ,verify_status
+        ,discount_p
+        ,check_time
+        ,return_goods_flag
+        ,check_money
+        ,ex_order_sign
+        ,enter_system_time
+        ,check_node
+        ,refund_money
+        ,return_red_type
+        ,return_red_money
+        ,return_single_type
+        ,ex_money
+        ,return_single_money
+    </sql>
+
+    <sql id="Base_Column_List1">
+         ord.id	ord_id
+        ,ord.ec_no	ord_ec_no
+        ,ord.sale_no	ord_sale_no
+        ,ord.createdate	ord_createdate
+        ,ord.total_amount	ord_total_amount
+        ,ord.data_source	ord_data_source
+        ,ord.customer_name	ord_customer_name
+        ,ord.delivery_address	ord_delivery_address
+        ,ord.out_store_per	ord_out_store_per
+        ,ord.out_store_time	ord_out_store_time
+        ,ord.pay_mode	ord_pay_mode
+        ,ord.payer	ord_payer
+        ,ord.payee	ord_payee
+        ,ord.sent_per	ord_sent_per
+        ,ord.open_bill_store	ord_open_bill_store
+        ,ord.pay_type  	ord_pay_type
+        ,ord.sale_date	ord_sale_date
+        ,ord.lib	ord_lib
+        ,ord.total_qnty	ord_total_qnty
+        ,ord.discount_amount	ord_discount_amount
+        ,ord.actual_amount	ord_actual_amount
+        ,ord.if_check	ord_if_check
+        ,ord.if_out_store	ord_if_out_store
+        ,ord.ex_order_sign	ord_ex_order_sign
+        ,ord.red_pack_amount	ord_red_pack_amount
+        ,ord.if_close	ord_if_close
+        ,ord.t_cost	ord_t_cost
+        ,ord.t_price	ord_t_price
+        ,ord.d_price	ord_d_price
+        ,ord.t_no	ord_t_no
+        ,ord.t_man	ord_t_man
+        ,ord.p_method	ord_p_method
+        ,ord.d_library	ord_d_library
+        ,ord.order_state	ord_order_state
+        ,ord.stock_status	ord_stock_status
+        ,ord.verify_status	ord_verify_status
+        ,ord.discount_p	ord_discount_p
+        ,ord.check_time	ord_check_time
+        ,ord.return_goods_flag	ord_return_goods_flag
+        ,ord.check_money	ord_check_money
+        ,ord.ex_order_sign	ord_ex_order_sign
+        ,ord.enter_system_time	ord_enter_system_time
+        ,ord.check_node	ord_check_node
+        ,ord.refund_money	ord_refund_money
+        ,ord.return_red_type	ord_return_red_type
+        ,ord.return_red_money	ord_return_red_money
+        ,ord.return_single_type	ord_return_single_type
+        ,ord.ex_money	ord_ex_money
+        ,ord.return_single_money	ord_return_single_money
+    </sql>
+
+
+    <!--&lt;!&ndash; 通用查询结果列 &ndash;&gt;-->
+    <!--<sql id="Base_Column_List1">-->
+    <!--ord.id   ord_id-->
+    <!--,ord.ec_no  ord_ec_no-->
+    <!--,ord.sale_no  ord_sale_no-->
+    <!--,ord.createdate ord_createdate-->
+    <!--,ord.total_amount ord_total_amount-->
+    <!--,ord.data_source  ord_data_source-->
+    <!--,ord.customer_name  ord.customer_name-->
+    <!--,ord.delivery_address  ord.delivery_address-->
+    <!--,ord.out_store_per  ord.out_store_per-->
+    <!--,ord.out_store_time ord.out_store_time-->
+    <!--,ord.pay_mode ord.pay_mode-->
+    <!--,ord.payer  ord.payer-->
+    <!--,ord.payee  ord.payee-->
+    <!--,ord.sent_per  ord.sent_per-->
+    <!--,ord.open_bill_store  ord.open_bill_store-->
+    <!--,ord.pay_type   ord.pay_type-->
+    <!--,ord.sale_date  ord.sale_date-->
+    <!--,ord.lib  ord.lib-->
+    <!--,ord.total_qnty  ord.total_qnty-->
+    <!--,ord.discount_amount  ord.discount_amount-->
+    <!--,ord.actual_amount  ord.actual_amount-->
+    <!--,ord.if_check  ord.if_check-->
+    <!--,ord.if_out_store  ord.if_out_store-->
+    <!--,ord.ex_order_sign  ord.ex_order_sign-->
+    <!--,ord.red_pack_amount  ord.red_pack_amount-->
+    <!--,ord.if_close  ord.if_close-->
+    <!--,ord.t_cost  ord.t_cost-->
+    <!--,ord.t_price  ord.t_price-->
+    <!--,ord.d_price  ord.d_price-->
+    <!--,ord.t_no  ord.t_no-->
+    <!--,ord.t_man  ord.t_man-->
+    <!--,ord.p_method  ord.p_method-->
+    <!--,ord.d_library  ord.d_library-->
+    <!--,ord.order_state  ord.order_state-->
+    <!--,ord.stock_status  ord.stock_status-->
+    <!--,ord.verify_status  ord.verify_status-->
+    <!--,ord.discount_p  ord.discount_p-->
+    <!--,ord.check_time  ord.check_time-->
+    <!--,ord.return_goods_flag  ord.return_goods_flag-->
+    <!--,ord.check_money  ord.check_money-->
+    <!--,ord.ex_order_sign  ord.ex_order_sign-->
+    <!--,ord.enter_system_time  ord_enter_system_time-->
+    <!--,ord.check_node-->
+    <!--,ord.refund_money-->
+    <!--,ord.return_red_type-->
+    <!--,ord.return_red_money-->
+    <!--,ord.return_single_type-->
+    <!--,ord.ex_money-->
+    <!--,ord.return_single_money-->
+    <!--</sql>-->
+
+    <select id="selectBySn" resultType="com.stylefeng.guns.modular.system.model.EcErpOrder">
+        select
+        <include refid="Base_Column_List"/>
+        from ec_erp_order where sale_no in
+        <foreach collection="list" item="id" index="index" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </select>
+
+    <select id="selectByDepIddsh" resultType="com.stylefeng.guns.modular.system.model.EcErpOrder"></select>
+    <select id="selectByDepIdshz" resultType="com.stylefeng.guns.modular.system.model.EcErpOrder"></select>
+
+    <select id="selectByDepIdysh" resultMap="com.stylefeng.guns.modular.system.dao.ExOrderMapper.BaseResultMap1">
+        select
+        <include refid="Base_Column_List1"/>
+        ,
+        <include refid="com.stylefeng.guns.modular.system.dao.ExOrderMapper.Base_Column_List1"/>
+        from ec_erp_order ord
+        join ex_order ex on ord.id=ex.ec_erp_order_id
+        join ex_order_exam am on ex.id=am.ex_order_id
+        where am.sys_dept_id=#{param1} and am.if_launch=0
+        <if test="content!=null and content!=''">
+            and ord.customer_name like '%${content}%'
+        </if>
+        <if test="startTime!=null and endTime!=null">
+            and ord.createdate between #{startTime} and #{endTime}
+        </if>
+
+        <if test="index!=null and pageSize!=null">
+           limit  #{index},#{pageSize}
+        </if>
+    </select>
+
+</mapper>
+
+
+
+
+
